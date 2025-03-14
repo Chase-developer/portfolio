@@ -8,6 +8,7 @@ class PortfolioApplicationTests {
 
 	@Test
 	void contextLoads() {
+		//http://localhost:8080
 	}
 
 }
