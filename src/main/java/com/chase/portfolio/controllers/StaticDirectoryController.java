@@ -2,7 +2,6 @@ package com.chase.portfolio.controllers;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -10,11 +9,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import com.chase.portfolio.services.Badge;
 
 /**
  * This was supposed to work natively, but I don't know why it doesn't. So had to add this manully
@@ -187,15 +183,15 @@ public class StaticDirectoryController {
         return new ResponseEntity<>(jsContent, headers, HttpStatus.OK);
     }
     
-    @GetMapping("/badges")
-    public String getBadges(Model model) {
-        List<Badge> badges = List.of(
-            new Badge("googlecybersecurity.png", "Google Cybersecurity", "Description for Badge 1"),
-            new Badge("poweredbyOracle.png", "Powered By Oracle", "Description for Badge 2")
-        );
-
-        model.addAttribute("badges", badges);
-        return "badges"; // Your Thymeleaf template name (badges.html)
-    }
+//    @GetMapping("/badges")
+//    public String getBadges(Model model) {
+//        List<Badge> badges = List.of(
+//            new Badge("googlecybersecurity.png", "Google Cybersecurity", "Description for Badge 1"),
+//            new Badge("poweredbyOracle.png", "Powered By Oracle", "Description for Badge 2")
+//        );
+//
+//        model.addAttribute("badges", badges);
+//        return "badges"; // Your Thymeleaf template name (badges.html)
+//    }
 
 }

@@ -1,0 +1,17 @@
+#titleleft {
+    font-size: 36px; /* Adjust the size as needed */
+    font-weight: bold; /* Optional: makes it stand out */
+	max-width: 1000px;
+	text-align: left;
+	margin: 0 auto;
+	margin-top: 200px;
+}
+
+#titlecenter {
+    font-size: 36px; /* Adjust the size as needed */
+    font-weight: bold; /* Optional: makes it stand out */
+	max-width: 900px;
+	text-align: left;
+	margin: 0 auto;
+	margin-top: 300px;
+}

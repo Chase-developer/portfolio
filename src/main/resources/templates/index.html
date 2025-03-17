@@ -8,6 +8,7 @@
 	<link rel="stylesheet" th:href="@{/css/waveform.css}">
 	<link rel="stylesheet" th:href="@{/css/navbar.css}">
 	<link rel="stylesheet" th:href="@{/css/badges.css}">
+	<link rel="stylesheet" th:href="@{/css/textformat.css}">
 </head>
 <body>
 	<div class="background"></div>
@@ -36,21 +37,52 @@
 		    </div>
 	    </div>
 		
-        <h1>Welcome to My Portfolio</h1>
-    </header>
-	
-	<div class="badge-showcase">
-	    <img id="bigBadge" src="/images/googlecybersecurity.png" alt="Big Badge">
-	    <h2 id="badgeTitle">Badge Name</h2>
-	    <p id="badgeDescription">Badge description goes here.</p>
-	</div>
+		<div id="intro">
+		    <p id="titleleft" class="title">Hi! My name is Chase. Welcome to my portfolio website!<br>
+				<br>I am a self-taught Full-Stack Developer with strong Cybersecurity, DevOps, and Cloud skills. <br>
+				<br>I have a deep passion for learning and a natural ability to pick up new skills quickly, allowing me to adapt and grow in any technical environment.
+			</p>
+		    <p id="fullIntro" style="display: none;">
+				I'm a self-taught software developer with 4+ years of experience in Java, specializing in Spring Boot, application development, 
+				and game modding. Over the years, I’ve expanded my expertise beyond software development into Full-Stack Development, DevOps, Cloud Computing, and Cybersecurity.
+				
+				I have a strong technical foundation in backend development, building REST APIs, working with databases (MySQL, JPA, JDBC), 
+				and ensuring high-performance, scalable applications. My experience extends to multithreading, concurrency, and networking, giving me a deep understanding of efficient system design.
+				
+				Beyond development, I’ve gained hands-on experience with DevOps and Cloud Computing, setting up CI/CD pipelines, automated deployments, 
+				and self-hosted infrastructure. I’ve worked with Oracle Cloud, using its services like compute instances, block volumes, and object storage while optimizing for security and cost efficiency.
+				
+				However, my true passion lies in Cybersecurity, and I’m now fully pivoting into this field. I actively train on HackTheBox, 
+				continuously refining my penetration testing, exploit development, and vulnerability assessment skills. I hold certifications that 
+				validate my expertise, and I focus on not just finding vulnerabilities but also fixing them, strengthening system defenses.
 
-	<div class="badge-list">
-	    <img class="small-badge" th:each="badge : ${badges}"
-	         th:src="@{/images/{img}(img=${badge.image})}" 
-	         th:alt="${badge.name}"
-	         th:data-name="${badge.name}"
-	         th:data-desc="${badge.description}">
+				My portfolio is a direct showcase of all these skills, featuring a self-hosted, security-hardened website with proper sanitization, CI/CD automation, and cloud deployment. 
+				My goal is to combine my development background with offensive and defensive security knowledge to make software both functional and secure.
+		    </p>
+		    <button id="readMoreBtn" onclick="toggleIntro()">Read More</button>
+		</div>
+		
+    </header>
+	<p id="titleright" class="title">Badges & Certificates</p>
+	<div class="badge-container">
+	    <div class="badge-showcase">
+	        <img id="bigBadge" th:src="@{/images/{img}(img=${badges[0].image})}" th:alt="${badges[0].name}">
+	        <h2 id="badgeTitle" th:text="${badges[0].name}"></h2>
+	        <p id="badgeDescription" th:text="${badges[0].description}"></p>
+			<a id="badgeVerify" th:href="${badges[0].verifyLink}" target="_blank">VERIFY</a>
+	    </div>
+
+	    <div class="badge-list">
+	        <div class="badge-item" th:each="badge : ${badges}">
+	            <img class="small-badge"
+	                 th:src="@{/images/{img}(img=${badge.image})}" 
+	                 th:alt="${badge.name}"
+	                 th:data-name="${badge.name}"
+	                 th:data-desc="${badge.description}"
+					 th:data-verify="${badge.verifyLink}">
+	            <p th:text="${badge.name}"></p>
+	        </div>
+	    </div>
 	</div>
 
 
@@ -80,6 +112,7 @@
     </section>
 	<script th:src="@{/js/waveform.js}"></script>
 	<script th:src="@{/js/badges.js}"></script>
+	<script th:src="@{/js/textformat.js}"></script>
 </body>
 </html>
 

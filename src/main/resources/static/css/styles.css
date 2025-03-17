@@ -71,3 +71,19 @@ button:hover {
     color: yellow;
 }
 
+.title {
+    font-size: 36px; /* Shared styles */
+    font-weight: bold;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+#titleleft {
+    text-align: left; /* Aligns this one to the left */
+}
+
+#titlecenter {
+    text-align: center; /* Aligns this one to the center */
+}
+

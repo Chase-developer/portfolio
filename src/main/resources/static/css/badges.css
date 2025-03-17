@@ -1,6 +1,64 @@
+.badge-container {
+    display: flex;
+    justify-content: center;
+	align-items: flex-start; /* Aligns items to the top */
+    gap: 230px; /* Space between showcase and list */
+	margin-top: 100px;
+	margin-right: 150px;
+}
+
 .badge-showcase {
     text-align: center;
     color: white;
+	width: 500px;  /* Set a fixed width */
+	
+    object-fit: contain; /* Ensures the image fits without distortion */
+    display: flex; /* Prevents any inline spacing issues */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px; /* Adjust this value based on your layout */
+	margin-top: 50px; /* Pushes content below downward */
+    margin-bottom: 50px; /* Pushes content below downward */
+}
+
+#badgeVerify {
+    display: block;  /* Ensures it appears below the description */
+    color: blue;
+    text-decoration: underline;
+    font-size: 16px;
+    cursor: pointer;
+	font-weight: bold;
+}
+
+#badgeVerify:hover {
+    color: darkblue;
+}
+
+#badgeTitle {
+    min-height: 40px; /* Adjust based on longest title */
+    font-size: 20px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center; /* Centers text */
+    justify-content: center;
+}
+
+#badgeDescription {
+    min-height: 40px; /* Adjust to the longest description */
+    font-size: 16px;
+    text-align: center;
+    display: flex;
+    align-items: center; /* Ensures consistent positioning */
+    justify-content: center;
+	max-width: 500px;
+}
+
+.badge-showcase img {
+	
+    width: 350px; /* Prevents it from being too large */
+	min-height: 400px; /* Prevents it from being too large */
+	object-fit: contain; /* Prevents stretching while keeping aspect ratio */
 }
 
 .large-badge {
@@ -8,7 +66,7 @@
     padding: 20px;
     margin-bottom: 20px;
     display: inline-block;
-    width: 300px;
+    width: 500px;
 }
 
 .large-badge img {
@@ -17,25 +75,30 @@
 }
 
 .badge-list {
-    display: flex;
+	flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
+	
+	display: grid;
+	grid-template-columns: repeat(5, 1fr); /* Up to 5 badges per row */
+	max-width: 500px; /* Adjust as needed */
+	gap: 15px 0px;
 }
 
 .badge-item {
-    text-align: center;
+	display: inline-block;
+	text-align: center;
     cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.3);
     padding: 10px;
-    width: 120px;
+	height: 160px;
+    width: 160px;
     transition: transform 0.2s ease-in-out;
 }
 
 .badge-item:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
 }
 
 .badge-item img {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
 }

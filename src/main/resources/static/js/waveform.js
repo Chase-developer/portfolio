@@ -9,8 +9,10 @@ const waveSpeed = 3; // How fast the wave expands
 const waveFadeSpeed = 0.01; // How quickly the wave loses intensity
 const baseOpacity = 0.1; // Default minimum opacity for dots
 const minDotSize = 2; // Default dot size
-const maxDotSize = 6; // Maximum dot size when affected
+const maxDotSize = 10; // Maximum dot size when affected
 const growSpeed = 0.05; // How quickly dots change size
+let inactivityTimer;
+let isIdle = false; // Track inactivity state
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -64,9 +66,10 @@ function updateWaves() {
 }
 
 function handleMouseMove(event) {
-    const { clientX, clientY } = event;
-
+	isIdle = false;
+	resetInactivityTimer(); // Reset idle timer
     // Create a new expanding wave
+	const { clientX, clientY } = event;
     waves.push({ x: clientX, y: clientY, radius: 0, opacity: 1.0 });
 }
 
@@ -91,6 +94,22 @@ function applyWaveEffects() {
     });
 }
 
+function createRandomWave() {
+    if (isIdle) {
+        const randomX = Math.random() * canvas.width;
+        const randomY = Math.random() * canvas.height;
+        waves.push({ x: randomX, y: randomY, radius: 0, opacity: 1.0 });
+    }
+}
+
+function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    isIdle = false;
+    inactivityTimer = setTimeout(() => {
+        isIdle = true;
+    }, 1000); // 2 seconds of inactivity before setting idle state
+}
+
 function animate() {
     updateWaves();
     applyWaveEffects();
@@ -103,6 +122,6 @@ window.addEventListener("mousemove", handleMouseMove);
 resizeCanvas();
 animate();
 
-
+setInterval(createRandomWave, 250);
 
 
