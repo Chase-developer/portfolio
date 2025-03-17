@@ -1,0 +1,73 @@
+@font-face {
+    font-family: 'CeraPro';
+    src: url('/fonts/CeraProRegular2') format('woff2'),
+         url('/font/CeraProRegular') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'HKGrotesk';
+    src: url('/fonts/HKGroteskRegular2') format('woff2'),
+         url('/fonts/HKGroteskRegular') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/*
+@keyframes noise-waves {
+  0% { background-position: 0px 0px; opacity: 0.8; }
+  50% { background-position: 0px 0px; opacity: 0.4; }
+  100% { background-position: 0px 0px; opacity: 0.8; }
+}*/
+
+
+
+body {
+    font-family: 'CeraPro', 'HKGrotesk', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000; /* Ensure background is black */
+    color: white;
+    text-align: center;
+}
+
+
+section {
+    padding: 50px 20px;
+}
+
+.slider {
+    position: relative;
+    max-width: 600px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+button {
+    background: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: color 0.3s ease-in-out;
+}
+
+button:hover {
+    background: #0074D9;
+    color: yellow;
+}
+

@@ -23,7 +23,10 @@ public class SecurityConfig {
 				.disable());
 		http.authorizeHttpRequests((authorize) -> 
 			authorize
-				.requestMatchers("/**").permitAll()
+				.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+				//.requestMatchers("/actuator/**").permitAll()
+				//.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+				//.requestMatchers("/**").permitAll());
 				//.requestMatchers(HttpMethod.GET, "/**").permitAll()
 				//.requestMatchers(HttpMethod.POST, "api/auth/login", "api/auth/refresh").permitAll()
 				.anyRequest().permitAll());

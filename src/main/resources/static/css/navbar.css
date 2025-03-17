@@ -1,0 +1,96 @@
+.navbar {
+	position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 20px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    background: rgba(20, 20, 20, 0.8); /* Semi-transparent background */
+    margin: 20px;
+	position: relative;
+	z-index: 100; /* Ensure it's above other elements */
+	/*backdrop-filter: blur(10px);*/
+}
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+.icon {
+    width: 24px;
+    height: 24px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+/* Left Section */
+.nav-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+/* Center Section */
+.nav-center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Right Section */
+.nav-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
+/* Vertical Line Between Left and Center */
+.nav-center::before {
+    content: "";
+    position: absolute;
+    left: -15px; /* Adjust spacing */
+    height: 30px;
+    width: 2px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Vertical Line Between Center and Right */
+.nav-right::before {
+    content: "";
+    position: absolute;
+    left: -15px; /* Adjust spacing */
+    height: 30px;
+    width: 2px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.nav-item {
+    color: white;
+    text-decoration: none;
+    background: none;
+    font-size: 16px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+/* Hover Effect */
+.nav-item:hover {
+    color: #33ff33;
+    transition: color 0.3s ease-in-out;
+}
+
+
+
+

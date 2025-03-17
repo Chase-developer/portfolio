@@ -1,9 +1,86 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Hello World</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+	<link rel="stylesheet" th:href="@{/css/waveform.css}">
+	<link rel="stylesheet" th:href="@{/css/navbar.css}">
+	<link rel="stylesheet" th:href="@{/css/badges.css}">
 </head>
 <body>
-    <h1 th:text="${message}">Placeholder Message</h1>
+	<div class="background"></div>
+	<canvas id="waveCanvas"></canvas>
+	
+    <header>
+		
+		<div class="navbar">
+			<div class="nav-left">
+		        <div class="logo">CHASE-DEVELOPER</div>
+		    </div>
+		    
+		    <div class="nav-center">
+		        <div class="nav-links">
+		            <a href="#about" class="nav-item">About</a>
+		            <a href="#projects" class="nav-item">Projects</a>
+		            <a href="#contact" class="nav-item">Contact</a>
+		        </div>
+		    </div>
+
+		    <div class="nav-right">
+		        <div class="social-icons">
+		            <div class="icon"></div>
+		            <div class="icon"></div>
+		        </div>
+		    </div>
+	    </div>
+		
+        <h1>Welcome to My Portfolio</h1>
+    </header>
+	
+	<div class="badge-showcase">
+	    <img id="bigBadge" src="/images/googlecybersecurity.png" alt="Big Badge">
+	    <h2 id="badgeTitle">Badge Name</h2>
+	    <p id="badgeDescription">Badge description goes here.</p>
+	</div>
+
+	<div class="badge-list">
+	    <img class="small-badge" th:each="badge : ${badges}"
+	         th:src="@{/images/{img}(img=${badge.image})}" 
+	         th:alt="${badge.name}"
+	         th:data-name="${badge.name}"
+	         th:data-desc="${badge.description}">
+	</div>
+
+
+
+    
+    <section id="about">
+        <h2>About Me</h2>
+        <p>A brief introduction about yourself.</p>
+    </section>
+    
+    <section id="projects">
+        <h2>My Projects</h2>
+        <div class="slider">
+            <button id="prev">&#10094;</button>
+            <div class="slides">
+                <div class="slide active">Project 1</div>
+                <div class="slide">Project 2</div>
+                <div class="slide">Project 3</div>
+            </div>
+            <button id="next">&#10095;</button>
+        </div>
+    </section>
+    
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <p>Reach out via email or social media.</p>
+    </section>
+	<script th:src="@{/js/waveform.js}"></script>
+	<script th:src="@{/js/badges.js}"></script>
 </body>
 </html>
+
+

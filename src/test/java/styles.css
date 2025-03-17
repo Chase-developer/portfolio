@@ -1,0 +1,93 @@
+@font-face {
+    font-family: 'CeraPro';
+    src: url('/fonts/CeraProRegular2') format('woff2'),
+         url('/fonts/CeraProRegular') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'HKGrotesk';
+    src: url('/fonts/HKGroteskRegular2') format('woff2'),
+         url('/fonts/HKGroteskRegular') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    font-family: 'CeraPro', 'HKGrotesk', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+	background: #0b0d1a;
+    color: white;
+    text-align: center;
+}
+
+header {
+    padding: 20px;
+    background: #0b0d1a;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    background: linear-gradient(135deg, #001f3f, #0074D9);
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: color 0.3s ease-in-out;
+}
+
+nav ul li a:hover {
+    background: #0074D9;
+    color: yellow;
+}
+
+section {
+    padding: 50px 20px;
+}
+
+.slider {
+    position: relative;
+    max-width: 600px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+button {
+    background: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: color 0.3s ease-in-out;
+}
+
+button:hover {
+    background: #0074D9;
+    color: yellow;
+}
+
