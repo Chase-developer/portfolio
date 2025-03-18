@@ -14,6 +14,7 @@
     font-style: normal;
 }
 
+
 /*
 @keyframes noise-waves {
   0% { background-position: 0px 0px; opacity: 0.8; }
@@ -72,12 +73,13 @@ button:hover {
 }
 
 .title {
+	border-radius: 10px;
     font-size: 36px; /* Shared styles */
     font-weight: bold;
-    max-width: 1000px;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 50px;
 }
+
 
 #titleleft {
     text-align: left; /* Aligns this one to the left */

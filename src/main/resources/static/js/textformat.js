@@ -10,3 +10,13 @@ function toggleIntro() {
         btn.innerText = "Read More";
     }
 }
+
+function toggleCollapse(element) {
+    let content = element.querySelector(".skill-content");
+    if (content.style.display === "block") {
+        content.style.display = "none";
+    } else {
+        content.style.display = "block";
+    }
+}
+

@@ -1,0 +1,39 @@
+.skills-container {
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+.skill-category {
+    background: #1e2a47;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.skill-category h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.skill-category:hover {
+    background: #243354;
+}
+
+.skill-content {
+    display: none;
+    padding: 10px;
+    margin-top: 5px;
+    background: #161d31;
+    border-radius: 5px;
+}
+
+.skill-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.skill-content li {
+    padding: 5px 0;
+}

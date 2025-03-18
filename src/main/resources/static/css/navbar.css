@@ -8,12 +8,86 @@
     background: rgba(20, 20, 20, 0.8); /* Semi-transparent background */
     margin: 20px;
 	position: relative;
-	z-index: 100; /* Ensure it's above other elements */
+	z-index: 10; /* Ensure it's above other elements */
 	/*backdrop-filter: blur(10px);*/
 }
+
+.nav-container {
+	display: flex;
+    justify-content: center;
+	align-items: center; /* Aligns items to the top */
+    gap: 100px; /* Space between showcase and list */
+	margin-top: 100px;
+}
+
+.tab-container {
+	display: flex;
+    justify-content: center;
+	align-items: flex-start; /* Aligns items to the top */
+    gap: 50px; /* Space between showcase and list */
+	margin-top: 100px;
+}
+
+.tab-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+	padding: 20px 20px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    background: rgba(20, 20, 20, 0.8); /* Semi-transparent background */
+	position: relative;
+	z-index: 10; /* Ensure it's above other elements */
+	/*backdrop-filter: blur(10px);*/
+}
+
 .logo {
     font-size: 24px;
     font-weight: bold;
+	margin-right: 10px;
+}
+
+.tab-title {
+	font-size: 24px; /* Shared styles */
+    font-weight: bold;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.tab-section {
+	flex-direction: column; /* Stack elements vertically */
+	align-items: center; /* Center align the elements */
+	margin-top: 15px;
+	display: flex;
+	gap: 12px
+}
+
+.section-row {
+	margin-top: 15px;
+	display: flex;
+	align-items: left;
+	gap: 12px
+}
+
+
+.section-title
+{
+	font-size: 20px; /* Shared styles */
+    font-weight: bold;
+    margin: 0 auto;
+	text-align: left;
+}
+
+.section-desc
+{
+	font-size: 18px; /* Shared styles */
+    margin: 0 auto;
+	text-align: left;
+}
+
+.tab-icon
+{
+	width: 50px; /* Prevents it from being too large */
+	height: 50px; /* Prevents it from being too large */
 }
 
 .nav-links {
@@ -25,10 +99,16 @@
     gap: 15px;
 }
 .icon {
-    width: 24px;
-    height: 24px;
-    background-color: white;
-    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+}
+
+.nav-top {
+	display: flex;
+	flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center align the elements */
+    text-align: center;
+	width: 300px;
 }
 
 /* Left Section */
@@ -54,6 +134,7 @@
     justify-content: flex-end;
     align-items: center;
     position: relative;
+	gap: 10px
 }
 
 /* Vertical Line Between Left and Center */
