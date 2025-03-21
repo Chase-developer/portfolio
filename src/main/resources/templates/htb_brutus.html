@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forensic Report</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+	<link rel="stylesheet" th:href="@{/css/styles.css}">
+	<link rel="stylesheet" th:href="@{/css/waveform.css}">
+	<link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+	<div class="background"></div>
+	<canvas id="waveCanvas"></canvas>
+    <h1>Forensic Investigation Report</h1>
+
+    <!-- Raw Markdown (Hidden) -->
+    <textarea id="raw-text" style="display:none;">
+		# Forensic Investigation Report
+
+		**Case ID:** [To be Assigned]  
+		**Date of Investigation:** [Insert Date]  
+		**Investigating Analyst:** [Your Name]  
+
+		---
+
+		## 1. Incident Overview
+
+		- **Incident Type:** Unauthorized SSH Brute-Force Attack  
+		- **Affected System:** `ip-172-31-35-28`  
+		- **Initial Detection:** Multiple failed SSH login attempts recorded in system logs.  
+
+		---
+
+		## 2. Event Chronology  
+
+		### 2.1 Unauthorized SSH Login Attempt (Reconnaissance Phase)  
+		- **Timestamp:** `March 6, 2025, 06:31:31 UTC`  
+		- **Source IP:** `65.2.161.68`  
+		- **Destination IP:** `172.31.35.28`  
+		- **Service:** SSH  
+
+		#### Event Details:  
+		- The attacker initiated an unauthorized SSH login attempt using the invalid username **"admin"**.  
+		- The request was rejected by `sshd`, suggesting an initial reconnaissance attempt.  
+
+		---
+
+		### 2.2 Brute-Force Attack Initiation  
+		- **Timestamp:** `March 6, 2025, 06:31:31 UTC`  
+		- **Source IP:** `65.2.161.68`  
+		- **Destination IP:** `172.31.35.28`  
+		- **Service:** SSH  
+
+		#### Event Details:  
+		- The attacker began an automated brute-force attack, making multiple connection attempts.  
+		- The system engaged **MaxStartups throttling**, limiting simultaneous connections.  
+		- The attack continued despite throttling, with repeated authentication failures for user **"admin"**.  
+
+		---
+
+		### 2.3 Escalation to Root Account Targeting  
+		- **Timestamp:** `March 6, 2025, 06:31:41 - 06:31:42 UTC`  
+		- **Source IP:** `65.2.161.68`  
+		- **Destination IP:** `172.31.35.28`  
+		- **Service:** SSH  
+
+		#### Event Details:  
+		- The attacker shifted focus from **"admin"** to the **root** account, attempting direct authentication.  
+		- **Failed Password Attempts:**  
+		  - Multiple password failures recorded for user **"root"**.  
+		- **Connection Drops:**  
+		  - Several connections were closed during authentication, indicating aggressive password attempts.  
+		- **PAM Authentication Failures:**  
+		  - `pam_unix` logged authentication failures for user **"root"**, confirming unsuccessful brute-force attempts.  
+
+		---
+
+		### 2.4 Successful Infiltration  
+		- **Timestamp:** `March 6, 2025, 06:32:44 UTC`  
+		- **Source IP:** `65.2.161.68`  
+		- **Destination IP:** `172.31.35.28`  
+		- **Service:** SSH  
+
+		#### Event Details:  
+		- The attacker **successfully authenticated** using the **root** account.  
+		- A session was opened for user **root** `(uid=0)`, confirming full system access.  
+		- `systemd-logind` registered a new session for root, indicating an active shell session.  
+		- **This marks the point of system compromise.**  
+
+		---
+
+		### 2.5 Post-Exploitation Activities  
+		- **Timestamp:** `March 6, 2025, 06:34:18 - 06:39:39 UTC`  
+		- **Source IP:** `65.2.161.68`  
+		- **Destination IP:** `172.31.35.28`  
+
+		#### Event Details:  
+		- The attacker created a new user account named **"cyberjunkie"** with `UID=1002` and `GID=1002`.  
+		- The attacker modified `/etc/group` and `/etc/gshadow` to add the new user.  
+		- A **password change** was performed for the `cyberjunkie` user.  
+		- The user’s information was altered using `chfn`.  
+		- The attacker granted **sudo privileges** to `cyberjunkie`, effectively escalating privileges for future persistence.  
+		- Possible **scheduling of cron jobs**, with logs showing cron sessions for `root` and `confluence` users.  
+		- The attacker **logged out of the root account** and logged in as `cyberjunkie` at `06:37:34 UTC`.  
+		- **Privilege Escalation:** `cyberjunkie` used `sudo` to read `/etc/shadow`, confirming **T1003 (OS Credential Dumping)**.  
+		- **Ingress Tool Transfer:** The attacker downloaded `linper.sh` using `curl` via `sudo`, indicating **T1105 (Ingress Tool Transfer)** for post-exploitation enumeration.  
+
+		---
+
+		## 3. Analysis  
+
+		- The attacker escalated efforts by targeting the **root** account after failing with **"admin"**.  
+		- The attack pattern indicates an **automated tool**, likely a **credential stuffing** attack.  
+		- The use of the **root account** suggests a more serious attempt to gain privileged access.  
+		- Despite multiple failed attempts, the attacker remained persistent.  
+		- The successful authentication confirms **compromise of root credentials**, granting the attacker full control.  
+
+		### MITRE ATT&CK Techniques Identified:  
+		- **T1078 (Valid Accounts):** The attacker used stolen credentials for access.  
+		- **T1098 (Account Manipulation):** A new privileged user account (`cyberjunkie`) was created.  
+		- **T1136 (Create Account):** Establishing persistence via account creation.  
+		- **T1543 (Create or Modify System Process):** Potential **cron job scheduling** for backdoor access.  
+		- **T1003 (OS Credential Dumping):** Attempted access to `/etc/shadow` file for credential theft.  
+		- **T1105 (Ingress Tool Transfer):** Downloading `linper.sh` for potential system enumeration.  
+
+		---
+
+		## 4. Mitigation and Incident Response  
+
+		### 4.1 Immediate Mitigation Steps  
+		- **Revoke Access:** Disable the `cyberjunkie` user and remove sudo privileges.  
+		- **Change Credentials:** Reset root and all user passwords.  
+		- **Kill Active Sessions:** Terminate all active SSH sessions from `65.2.161.68`.  
+		- **Update Firewall Rules:** Block the attacker’s IP and restrict SSH access.  
+		- **Check System Integrity:** Run malware and rootkit scans.  
+
+		---
+
+		### 4.2 Long-Term Security Measures  
+		- **Implement Multi-Factor Authentication (MFA)** for SSH.  
+		- **Limit SSH Access:** Restrict SSH to trusted IPs via firewall rules.  
+		- **Enhance Logging & Monitoring:** Enable alerts for multiple failed logins.  
+		- **Use SSH Key-Based Authentication:** Disable password authentication.  
+		- **Regularly Update Software:** Patch vulnerabilities and enforce system updates.  
+
+		---
+
+		### 4.3 Incident Response Actions  
+		- **Forensic Investigation:** Preserve logs and analyze indicators of compromise.  
+		- **Threat Intelligence Sharing:** Report attack indicators to security databases.  
+		- **Review Security Policies:** Strengthen access controls and security policies.  
+		- **Employee Security Training:** Educate users on phishing and credential security.  
+
+		---
+
+		_End of Report_
+
+    </textarea>
+
+    <!-- Rendered Markdown -->
+    <div id="output" style="border:1px solid #ccc; padding:10px; margin-top:10px; background:#1e1e1e; color:white;"></div>
+	<section id="contact">
+        <h2>Contact Me</h2>
+        <p>Reach out via email gamerbrine1122@gmail.com</p>
+    </section>
+	<script th:src="@{/js/waveform.js}"></script>
+	<script th:src="@{/js/badges.js}"></script>
+	<script th:src="@{/js/textformat.js}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var converter = new showdown.Converter();
+            var markdownText = document.getElementById("raw-text").value;
+            var html = converter.makeHtml(markdownText);
+
+            var outputDiv = document.getElementById("output");
+            outputDiv.innerHTML = html;
+
+            // Apply syntax highlighting
+            outputDiv.querySelectorAll("pre code").forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        });
+    </script>
+	
+</body>
+</html>
+

@@ -22,7 +22,30 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-actuator'
+	
+	// https://mvnrepository.com/artifact/com.oracle.oci.sdk/oci-java-sdk-objectstorage
+	//implementation 'com.oracle.oci.sdk:oci-java-sdk-objectstorage:3.61.0'
+	
+	implementation 'com.oracle.oci.sdk:oci-java-sdk-objectstorage:3.61.0'
+	implementation 'com.oracle.oci.sdk:oci-java-sdk-common-httpclient-jersey3:3.61.0'
+	//implementation 'com.oracle.oci.sdk:oci-java-sdk-common:3.61.0'
+	
+	//implementation 'com.oracle.oci.sdk:oci-java-sdk-common-httpclient-apache:3.61.0'
+	//implementation 'com.oracle.oci.sdk:oci-java-sdk-common-httpclient-jersey:3.61.0'
+	// https://mvnrepository.com/artifact/com.oracle.oci.sdk/oci-java-sdk-common-httpclient-jersey3
+	
+	
+	// Jersey Dependencies (Compatible with OCI SDK v3.61.0)
+    //implementation 'org.glassfish.jersey.core:jersey-client:3.1.2'
+    //implementation 'org.glassfish.jersey.inject:jersey-hk2:3.1.2'
+    
+    //implementation 'jakarta.ws.rs:jakarta.ws.rs-api:3.1.0'
+    
+    //implementation 'org.glassfish.jersey.connectors:jersey-apache-connector:3.1.2' 
+    //implementation 'org.glassfish.jersey.core:jersey-common:3.1.2' 
+	
+	//implementation 'org.glassfish.jersey.core:jersey-client:2.39'
+    //implementation 'org.glassfish.jersey.inject:jersey-hk2:2.39'
 	
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -34,6 +57,14 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    
+    /*configurations.all {
+        exclude group: "javax.ws.rs", module: "javax.ws.rs-api"
+        exclude group: "org.glassfish.jersey.core", module: "jersey-client"
+        exclude group: "org.glassfish.jersey.inject", module: "jersey-hk2"
+    }*/
+    
+    
 }
 
 tasks.named('test') {

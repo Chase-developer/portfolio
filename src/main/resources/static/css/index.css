@@ -54,7 +54,7 @@
 
 .oracle {
     position: relative; /* Ensures child absolute positioning is relative to this container */
-	font-size: 32px; /* Shared styles */
+	font-size: 20px; /* Shared styles */
 	font-weight: bold;
 	margin-left: 20px;
 }
@@ -67,8 +67,8 @@
 }
 
 .oracle-badge img {
-	width: 40px;
-	height: 40px;
+	width: 20px;
+	height: 20px;
 }
 
 

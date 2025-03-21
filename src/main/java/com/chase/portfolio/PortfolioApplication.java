@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 //@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class PortfolioApplication {
+	
+	
 
 	public static void main(String[] args) {
 		//http://localhost:8080

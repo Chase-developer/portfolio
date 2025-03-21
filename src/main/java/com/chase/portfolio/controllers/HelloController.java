@@ -14,4 +14,9 @@ public class HelloController {
     	model.addAttribute("badges", BadgeService.Badges);
         return "index";  // Maps to index.html in templates/
     }
+    
+    @GetMapping("/brutus")
+    public String brutus(Model model) {
+        return "htb_brutus";  // Maps to index.html in templates/
+    }
 }

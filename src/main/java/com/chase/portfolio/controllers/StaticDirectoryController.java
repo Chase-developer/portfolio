@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.chase.portfolio.services.OCIStorageService;
+
 /**
  * This was supposed to work natively, but I don't know why it doesn't. So had to add this manully
  */
@@ -35,6 +37,15 @@ public class StaticDirectoryController {
         return "generated-temp-token-" + Instant.now().plus(1, ChronoUnit.HOURS).getEpochSecond();
     }
 	 */
+	
+	//private static final OCIStorageAPI API = ;
+	
+	private final OCIStorageService storage_service;
+	
+	// Constructor-based injection (Recommended)
+    public StaticDirectoryController(OCIStorageService storage_service) {
+        this.storage_service = storage_service;
+    }
 
 	/**
 	 * at some point need to change this so that it gets the file from the storage bucket instead
@@ -55,18 +66,22 @@ public class StaticDirectoryController {
 	    if (!resource.exists()) {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	    }
+	    
+	    return ResponseEntity.status(HttpStatus.FOUND)
+                .header(HttpHeaders.LOCATION, storage_service.getPreAuthURL("fonts/" +fileName))
+                .build();
 
 	    // Read file content
-	    Path path = resource.getFile().toPath();
-	    byte[] fileContent = Files.readAllBytes(path);
-
-	    // Set correct content type based on file extension
-
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
-	    headers.add("X-Content-Type-Options", "nosniff");
-
-	    return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
+//	    Path path = resource.getFile().toPath();
+//	    byte[] fileContent = Files.readAllBytes(path);
+//
+//	    // Set correct content type based on file extension
+//
+//	    HttpHeaders headers = new HttpHeaders();
+//	    headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
+//	    headers.add("X-Content-Type-Options", "nosniff");
+//
+//	    return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
 	}
 
     
@@ -138,15 +153,19 @@ public class StaticDirectoryController {
         if (!resource.exists()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+        
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .header(HttpHeaders.LOCATION, storage_service.getPreAuthURL("images/" + fileName))
+                .build();
 
         // Read file content
-        Path path = resource.getFile().toPath();
-        byte[] cssContent = Files.readAllBytes(path);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "image/png");
-        headers.add("X-Content-Type-Options", "nosniff");
-        return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
+//        Path path = resource.getFile().toPath();
+//        byte[] cssContent = Files.readAllBytes(path);
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add(HttpHeaders.CONTENT_TYPE, "image/png");
+//        headers.add("X-Content-Type-Options", "nosniff");
+//        return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
     }
     
     @GetMapping("/js/{fileName:.+\\.js}")
