@@ -106,15 +106,32 @@ public class StaticDirectoryController {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "text/css");
         headers.add("X-Content-Type-Options", "nosniff");
-        //headers.add(HttpHeaders.CACHE_CONTROL, "no-store, no-cache, must-revalidate, max-age=0");
-        
-//        String origin = request.getHeader("Origin");
-//        if ("http://localhost:8080".equals(origin)) {  // Change this to your website's domain
-//            headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-//        }
+       
+        return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
+    }
+    
+    @GetMapping("/texts/{fileName:.+\\.txt}")
+    public ResponseEntity<byte[]> getTextFile(@PathVariable("fileName") String fileName) throws IOException {
+        // Prevent path traversal
+    	if (!fileName.matches("^[a-zA-Z0-9._-]+\\.txt$")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
 
+        // Load the CSS file from classpath
+        Resource resource = new ClassPathResource("static/texts/" + fileName);
+
+        if (!resource.exists()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        // Read file content
+        Path path = resource.getFile().toPath();
+        byte[] cssContent = Files.readAllBytes(path);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "text/css");
+        headers.add("X-Content-Type-Options", "nosniff");
+       
         return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
     }
     

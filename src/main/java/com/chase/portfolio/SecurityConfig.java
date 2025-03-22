@@ -2,6 +2,7 @@ package com.chase.portfolio;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -14,6 +15,8 @@ public class SecurityConfig {
 	
 	//public static String[] TestApiCalls = new String[] {"api/auth/login", "api/auth/refresh"};
 	
+	public static final String[] StaticCalls = new String[] {"/css/**", "/js/**", "/images/**", "/fonts/**", "/texts/**"};
+	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		//http.addFilter(new RequestLoggingFilter());
@@ -23,14 +26,15 @@ public class SecurityConfig {
 				.disable());
 		http.authorizeHttpRequests((authorize) -> 
 			authorize
-				.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/", "/**", "/htb/**").permitAll()
+				.requestMatchers(HttpMethod.GET, StaticCalls).permitAll()
 				//.requestMatchers("/actuator/**").permitAll()
 				//.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
 				//.requestMatchers("/**").permitAll());
 				//.requestMatchers(HttpMethod.GET, "/**").permitAll()
 				//.requestMatchers(HttpMethod.POST, "api/auth/login", "api/auth/refresh").permitAll()
-				.anyRequest().permitAll());
-				//.anyRequest().authenticated());// Allow all preflight requests
+				//.anyRequest().permitAll());
+				.anyRequest().authenticated());// Allow all preflight requests
 	    //http.addFilterBefore(new RequestLoggingFilter(), UsernamePasswordAuthenticationFilter.class);
 	    return http.build();
 	}

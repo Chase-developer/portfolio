@@ -325,7 +325,7 @@ public class OCIStorageService {
 		                    .parId(parId)
 		                    .build()
 		    );
-		    System.out.println("Deleted Pre-Auth Request: " + parId);
+		    //System.out.println("Deleted Pre-Auth Request: " + parId);
 		}
 	}
 	

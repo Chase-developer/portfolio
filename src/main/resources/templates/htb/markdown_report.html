@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+	<link rel="stylesheet" th:href="@{/css/styles.css}">
+	<link rel="stylesheet" th:href="@{/css/waveform.css}">
+	<link rel="stylesheet" th:href="@{/css/navbar.css}">
+	<link rel="stylesheet" th:href="@{/css/badges.css}">
+	<title th:text="${reportTitle}">Default Title</title>
+</head>
+<body>
+	<div class="background"></div>
+	<canvas id="waveCanvas"></canvas>
+	<header>
+		<div class="navbar">
+			<div class="nav-left">
+		        <div class="logo">CHASE-DEVELOPER</div>
+				<img th:src="@{/images/chaselogo.png}" class="icon">
+		    </div>
+		    
+		    <div class="nav-center">
+		        <div class="nav-links">
+		            <a href="#about" class="nav-item">About</a>
+		            <a href="#projects" class="nav-item">Projects</a>
+		            <a href="#contact" class="nav-item">Contact</a>
+		        </div>
+		    </div>
+
+		    <div class="nav-right">
+		        <div class="social-icons">
+		            <a href="https://www.linkedin.com/in/leng-jia-yong-609689346/"><img th:src="@{/images/linkedin.png}" class="icon"></div> </a>
+		            <a href="https://github.com/Chase-developer"><img th:src="@{/images/github.png}" class="icon"></div></a>
+		        </div>
+		    </div>
+	    </div>
+		<div class="oracle">
+		    <div class="oracle-badge">
+				<span>Powered by Oracle Cloud</span>
+		        <img th:src="@{/images/poweredbyOracle.png}">
+		        
+		    </div>
+		</div>
+    </header>
+	<p id="titlecenter" class="title" th:text="${reportTitle}"></p>
+	<div class="tab-wiki-container">
+		<div class="tab-wiki">
+		    <div class="content">
+		    
+		
+			    <!-- Raw Markdown (Hidden) -->
+				<textarea id="raw-text" th:data-src="@{${reportFile}}" style="display:none;"></textarea>
+					
+			    </textarea>
+		
+	
+		    <!-- Rendered Markdown -->
+				<div id="output" class="tab-markdown"></div>
+			</div>
+		    <div class="navigation">
+				<div class="tab-block">
+					<div class="nav-top">
+						<div class="tab-title">Navigation</div>
+						<div class="tab-section">
+					        <ul>
+					            <li><a href="#section1">Section 1</a></li>
+					            <li><a href="#section2">Section 2</a></li>
+					            <li><a href="#section3">Section 3</a></li>
+					        </ul>
+						</div>
+					</div>
+				</div>
+		    </div>
+		</div>
+	</div>
+	
+	<section id="contact">
+        <h2>Contact Me</h2>
+        <p>Reach out via email gamerbrine1122@gmail.com</p>
+    </section>
+	<script th:src="@{/js/waveform.js}"></script>
+	<script th:src="@{/js/badges.js}"></script>
+	<script th:src="@{/js/textformat.js}"></script>
+	<script>
+		document.addEventListener("DOMContentLoaded", async function () {
+		    var converter = new showdown.Converter();
+			const textArea = document.getElementById("raw-text");
+	        const fileUrl = textArea.getAttribute("data-src"); // Get the Thymeleaf-resolved URL
+		    //var markdownText = document.getElementById("raw-text").value;
+			try {
+	            const response = await fetch(fileUrl);
+	            if (!response.ok) throw new Error("Failed to load the markdown file");
+
+	            const markdownText = await response.text();
+				var html = converter.makeHtml(markdownText);
+
+			    var outputDiv = document.getElementById("output");
+			    outputDiv.innerHTML = html;
+
+			    // Apply syntax highlighting
+				outputDiv.querySelectorAll("pre code").forEach((block) => {
+					//block.classList.add("language-ruby"); // Change to "language-yaml" or "language-json" if needed
+			        hljs.highlightElement(block);
+			    });
+			    
+	        } catch (error) {
+	            console.error("Error loading markdown:", error);
+	        }
+		});
+    </script>
+	
+</body>
+</html>
+

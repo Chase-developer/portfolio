@@ -52,26 +52,6 @@
     
 }
 
-.oracle {
-    position: relative; /* Ensures child absolute positioning is relative to this container */
-	font-size: 20px; /* Shared styles */
-	font-weight: bold;
-	margin-left: 20px;
-}
-
-.oracle-badge {
-    position: absolute;
-    top: 0;  /* Stick to the top */
-    left: -20; /* Stick to the left */
-    padding: 5px 10px;
-}
-
-.oracle-badge img {
-	width: 20px;
-	height: 20px;
-}
-
-
 .name {
     background: linear-gradient(90deg, #ffffff, #b3e5fc, #ffffff);
     -webkit-background-clip: text;

