@@ -10,13 +10,13 @@ import com.chase.portfolio.services.BadgeService;
 public class HelloController {
 
     @GetMapping("/")
-    public String hello(Model model) {
+    public String main(Model model) {
     	model.addAttribute("badges", BadgeService.Badges);
         return "index";  // Maps to index.html in templates/
     }
     
-    @GetMapping("/brutus")
-    public String brutus(Model model) {
-        return "htb_brutus";  // Maps to index.html in templates/
+    @GetMapping("/error")
+    public String error(Model model) {
+        return "error";  // Maps to index.html in templates/
     }
 }

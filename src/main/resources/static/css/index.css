@@ -96,5 +96,54 @@
     transform: scale(1.1);
 }
 
+.quote-container {
+	margin-top: 200px;
+	height: 200px;
+}
+
+.quote {
+    font-size: 40px;
+    font-weight: bold;
+    position: relative;
+    display: inline-block;
+    color: white;
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); opacity: 1; }
+    20% { transform: translate(-2px, 2px); opacity: 0.8; }
+    40% { transform: translate(2px, -2px); opacity: 1; }
+    60% { transform: translate(-2px, 2px); opacity: 0.9; }
+    80% { transform: translate(2px, -2px); opacity: 1; }
+    100% { transform: translate(0); opacity: 1; }
+}
+
+.quote.show {
+    animation: glitch 0.5s ease-in-out;
+}
+
+.author {
+    display: block;
+    font-size: 40px;
+    font-style: italic;
+    margin-top: 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.text-cursor {
+	font-size: 40px;
+    font-weight: bold;
+    display: inline-block;
+    animation: blink 0.6s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+
 
 

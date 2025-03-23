@@ -19,8 +19,7 @@
 ### Compiler
 - **GCC x86**  
 
-### ELF Source Files
-- **ELF source file**  
+### ELF Source Files 
 - **Scrt1.o**  
 - **Crtstuff.c**  
 - **Bescrypt2.c**  

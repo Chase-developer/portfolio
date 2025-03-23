@@ -38,38 +38,19 @@ section {
     padding: 50px 20px;
 }
 
-.slider {
-    position: relative;
-    max-width: 600px;
-    margin: auto;
-    overflow: hidden;
+.link {
+    color: white; /* Default white color */
+    text-decoration: none; /* Remove underline by default */
+    transition: color 0.2s ease-in-out, text-decoration 0.2s ease-in-out; /* Smooth transition */
 }
 
-.slides {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
+.link:hover {
+    color: #4A90E2; /* Light blue on hover */
+    text-decoration: underline; /* Underline on hover */
 }
 
-.slide {
-    min-width: 100%;
-    padding: 40px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-}
-
-button {
-    background: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
-    transition: color 0.3s ease-in-out;
-}
-
-button:hover {
-    background: #0074D9;
-    color: yellow;
+pre, code {
+    background: transparent !important; /* Remove default background */
 }
 
 .title {
@@ -78,10 +59,6 @@ button:hover {
     font-weight: bold;
     margin: 0 auto;
     margin-top: 100px;
-}
-
-pre, code {
-    background: transparent !important; /* Remove default background */
 }
 
 

@@ -12,13 +12,11 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -106,9 +104,9 @@ public class OCIStorageService {
 //		return new OCIStorageAPI(authenticateAPI());
 //	}
 	
-	private static List<String> getLocalResources()
+	private static HashSet<String> getLocalResources()
 	{
-		List<String> resources = new ArrayList<String>();
+		HashSet<String> resources = new HashSet<String>();
 		for (String file : getDirResources("static/images"))
 		{
 			resources.add("images/" + file);
@@ -165,6 +163,13 @@ public class OCIStorageService {
 		return null;
 	}
 	
+	public static int getHoursLeft(Date date) {
+	    long diffMillis = Math.abs(date.getTime() - new Date().getTime());
+	    return (int) Math.floor((double) diffMillis / (1000 * 60 * 60)); // Convert milliseconds to hours
+	}
+	
+	
+	
 	
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 	private ObjectStorageClient client;
@@ -193,14 +198,15 @@ public class OCIStorageService {
         }
     }
 	
-	public void startScheduler() {
+	private void startScheduler() {
         Runnable task = () -> {
-        	logger.info("Fetching Pre-Auth URLs...");
-            fetchPreAuthURLs(); // Call your method
+            clearPreAuthURLs();
+            
+            createPreAuthURLs(getLocalResources());
         };
 
         // Schedule to run every 23 hours
-        scheduler.scheduleAtFixedRate(task, 0, 23, TimeUnit.HOURS);
+        scheduler.scheduleAtFixedRate(task, 23, 23, TimeUnit.HOURS);
         //scheduler.scheduleAtFixedRate(task, 1, 1, TimeUnit.MINUTES);
     }
 	
@@ -209,16 +215,25 @@ public class OCIStorageService {
 		//the locals will always be more
 		//so should
 		
-		Set<String> files = getFiles();
-		for (String local_file : getLocalResources())
-		{
-			if (files.contains(local_file))
-				continue;
-			File file = getResourceFile("static/" + local_file);
-    		uploadFile(local_file, getResourceStream(file), file.length());
-		}
-		logger.info("Uploaded Resources To Bucket");
-		fetchPreAuthURLs();
+		lock.writeLock().lock();
+        try {
+        	HashSet<String> files = getCloudResources();
+    		for (String local_file : getLocalResources())
+    		{
+    			if (files.contains(local_file))
+    				continue;
+    			File file = getResourceFile("static/" + local_file);
+        		uploadResource(local_file, getResourceStream(file), file.length());
+    		}
+    		logger.info("Uploaded Resources To Bucket");
+    		clearPreAuthURLs();
+    		createPreAuthURLs(files);
+        } finally
+        {
+        	lock.writeLock().unlock();
+        }
+		
+
 	}
 	
 	public String getPreAuthURL(String objectname)
@@ -231,18 +246,79 @@ public class OCIStorageService {
         }
 	}
 	
-	private void fetchPreAuthURLs()
+	//summary.getAccessUri(), summary.getTimeExpires().getMillis()
+	//https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/n8Jx6sJrWkJCi5q4pVrL5adXHpDzUuQAMXdr4qsaI-F1X_zJefk8CKW5VFvo8ws5/n/frcxzo8ihnil/b/portfolio-bucket/o/images/amazon.png
+//	private void fetchPreAuthURLs(HashSet<String> objects) {
+//	    min_hours_left = 23;
+//	    try {
+//	        ListPreauthenticatedRequestsRequest request = ListPreauthenticatedRequestsRequest.builder()
+//	                .bucketName(Bucket_Name)
+//	                .namespaceName(Bucket_Namespace)
+//	                .build();
+//
+//	        ListPreauthenticatedRequestsResponse response = client.listPreauthenticatedRequests(request);
+//	        
+//	        int i = 0;
+//	        for (PreauthenticatedRequestSummary summary : response.getItems()) {
+//	        	if (objects.contains(summary.getObjectName()))
+//	        	{
+//	        		String url = String.format("https://objectstorage.%s.oraclecloud.com/p/%s/n/%s/b/%s/o/%s",
+//	                        Bucket_Region, summary.getId().split(":")[0], Bucket_Namespace, Bucket_Name, summary.getObjectName());
+//	        		preAuthUrls.put(summary.getObjectName(), 
+//	        				url);
+//	        		min_hours_left = Math.min(min_hours_left, getHoursLeft(summary.getTimeExpires()));
+//	        		i++;
+//	        		logger.info("Fetched File " + summary.getObjectName() + ", URL " + url);
+//	        	}
+//	        	else
+//	        	{
+//	        		client.deletePreauthenticatedRequest(
+//	    		            DeletePreauthenticatedRequestRequest.builder()
+//	    		                    .namespaceName(Bucket_Namespace)
+//	    		                    .bucketName(Bucket_Name)
+//	    		                    .parId(summary.getId())
+//	    		                    .build()
+//	    		    );
+//	        		logger.info("Deleted Old File " + summary.getObjectName());
+//	        	}
+//	        }
+//
+//	        logger.info("Fetched " + i + " pre-auth URLs from OCI. Will re-sync in " + min_hours_left + " hours");
+//	    } catch (Exception e) {
+//	        logger.error("Error fetching pre-authenticated requests: ", e);
+//	    }
+//	}
+	/*
+	 * two scnearios
+	 * 
+	 * one when programs starts
+	 * it first uploads all the files
+	 * then it checks if there are any existing pre auth urls
+	 * if there is, add into the hashmap
+	 * fetchPreAuthURLs. then gets the earliest expiry
+	 * then add the rest createPreAuthURLs
+	 * then start scheduler
+	 * finished
+	 * 
+	 * when program scheduler runs
+	 * clears all urls
+	 * create all urls
+	 * 
+	 * 
+	 */
+	
+	
+	
+	private void createPreAuthURLs(HashSet<String> objects)
 	{
-		lock.writeLock().lock();
-        try {
-        	clearPreAuthURLs();
-        	logger.info("Cleared Existing Pre-Auth URLs");
-        	for (String local_file : getLocalResources())
-    			preAuthUrls.put(local_file, generatePreAuthUrl(local_file));
-        	logger.info("Finished Generation Pre-Auth URLs");
-        } finally {
-            lock.writeLock().unlock();
-        }
+		for (String local_file : objects)
+		{
+			if (preAuthUrls.containsKey(local_file))
+				continue;
+			preAuthUrls.put(local_file, generatePreAuthUrl(local_file));
+		}
+		logger.info("Finished Generation of Pre-Auth URLs");
+			
 	}
 	
 	public String generatePreAuthUrl(String objectName) {
@@ -271,7 +347,7 @@ public class OCIStorageService {
                 ".oraclecloud.com" + response.getPreauthenticatedRequest().getAccessUri();
     }
 	
-	private HashSet<String> getFiles() 
+	private HashSet<String> getCloudResources() 
 	{
 		HashSet<String> resources = new HashSet<String>();
 		ListObjectsResponse response = client.listObjects(
@@ -284,7 +360,7 @@ public class OCIStorageService {
 		return resources;
 	}
 	
-	private void uploadFile(String objectName, InputStream inputStream, long file_size) {
+	private void uploadResource(String objectName, InputStream inputStream, long file_size) {
         PutObjectRequest request = PutObjectRequest.builder()
                 .namespaceName(Bucket_Namespace)
                 .bucketName(Bucket_Name)
@@ -327,6 +403,8 @@ public class OCIStorageService {
 		    );
 		    //System.out.println("Deleted Pre-Auth Request: " + parId);
 		}
+		preAuthUrls.clear();
+		logger.info("Cleared Existing Pre-Auth URLs");
 	}
 	
 	public void close()

@@ -1,21 +1,27 @@
-document.addEventListener("DOMContentLoaded", function () {
-    var converter = new showdown.Converter({
-        tables: true,    // Enables tables
-        strikethrough: true,
-        simplifiedAutoLink: true,
-        ghCodeBlocks: true
-    });
+document.addEventListener("DOMContentLoaded", async function () {
+    var converter = new showdown.Converter();
+	const textArea = document.getElementById("raw-text");
+    const fileUrl = textArea.getAttribute("data-src"); // Get the Thymeleaf-resolved URL
+    //var markdownText = document.getElementById("raw-text").value;
+	try {
+        const response = await fetch(fileUrl);
+        if (!response.ok) throw new Error("Failed to load the markdown file");
 
-    var markdownText = document.getElementById("raw-text").value;
-    var html = converter.makeHtml(markdownText);
+        const markdownText = await response.text();
+		var html = converter.makeHtml(markdownText);
 
-    var outputDiv = document.getElementById("output");
-    outputDiv.innerHTML = html;
+	    var outputDiv = document.getElementById("output");
+	    outputDiv.innerHTML = html;
 
-    // Only apply syntax highlighting to actual code blocks
-    outputDiv.querySelectorAll("pre code").forEach((block) => {
-        hljs.highlightElement(block);
-    });
+	    // Apply syntax highlighting
+		outputDiv.querySelectorAll("pre code").forEach((block) => {
+			//block.classList.add("language-ruby"); // Change to "language-yaml" or "language-json" if needed
+	        hljs.highlightElement(block);
+	    });
+	    
+    } catch (error) {
+        console.error("Error loading markdown:", error);
+    }
 });
 /*document.addEventListener("DOMContentLoaded", function () {
     var converter = new showdown.Converter();

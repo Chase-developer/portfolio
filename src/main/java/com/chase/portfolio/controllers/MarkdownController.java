@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import io.vavr.collection.HashMap;
 
 @Controller
-public class ReportController {
+public class MarkdownController {
 	
 	private static Entry<String, String> entry(String name, String title)
 	{
@@ -42,11 +42,11 @@ public class ReportController {
     @GetMapping("/htb/{reportName}")
     public String htb(@PathVariable("reportName") String reportName, Model model) {
     	if (!Reports.containsKey(reportName)) {
-            return "error/404"; // Return a safe error page
+            return "error"; // Return a safe error page
         }
     	String reportTitle = Reports.get(reportName).get();
         model.addAttribute("reportTitle", reportTitle); // Dynamic title
         model.addAttribute("reportFile", "/texts/" + reportName + ".txt"); // Dynamic file URL
-        return "htb/markdown_report";
+        return "markdown";
     }
 }

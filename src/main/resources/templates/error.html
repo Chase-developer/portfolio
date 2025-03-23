@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+	<link rel="stylesheet" th:href="@{/css/waveform.css}">
+	<link rel="stylesheet" th:href="@{/css/navutils.css}">
+	<link rel="stylesheet" th:href="@{/css/badges.css}">
+	<link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+<body>
+	<div class="background"></div>
+	<canvas id="waveCanvas"></canvas>
+	<div th:replace="fragments/main_nav :: header_nav"></div>
+	
+	<img th:src="@{/images/error.png}">
+	<p id="titlecenter" class="title">Error</p>
+	
+    
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <p>Reach out via email gamerbrine1122@gmail.com</p>
+    </section>
+	<script th:src="@{/js/waveform.js}"></script>
+	<script th:src="@{/js/badges.js}"></script>
+	<script th:src="@{/js/textformat.js}"></script>
+</body>
+</html>
+
+

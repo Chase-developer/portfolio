@@ -3,64 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Chase's Portfolio</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 	<link rel="stylesheet" th:href="@{/css/waveform.css}">
-	<link rel="stylesheet" th:href="@{/css/navbar.css}">
+	<link rel="stylesheet" th:href="@{/css/navutils.css}">
 	<link rel="stylesheet" th:href="@{/css/badges.css}">
 	<link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
 <body>
 	<div class="background"></div>
 	<canvas id="waveCanvas"></canvas>
+	<div th:replace="fragments/main_nav :: header_nav"></div>
+	<div class="quote-container">
+		<div class="quote">
+			<span id="quote-one"></span><span id="cursor-one" class="text-cursor">|</span><br>
+			<span id="quote-two" style="margin-top: 30px;"></span><span id="cursor-two" class="text-cursor" style="display: none;">|</span>
+		</div>
+    </div>
+	<div class="intro-container">
+		<img th:src="@{/images/chaselogo.png}" class="intro-image">
+		<div id="intro">
+		    <p id="titleleft" class="intro-desc">👋 Hi! My name is <span class="name">Chase</span>. 
+				Welcome to my portfolio website!<br>
+				<br>I am a self-taught 
+				<span class="fullstack">Full-Stack Developer</span> with strong 
+				<span class="cybersecurity">Cybersecurity</span>, 
+					<span class="devops">DevOps & Cloud</span> skills. <br>
+				<br>I have a deep passion for learning and a natural ability to pick up new skills quickly, 
+				allowing me to adapt and grow in any technical environment.
+				<br><br>Nice to meet you! 😁
+			</p>
+		</div>
+	</div>
 	
-    <header>
-		
-		<div class="navbar">
-			<div class="nav-left">
-		        <div class="logo">CHASE-DEVELOPER</div>
-				<img th:src="@{/images/chaselogo.png}" class="icon">
-		    </div>
-		    
-		    <div class="nav-center">
-		        <div class="nav-links">
-		            <a href="#about" class="nav-item">About</a>
-		            <a href="#projects" class="nav-item">Projects</a>
-		            <a href="#contact" class="nav-item">Contact</a>
-		        </div>
-		    </div>
 
-		    <div class="nav-right">
-		        <div class="social-icons">
-		            <a href="https://www.linkedin.com/in/leng-jia-yong-609689346/"><img th:src="@{/images/linkedin.png}" class="icon"></div> </a>
-		            <a href="https://github.com/Chase-developer"><img th:src="@{/images/github.png}" class="icon"></div></a>
-		        </div>
-		    </div>
-	    </div>
-		<div class="oracle">
-		    <div class="oracle-badge">
-				<span>Powered by Oracle Cloud</span>
-		        <img th:src="@{/images/poweredbyOracle.png}">
-		        
-		    </div>
-		</div>
-		<div class="intro-container">
-			<img th:src="@{/images/chaselogo.png}" class="intro-image">
-			<div id="intro">
-			    <p id="titleleft" class="intro-desc">👋 Hi! My name is <span class="name">Chase</span>. 
-					Welcome to my portfolio website!<br>
-					<br>I am a self-taught 
-					<span class="fullstack">Full-Stack Developer</span> with strong 
-					<span class="cybersecurity">Cybersecurity</span>, 
-						<span class="devops">DevOps & Cloud</span> skills. <br>
-					<br>I have a deep passion for learning and a natural ability to pick up new skills quickly, 
-					allowing me to adapt and grow in any technical environment.
-					<br><br>Nice to meet you! 😁
-				</p>
-			</div>
-		</div>
-		
-    </header>
 	<section id="badges">
 		<p id="titlecenter" class="title">Badges & Certificates</p>
 		<div class="badge-container">
@@ -68,7 +44,7 @@
 		        <img id="bigBadge" th:src="@{/images/{img}(img=${badges[0].image})}" th:alt="${badges[0].name}">
 		        <h2 id="badgeTitle" th:text="${badges[0].name}"></h2>
 		        <p id="badgeDescription" th:text="${badges[0].description}"></p>
-				<a id="badgeVerify" th:href="${badges[0].verifyLink}" target="_blank">VERIFY</a>
+				<a id="badgeVerify" th:href="${badges[0].verifyLink}" target="_blank" class="link">VERIFY</a>
 		    </div>
 	
 		    <div class="badge-list">
@@ -219,6 +195,7 @@
 	<script th:src="@{/js/waveform.js}"></script>
 	<script th:src="@{/js/badges.js}"></script>
 	<script th:src="@{/js/textformat.js}"></script>
+	<script th:src="@{/js/typewriter.js}"></script>
 </body>
 </html>
 

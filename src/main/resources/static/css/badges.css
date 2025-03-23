@@ -35,16 +35,9 @@
 }
 
 #badgeVerify {
-    display: block;  /* Ensures it appears below the description */
-    color: blue;
-    text-decoration: underline;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
 	font-weight: bold;
-}
-
-#badgeVerify:hover {
-    color: darkblue;
 }
 
 #badgeTitle {

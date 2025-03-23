@@ -4,16 +4,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 import java.util.stream.Collectors;
-
-import com.chase.portfolio.services.OCIStorageService;
 
 public class TestMain {
 	
 	public static void main(String[] args)
 	{
-		OCIStorageService api = OCIStorageService.setupAPI();
+		//https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/n8Jx6sJrWkJCi5q4pVrL5adXHpDzUuQAMXdr4qsaI-F1X_zJefk8CKW5VFvo8ws5/n/frcxzo8ihnil/b/portfolio-bucket/o/images/amazon.png
+		String fullUrl = String.format("https://objectstorage.%s.oraclecloud.com/p/%s/n/%s/b/%s/o/%s",
+                "eu-frankfurt-1", "n8Jx6sJrWkJCi5q4pVrL5adXHpDzUuQAMXdr4qsaI-F1X_zJefk8CKW5VFvo8ws5", 
+                "frcxzo8ihnil", "portfolio-bucket", "images/amazon.png");
+		System.out.println(fullUrl);
+		//OCIStorageService api = OCIStorageService.setupAPI();
 		
 		//File file = OCIStorageAPI.getResourceFile("static/images/amazon.png");
 		//InputStream is = OCIStorageAPI.getResourceStream(file);
@@ -22,14 +24,14 @@ public class TestMain {
 		 * https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/n8Jx6sJrWkJCi5q4pVrL5adXHpDzUuQAMXdr4qsaI-F1X_zJefk8CKW5VFvo8ws5/n/frcxzo8ihnil/b/portfolio-bucket/o/images/amazon.png
 		 */
 		//api.clearPreAuthURLs();
-		Scanner scanner = new Scanner(System.in);
-		int i = 1;
-		while (i != -1)
-		{
-			i = scanner.nextInt();
-		}
-		api.close();
-		scanner.close();
+//		Scanner scanner = new Scanner(System.in);
+//		int i = 1;
+//		while (i != -1)
+//		{
+//			i = scanner.nextInt();
+//		}
+//		//api.close();
+//		scanner.close();
 		//OCIStorageAPI.getTest();
 	}
 	

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.chase.portfolio.services.OCIStorageService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
  * This was supposed to work natively, but I don't know why it doesn't. So had to add this manully
  */
@@ -85,30 +87,58 @@ public class StaticDirectoryController {
 	}
 
     
-    @GetMapping("/css/{fileName:.+\\.css}")
-    public ResponseEntity<byte[]> getCssFile(@PathVariable("fileName") String fileName) throws IOException {
-        // Prevent path traversal
-    	if (!fileName.matches("^[a-zA-Z0-9._-]+\\.css$")) {
+//    @GetMapping("/css/{fileName:.+\\.css}")
+//    public ResponseEntity<byte[]> getCssFile(@PathVariable("fileName") String fileName) throws IOException {
+//        // Prevent path traversal
+//    	if (!fileName.matches("^[a-zA-Z0-9._-]+\\.css$")) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//        }
+//
+//        // Load the CSS file from classpath
+//        Resource resource = new ClassPathResource("static/css/" + fileName);
+//
+//        if (!resource.exists()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//
+//        // Read file content
+//        Path path = resource.getFile().toPath();
+//        byte[] cssContent = Files.readAllBytes(path);
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add(HttpHeaders.CONTENT_TYPE, "text/css");
+//        headers.add("X-Content-Type-Options", "nosniff");
+//       
+//        return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
+//    }
+    
+    @GetMapping("/css/**")
+    public ResponseEntity<byte[]> getCssFile(HttpServletRequest request) throws IOException {
+        // Extract the CSS file path after "/css/"
+        String filePath = request.getRequestURI().replaceFirst("/css/", "");
+
+        // Prevent path traversal attacks
+        if (!filePath.matches("^[a-zA-Z0-9/_\\.-]+\\.css$")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        // Load the CSS file from classpath
-        Resource resource = new ClassPathResource("static/css/" + fileName);
+        // Load the CSS file from the static directory
+        Resource resource = new ClassPathResource("static/css/" + filePath);
 
         if (!resource.exists()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         // Read file content
-        Path path = resource.getFile().toPath();
-        byte[] cssContent = Files.readAllBytes(path);
+        byte[] cssContent = Files.readAllBytes(resource.getFile().toPath());
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "text/css");
         headers.add("X-Content-Type-Options", "nosniff");
-       
+
         return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
     }
+
     
     @GetMapping("/texts/{fileName:.+\\.txt}")
     public ResponseEntity<byte[]> getTextFile(@PathVariable("fileName") String fileName) throws IOException {

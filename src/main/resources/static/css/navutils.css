@@ -115,6 +115,46 @@
 	margin-right: 10px;
 }
 
+.toggle-content {
+	display: block;
+    padding: 10px;
+    transition: max-height 0.3s ease-out;
+}
+
+.toggle-content.show {
+    display: none;
+}
+
+.toggle-btn {
+	font: inherit;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 10px;
+    display: flex;
+    align-items: left;
+    gap: 8px;
+}
+
+.triangle {
+    display: inline-block;
+}
+
+.arrow-icon {
+    width: 16px;
+    height: 16px;
+    transition: opacity 0.3s ease;
+}
+
+.hidden {
+    display: none; /* Hides the inactive image */
+}
+
+
 .tab-title {
 	font-size: 24px; /* Shared styles */
     font-weight: bold;
@@ -170,6 +210,11 @@
 .icon {
     width: 36px;
     height: 36px;
+	transition: filter 0.3s ease-in-out;
+}
+
+.icon:hover {
+    filter: invert(56%) sepia(48%) saturate(288%) hue-rotate(180deg); /* Adjusted to #4A90E2 */
 }
 
 .nav-top {
@@ -177,6 +222,14 @@
 	flex-direction: column; /* Stack elements vertically */
     align-items: center; /* Center align the elements */
     text-align: center;
+	width: 300px;
+}
+
+.nav-wiki {
+	display: flex;
+	flex-direction: column; /* Stack elements vertically */
+    align-items: left; /* Center align the elements */
+    text-align: left;
 	width: 300px;
 }
 

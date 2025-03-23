@@ -26,7 +26,7 @@ public class SecurityConfig {
 				.disable());
 		http.authorizeHttpRequests((authorize) -> 
 			authorize
-				.requestMatchers(HttpMethod.GET, "/", "/**", "/htb/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/", "/error", "/htb/**").permitAll()
 				.requestMatchers(HttpMethod.GET, StaticCalls).permitAll()
 				//.requestMatchers("/actuator/**").permitAll()
 				//.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()

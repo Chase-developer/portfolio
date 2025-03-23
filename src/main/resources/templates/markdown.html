@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+	<link rel="stylesheet" th:href="@{/css/styles.css}">
+	<link rel="stylesheet" th:href="@{/css/waveform.css}">
+	<link rel="stylesheet" th:href="@{/css/navutils.css}">
+	<link rel="stylesheet" th:href="@{/css/badges.css}">
+	<title th:text="${reportTitle}">Default Title</title>
+</head>
+<body>
+	<div class="background"></div>
+	<canvas id="waveCanvas"></canvas>
+	<div th:replace="fragments/main_nav :: header_nav"></div>
+	<p id="titlecenter" class="title" th:text="${reportTitle}"></p>
+	<div class="tab-wiki-container">
+		<div class="tab-wiki">
+		    <div class="content">
+		    
+		
+			    <!-- Raw Markdown (Hidden) -->
+				<textarea id="raw-text" th:data-src="@{${reportFile}}" style="display:none;"></textarea>
+					
+			    </textarea>
+		
+	
+		    <!-- Rendered Markdown -->
+				<div id="output" class="tab-markdown"></div>
+			</div>
+		    <div class="navigation">
+				<div class="tab-block">
+					<div class="nav-wiki">
+						<button class="toggle-btn" onclick="toggleContent()">
+							<span id="triangle" class="triangle">
+								<img id="arrow-down" th:src="@{/images/arrowdown.png}" alt="Arrow Down" class="arrow-icon">
+							    <img id="arrow-right" th:src="@{/images/arrowright.png}" alt="Arrow Right" class="arrow-icon hidden">
+							</span>
+							HackTheBox Reports
+					    </button>
+					    <div id="rollDownSection" class="toggle-content">
+							<a th:href=@{/htb/lockpick} class="link">Sherlock - Lockpick</a>
+				            <a th:href=@{/htb/escapetwo} class="link">Machine - EscapeTwo</a>
+				            <a th:href=@{/htb/brutus} class="link">Sherlock - Brutus</a>
+					
+					    </div>
+					</div>
+				</div>
+		    </div>
+		</div>
+	</div>
+	
+	<section id="contact">
+        <h2>Contact Me</h2>
+        <p>Reach out via email gamerbrine1122@gmail.com</p>
+    </section>
+	<script th:src="@{/js/waveform.js}"></script>
+	<script th:src="@{/js/badges.js}"></script>
+	<script th:src="@{/js/textformat.js}"></script>
+	<script>
+		function toggleContent() {
+            let content = document.getElementById("rollDownSection");
+            let triangle = document.getElementById("triangle");
+
+			let downArrow = document.getElementById("arrow-down");
+		    let rightArrow = document.getElementById("arrow-right");
+
+		    // Toggle visibility
+		    downArrow.classList.toggle("hidden");
+		    rightArrow.classList.toggle("hidden");
+			
+            content.classList.toggle("show");
+        }
+    </script>
+	<script th:src="@{/js/markdown.js}"></script>
+	
+	
+</body>
+</html>
+
