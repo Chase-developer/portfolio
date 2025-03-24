@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		        index++;
 		        setTimeout(typeWriter2, 50);
 		    } else {
-		        cursor2El.style.display = "none"; // Hide cursor when done
+		        //cursor2El.style.display = "none"; // Hide cursor when done
 		        //setTimeout(() => {
 		           // authorEl.style.opacity = "1"; // Fade in author name
 		        //}, 500);

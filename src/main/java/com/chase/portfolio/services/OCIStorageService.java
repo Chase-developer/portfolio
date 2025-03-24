@@ -111,6 +111,14 @@ public class OCIStorageService {
 		{
 			resources.add("images/" + file);
 		}
+		for (String file : getDirResources("static/images/badge"))
+		{
+			resources.add("images/badge/" + file);
+		}
+		for (String file : getDirResources("static/images/logo"))
+		{
+			resources.add("images/logo/" + file);
+		}
 		for (String file : getDirResources("static/fonts"))
 		{
 			resources.add("fonts/" + file);
@@ -220,10 +228,14 @@ public class OCIStorageService {
         	HashSet<String> files = getCloudResources();
     		for (String local_file : getLocalResources())
     		{
+    			logger.info("Local File = " + local_file);
     			if (files.contains(local_file))
     				continue;
     			File file = getResourceFile("static/" + local_file);
+    			if (file.isDirectory())
+    				continue;
         		uploadResource(local_file, getResourceStream(file), file.length());
+        		logger.info("Successfully Uploaded");
     		}
     		logger.info("Uploaded Resources To Bucket");
     		clearPreAuthURLs();
@@ -246,8 +258,20 @@ public class OCIStorageService {
         }
 	}
 	
-	//summary.getAccessUri(), summary.getTimeExpires().getMillis()
-	//https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/n8Jx6sJrWkJCi5q4pVrL5adXHpDzUuQAMXdr4qsaI-F1X_zJefk8CKW5VFvo8ws5/n/frcxzo8ihnil/b/portfolio-bucket/o/images/amazon.png
+//	private void getObjectPreAuth(String objectname, String parId)
+//	{
+//		GetPreauthenticatedRequestRequest request = GetPreauthenticatedRequestRequest.builder()
+//                .namespaceName(Bucket_Namespace)
+//                .bucketName(Bucket_Name)
+//                .parId(parId)  // The ID of the pre-authenticated request
+//                .build();
+//
+//        GetPreauthenticatedRequestResponse response = client.getPreauthenticatedRequest(request);
+//        response.getPreauthenticatedRequest().
+//	}
+//	
+//	//summary.getAccessUri(), summary.getTimeExpires().getMillis()
+//	//https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/n8Jx6sJrWkJCi5q4pVrL5adXHpDzUuQAMXdr4qsaI-F1X_zJefk8CKW5VFvo8ws5/n/frcxzo8ihnil/b/portfolio-bucket/o/images/amazon.png
 //	private void fetchPreAuthURLs(HashSet<String> objects) {
 //	    min_hours_left = 23;
 //	    try {
@@ -262,6 +286,7 @@ public class OCIStorageService {
 //	        for (PreauthenticatedRequestSummary summary : response.getItems()) {
 //	        	if (objects.contains(summary.getObjectName()))
 //	        	{
+//	        		
 //	        		String url = String.format("https://objectstorage.%s.oraclecloud.com/p/%s/n/%s/b/%s/o/%s",
 //	                        Bucket_Region, summary.getId().split(":")[0], Bucket_Namespace, Bucket_Name, summary.getObjectName());
 //	        		preAuthUrls.put(summary.getObjectName(), 
@@ -315,6 +340,7 @@ public class OCIStorageService {
 		{
 			if (preAuthUrls.containsKey(local_file))
 				continue;
+			logger.info("Create File URL = " + local_file);
 			preAuthUrls.put(local_file, generatePreAuthUrl(local_file));
 		}
 		logger.info("Finished Generation of Pre-Auth URLs");

@@ -3,42 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-	<p th:text="'Thymeleaf is working!'"></p>
+    <title>Chase's Portfolio</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+	<link rel="stylesheet" th:href="@{/css/waveform.css}">
+	<link rel="stylesheet" th:href="@{/css/navutils.css}">
+	<link rel="stylesheet" th:href="@{/css/badges.css}">
+	<link rel="stylesheet" th:href="@{/css/skills.css}">
+	<link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
 <body>
-    <header>
-        <nav>
-            <h1>My Portfolio</h1>
-            <ul>
-				<li><button onclick="location.href='#about'">About</button></li>
-				<li><button onclick="location.href='#projects'">Projects</button></li>
-				<li><button onclick="location.href='#contact'">Contact</button></li>
-                
-            </ul>
-        </nav>
-    </header>
-    
-    <section id="about">
-        <h2>About Me</h2>
-        <p>Welcome to my portfolio! I specialize in cybersecurity and software development.</p>
-    </section>
+	<div class="background"></div>
+	<canvas id="waveCanvas"></canvas>
+	<div th:replace="fragments/main_nav :: header_nav"></div>
+	<div class="quote-container">
+		<div class="quote">
+			<span id="quote-one"></span><span id="cursor-one" class="text-cursor">|</span><br>
+			<span id="quote-two" style="margin-top: 30px;"></span><span id="cursor-two" class="text-cursor" style="display: none;">|</span>
+		</div>
+    </div>
+	<div class="intro-container">
+		<img th:src="@{/images/chaselogo.png}" class="intro-image">
+		<div id="intro">
+		    <p id="titleleft" class="intro-desc">👋 Hi! My name is <span class="name">Chase</span>. 
+				Welcome to my portfolio website!<br>
+				<br>I am a self-taught 
+				<span class="fullstack">Full-Stack Developer</span> with strong 
+				<span class="cybersecurity">Cybersecurity</span>, 
+					<span class="devops">DevOps & Cloud</span> skills. <br>
+				<br>I have a deep passion for learning and a natural ability to pick up new skills quickly, 
+				allowing me to adapt and grow in any technical environment.
+				<br><br>Nice to meet you! 😁
+			</p>
+		</div>
+	</div>
+	
+
+	<section id="badges">
+		<p id="titlecenter" class="title">Badges & Certificates</p>
+		<div class="badge-container">
+		    <div class="badge-showcase">
+		        <img id="bigBadge" th:src="@{/images/{img}(img=${badges[0].image})}" th:alt="${badges[0].name}">
+		        <h2 id="badgeTitle" th:text="${badges[0].name}"></h2>
+		        <p id="badgeDescription" th:text="${badges[0].description}"></p>
+				<a id="badgeVerify" th:href="${badges[0].verifyLink}" target="_blank" class="link">VERIFY</a>
+		    </div>
+	
+		    <div class="badge-list">
+		        <div class="badge-item" th:each="badge : ${badges}">
+		            <img class="small-badge"
+		                 th:src="@{/images/{img}(img=${badge.image})}" 
+		                 th:alt="${badge.name}"
+		                 th:data-name="${badge.name}"
+		                 th:data-desc="${badge.description}"
+						 th:data-verify="${badge.verifyLink}">
+		            <p th:text="${badge.name}"></p>
+		        </div>
+		    </div>
+		</div>
+	</section>
+	<section id ="technical">
+		<p id="titlecenter" class="title">Technical Skillsets<br>
+		Open to learning new technologies as needed</p>
+		<div class="tab-container">
+			<div class="tab-block">
+				<div class="nav-top">
+					<img th:src="@{/images/code.png}" class="tab-icon">
+			        <div class="tab-title">Full-Stack Development</div>
+					
+					<div class="skill-list">
+				        <div class="skill-item" th:each="skill : ${fullstack}">
+				            <img th:src="@{/images/{img}(img=${skill.image})}" 
+				                 th:alt="${skill.name}">
+				            <p th:text="${skill.name}"></p>
+				        </div>
+				    </div>
+					
+					<div class="tab-section">
+						<div class="section-row">
+							<div class="section-title">Languages</div>
+							<div class="section-desc">
+								JavaScript, HTML, CSS<br>
+								Python, Java, C++
+							</div>
+						</div>
+						<div class="section-row">
+							<div class="section-title">Framework & Tools</div>
+							<div class="section-desc">
+								Github, Gradle, Maven<br>
+								Eclipse, IntelliJ IDEA, Visual Studio<br>
+								VS Code<br>
+								JUnit, Spring Boot, Spring Security
+								Thymeleaf, JPA, MyBatis, JDBC<br>
+								SQL, NoSQL<br>
+							</div>
+						</div>
+					</div>
+			    </div>
+		    </div>
+			<div class="tab-block">
+				<div class="nav-top">
+					<img th:src="@{/images/lock.png}" class="tab-icon">
+					<div class="tab-title">Cybersecurity</div>
+					<div class="tab-section">
+						<div class="section-row">
+							<div class="section-title">Web App</div>
+							<div class="section-desc">
+								SQL Injection, XSS,<br>
+								CSRF, OWASP Top 10
+							</div>
+						</div>
+						<div class="section-row">
+							<div class="section-title">Pen Testing</div>
+							<div class="section-desc">
+								Reverse Shell,<br>
+								ExpoitDB, LFI,<br>
+								Metasploit, Burp Suite
+							</div>
+						</div>
+						<div class="section-row">
+							<div class="section-title">Secure Coding</div>
+							<div class="section-desc">
+								Input Validation/Sanitization,<br>
+								SSL/TLS, Authentication<br>
+							</div>
+						</div>
+						<div class="section-row">
+							<div class="section-title">Threat Analysis</div>
+							<div class="section-desc">
+								Splunk, SIEM tools<br>
+							</div>
+						</div>
+						<div class="section-row">
+							<div class="section-title">Incident Response</div>
+							<div class="section-desc">
+								Forensics, Threat hunting,<br>
+								Mitigation Strategies,<br>
+								Playbooks
+							</div>
+						</div>
+						<div class="section-row">
+							<div class="section-title">Cryptography</div>
+							<div class="section-desc">
+								Hashing, AES, RSA<br>
+								Digital Signatures
+							</div>
+						</div>
+					</div>
+			    </div>
+		    </div>
+			<div class="tab-block">
+				<div class="nav-top">
+					<img th:src="@{/images/cloud.png}" class="tab-icon">
+			        <div class="tab-title">DevOps & Cloud</div>
+					<div class="tab-section">
+						<div class="section-row">
+							<div class="section-title">DevOps</div>
+							<div class="section-desc">
+								Github Actions, Automatic Deployment<br>
+								Docker, Kubernetes 
+							</div>
+						</div>
+						<div class="section-row">
+							<div class="section-title">Cloud Computing</div>
+							<div class="section-desc">
+								Oracle Cloud, OCI Containers<br>
+								OCI Compute, Block Volumes<br>
+								Identity & Access Management<br>
+								API Gateway
+								<br>
+							</div>
+						</div>
+					</div>
+			    </div>
+		    </div>
+		</div>
+	</section>
     
     <section id="projects">
-        <h2>Projects</h2>
-        <div class="project">
-            <h3>Project Name</h3>
-            <p>Description of the project.</p>
-        </div>
+		<p id="titlecenter" class="title">Projects<br>
+		<div class="tab-container">
+			<div class="tab-block">
+				<div class="nav-top">
+			        <div class="tab-title">Portfolio Website</div>
+					<div class="tab-section">
+						<p class="section-desc">
+							The website you are on right now!
+						</p>
+						<a href="" class="section-desc">
+							Source Code
+						</a>
+					</div>
+			    </div>
+		    </div>
+		</div>
     </section>
     
     <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: example@example.com</p>
-        <p>LinkedIn: <a href="#">My Profile</a></p>
+        <h2>Contact Me</h2>
+        <p>Reach out via email gamerbrine1122@gmail.com</p>
     </section>
-    
+	<script th:src="@{/js/waveform.js}"></script>
+	<script th:src="@{/js/badges.js}"></script>
+	<script th:src="@{/js/textformat.js}"></script>
+	<script th:src="@{/js/typewriter.js}"></script>
 </body>
 </html>
+
 

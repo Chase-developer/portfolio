@@ -3,8 +3,6 @@ const ctx = canvas.getContext('2d');
 
 let dots = [];
 let waves = []; // Store active waves
-const wavePool = []; // Queue of reusable waves
-const waveExpiryTime = 5000; // 5 seconds before a wave is permanently discarded
 const dotSpacing = 30;
 const maxWaveRadius = 800; // Max travel distance before fading
 const waveSpeed = 3; // How fast the wave expands
@@ -43,7 +41,7 @@ function drawDots() {
     ctx.fillStyle = "white";
 
     dots.forEach(dot => {
-        if (!dot.active) return; // Skip inactive dots
+        if (!dot.active && dot.opacity <= baseOpacity) return; // Skip inactive dots
 
         ctx.beginPath();
         ctx.globalAlpha = dot.opacity;
@@ -60,84 +58,23 @@ function drawDots() {
     ctx.globalAlpha = 1; // Reset transparency
 }
 
+function updateWaves() {
+    waves.forEach(wave => {
+        wave.radius += waveSpeed; // Expand the wave
+        wave.opacity -= waveFadeSpeed * 2; // Decrease wave intensity
+    });
 
+    // Remove fully faded waves
+    waves = waves.filter(wave => wave.opacity > 0);
+}
 
 function handleMouseMove(event) {
-    isIdle = false;
-    resetInactivityTimer();
-
-    const { clientX, clientY } = event;
-
-    // Prevent adding duplicate waves at the same position
-    if (waves.length > 0) {
-        const lastWave = waves[waves.length - 1];
-        if (lastWave.x === clientX && lastWave.y === clientY) {
-            return; // Skip adding if it's the same position
-        }
-    }
-
-    // Try to reuse a wave from the pool
-    let wave;
-    if (wavePool.length > 0) {
-        wave = wavePool.pop(); // Reuse a wave
-        wave.x = clientX;
-        wave.y = clientY;
-        wave.radius = 0;
-        wave.opacity = 1.0;
-        wave.timestamp = Date.now(); // Reset timestamp
-    } else {
-        // No available wave, create a new one
-        wave = { x: clientX, y: clientY, radius: 0, opacity: 1.0, timestamp: Date.now() };
-    }
-
-    waves.push(wave);
+	isIdle = false;
+	resetInactivityTimer(); // Reset idle timer
+    // Create a new expanding wave
+	const { clientX, clientY } = event;
+    waves.push({ x: clientX, y: clientY, radius: 0, opacity: 1.0 });
 }
-
-function createRandomWave() {
-    if (isIdle) {
-        const randomX = Math.random() * canvas.width;
-        const randomY = Math.random() * canvas.height;
-
-        let wave;
-        if (wavePool.length > 0) {
-            wave = wavePool.pop();
-            wave.x = randomX;
-            wave.y = randomY;
-            wave.radius = 0;
-            wave.opacity = 1.0;
-            wave.timestamp = Date.now();
-        } else {
-            wave = { x: randomX, y: randomY, radius: 0, opacity: 1.0, timestamp: Date.now() };
-        }
-
-        waves.push(wave);
-    }
-}
-
-function updateWaves() {
-    const now = Date.now();
-
-    waves.forEach(wave => {
-        wave.radius += waveSpeed;
-        wave.opacity -= waveFadeSpeed * 2;
-		//wave.opacity -= waveFadeSpeed * (1 - wave.opacity);
-    });
-
-    // Filter out active waves, move expired ones to the pool
-    waves = waves.filter(wave => {
-		
-        if (wave.opacity > 0) return true; // Keep active waves
-
-        // If the wave hasn't expired, move it to the pool
-        if (now - wave.timestamp < waveExpiryTime) {
-            wavePool.push(wave);
-        }
-        
-        return false; // Remove from waves list
-    });
-}
-
-
 
 function applyWaveEffects() {
     dots.forEach(dot => {
@@ -148,12 +85,11 @@ function applyWaveEffects() {
         for (const wave of waves) {
             const dx = dot.x - wave.x;
             const dy = dot.y - wave.y;
-            const distanceSquared = dx * dx + dy * dy; // No sqrt
-            const radiusSquared = wave.radius * wave.radius; // Square radius for comparison
+            const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distanceSquared < radiusSquared) {
+            if (distance < wave.radius) {
                 dot.active = true;
-                let effectStrength = wave.opacity * (1 - distanceSquared / radiusSquared); // Stronger near wave center
+                let effectStrength = wave.opacity * (1 - distance / wave.radius); // Stronger near wave center
                 maxEffect = Math.max(maxEffect, effectStrength);
             }
         }
@@ -169,7 +105,13 @@ function applyWaveEffects() {
     });
 }
 
-
+function createRandomWave() {
+    if (isIdle) {
+        const randomX = Math.random() * canvas.width;
+        const randomY = Math.random() * canvas.height;
+        waves.push({ x: randomX, y: randomY, radius: 0, opacity: 1.0 });
+    }
+}
 
 function resetInactivityTimer() {
     clearTimeout(inactivityTimer);
@@ -192,7 +134,6 @@ resizeCanvas();
 animate();
 
 setInterval(createRandomWave, 250);
-
 
 
 

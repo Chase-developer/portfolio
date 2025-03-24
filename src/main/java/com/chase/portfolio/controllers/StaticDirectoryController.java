@@ -188,32 +188,45 @@ public class StaticDirectoryController {
         return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
     }
     
-    @GetMapping("/images/{fileName:.+\\.png}")
-    public ResponseEntity<byte[]> getPngFile(@PathVariable("fileName") String fileName) throws IOException {
-        // Prevent path traversal
-    	if (!fileName.matches("^[a-zA-Z0-9._-]+\\.png$")) {
+    @GetMapping("/images/**")
+    public ResponseEntity<byte[]> getPngFile(HttpServletRequest request) throws IOException {
+        // Extract the CSS file path after "/css/"
+        String filePath = request.getRequestURI().replaceFirst("/images/", "");
+
+        // Prevent path traversal attacks
+        if (!filePath.matches("^[a-zA-Z0-9/_\\.-]+\\.png$")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        Resource resource = new ClassPathResource("static/images/" + fileName);
+        // Load the CSS file from the static directory
+        Resource resource = new ClassPathResource("static/images/" + filePath);
 
         if (!resource.exists()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         
         return ResponseEntity.status(HttpStatus.FOUND)
-                .header(HttpHeaders.LOCATION, storage_service.getPreAuthURL("images/" + fileName))
+                .header(HttpHeaders.LOCATION, storage_service.getPreAuthURL("images/" + filePath))
                 .build();
-
-        // Read file content
-//        Path path = resource.getFile().toPath();
-//        byte[] cssContent = Files.readAllBytes(path);
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add(HttpHeaders.CONTENT_TYPE, "image/png");
-//        headers.add("X-Content-Type-Options", "nosniff");
-//        return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
     }
+    
+//    @GetMapping("/images/{fileName:.+\\.png}")
+//    public ResponseEntity<byte[]> getPngFile(@PathVariable("fileName") String fileName) throws IOException {
+//        // Prevent path traversal
+//    	if (!fileName.matches("^[a-zA-Z0-9._-]+\\.png$")) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//        }
+//
+//        Resource resource = new ClassPathResource("static/images/" + fileName);
+//
+//        if (!resource.exists()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//        
+//        return ResponseEntity.status(HttpStatus.FOUND)
+//                .header(HttpHeaders.LOCATION, storage_service.getPreAuthURL("images/" + fileName))
+//                .build();
+//    }
     
     @GetMapping("/js/{fileName:.+\\.js}")
     public ResponseEntity<byte[]> getJsFile(@PathVariable("fileName") String fileName) throws IOException {

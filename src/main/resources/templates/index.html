@@ -4,22 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chase's Portfolio</title>
+	<link rel="icon" th:href="@{/images/chasefavicon.png}" type="image/x-icon">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 	<link rel="stylesheet" th:href="@{/css/waveform.css}">
 	<link rel="stylesheet" th:href="@{/css/navutils.css}">
 	<link rel="stylesheet" th:href="@{/css/badges.css}">
+	<link rel="stylesheet" th:href="@{/css/skills.css}">
 	<link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
 <body>
 	<div class="background"></div>
 	<canvas id="waveCanvas"></canvas>
 	<div th:replace="fragments/main_nav :: header_nav"></div>
-	<div class="quote-container">
-		<div class="quote">
-			<span id="quote-one"></span><span id="cursor-one" class="text-cursor">|</span><br>
-			<span id="quote-two" style="margin-top: 30px;"></span><span id="cursor-two" class="text-cursor" style="display: none;">|</span>
-		</div>
-    </div>
+	<div class="profile-container">
+		<div class="pfp-container">
+			<img class="pfp-border" th:src="@{/images/profileborder.png}">
+			<img class="pfp" th:src="@{/images/face.png}">
+	    </div>
+		<div class="quote-container">
+			<div class="quote">
+				<span id="quote-one"></span><span id="cursor-one" class="text-cursor">|</span><br>
+				<span id="quote-two" style="margin-top: 30px;"></span><span id="cursor-two" class="text-cursor" style="display: none;">|</span>
+			</div>
+			<p class="role">Leng Jia Yong | Full-Stack DevSecOps Engineer<p>
+	    </div>
+	</div>
 	<div class="intro-container">
 		<img th:src="@{/images/chaselogo.png}" class="intro-image">
 		<div id="intro">
@@ -68,102 +77,42 @@
 				<div class="nav-top">
 					<img th:src="@{/images/code.png}" class="tab-icon">
 			        <div class="tab-title">Full-Stack Development</div>
-					<div class="tab-section">
-						<div class="section-row">
-							<div class="section-title">Languages</div>
-							<div class="section-desc">
-								JavaScript, HTML, CSS<br>
-								Python, Java, C++
-							</div>
-						</div>
-						<div class="section-row">
-							<div class="section-title">Framework & Tools</div>
-							<div class="section-desc">
-								Github, Gradle, Maven<br>
-								Eclipse, IntelliJ IDEA, Visual Studio<br>
-								VS Code<br>
-								JUnit, Spring Boot, Spring Security
-								Thymeleaf, JPA, MyBatis, JDBC<br>
-								SQL, NoSQL<br>
-							</div>
-						</div>
-					</div>
+					
+					<div class="skill-list">
+				        <div class="skill-item" th:each="skill : ${fullstack}">
+				            <img th:src="@{/images/{img}(img=${skill.image})}" 
+				                 th:alt="${skill.name}">
+				            <p th:text="${skill.name}"></p>
+				        </div>
+				    </div>
 			    </div>
 		    </div>
 			<div class="tab-block">
 				<div class="nav-top">
 					<img th:src="@{/images/lock.png}" class="tab-icon">
 					<div class="tab-title">Cybersecurity</div>
-					<div class="tab-section">
-						<div class="section-row">
-							<div class="section-title">Web App</div>
-							<div class="section-desc">
-								SQL Injection, XSS,<br>
-								CSRF, OWASP Top 10
-							</div>
-						</div>
-						<div class="section-row">
-							<div class="section-title">Pen Testing</div>
-							<div class="section-desc">
-								Reverse Shell,<br>
-								ExpoitDB, LFI,<br>
-								Metasploit, Burp Suite
-							</div>
-						</div>
-						<div class="section-row">
-							<div class="section-title">Secure Coding</div>
-							<div class="section-desc">
-								Input Validation/Sanitization,<br>
-								SSL/TLS, Authentication<br>
-							</div>
-						</div>
-						<div class="section-row">
-							<div class="section-title">Threat Analysis</div>
-							<div class="section-desc">
-								Splunk, SIEM tools<br>
-							</div>
-						</div>
-						<div class="section-row">
-							<div class="section-title">Incident Response</div>
-							<div class="section-desc">
-								Forensics, Threat hunting,<br>
-								Mitigation Strategies,<br>
-								Playbooks
-							</div>
-						</div>
-						<div class="section-row">
-							<div class="section-title">Cryptography</div>
-							<div class="section-desc">
-								Hashing, AES, RSA<br>
-								Digital Signatures
-							</div>
-						</div>
-					</div>
+					
+					<div class="skill-list">
+				        <div class="skill-item" th:each="skill : ${cybersecurity}">
+				            <img th:src="@{/images/{img}(img=${skill.image})}" 
+				                 th:alt="${skill.name}">
+				            <p th:text="${skill.name}"></p>
+				        </div>
+				    </div>
 			    </div>
 		    </div>
 			<div class="tab-block">
 				<div class="nav-top">
 					<img th:src="@{/images/cloud.png}" class="tab-icon">
 			        <div class="tab-title">DevOps & Cloud</div>
-					<div class="tab-section">
-						<div class="section-row">
-							<div class="section-title">DevOps</div>
-							<div class="section-desc">
-								Github Actions, Automatic Deployment<br>
-								Docker, Kubernetes 
-							</div>
-						</div>
-						<div class="section-row">
-							<div class="section-title">Cloud Computing</div>
-							<div class="section-desc">
-								Oracle Cloud, OCI Containers<br>
-								OCI Compute, Block Volumes<br>
-								Identity & Access Management<br>
-								API Gateway
-								<br>
-							</div>
-						</div>
-					</div>
+					
+					<div class="skill-list">
+				        <div class="skill-item" th:each="skill : ${devops}">
+				            <img th:src="@{/images/{img}(img=${skill.image})}" 
+				                 th:alt="${skill.name}">
+				            <p th:text="${skill.name}"></p>
+				        </div>
+				    </div>
 			    </div>
 		    </div>
 		</div>
