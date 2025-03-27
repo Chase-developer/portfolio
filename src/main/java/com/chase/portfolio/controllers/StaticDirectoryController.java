@@ -1,7 +1,8 @@
 package com.chase.portfolio.controllers;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -10,10 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.chase.portfolio.services.OCIStorageService;
 
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -42,12 +43,85 @@ public class StaticDirectoryController {
 	
 	//private static final OCIStorageAPI API = ;
 	
+	private static boolean contentExists(String path)
+	{
+		return new ClassPathResource(path).exists();
+	}
+	
+	private static byte[] getContent(String path) throws IOException
+	{
+		Resource resource = new ClassPathResource(path);
+		if (!resource.exists()) {
+            return null;
+        }
+        try (InputStream inputStream = resource.getInputStream()) {
+            return inputStream.readAllBytes();
+        }
+	}
+	
+//	private static boolean isValidPath(String directory, String fileExtension, String filePath) throws IOException {
+//	    // Prevent path traversal attacks (regex + normalized path check)
+//	    String regex = fileExtension.isEmpty() ? "^[a-zA-Z0-9/_\\.\\-]+$" : "^[a-zA-Z0-9/_\\.\\-]+\\." + fileExtension + "$";
+//	    if (!filePath.matches(regex))
+//	        return false;
+//
+//	    String staticPath = "static/" + directory;
+//	    Path basePath = Paths.get(staticPath).toAbsolutePath().normalize();
+//	    Path requestedPath = basePath.resolve(filePath).normalize();
+//	    
+//	    // Ensure the file has the correct extension if specified
+//	    if (!fileExtension.isEmpty() && !filePath.endsWith("." + fileExtension))
+//	        return false;
+//	    
+//	    // Ensure the requested path is within the allowed directory
+//	    if (!requestedPath.startsWith(basePath))
+//	        return false;
+//	    
+//	    // Check for symbolic links in the full path
+//	    Path currentPath = requestedPath;
+//	    while (currentPath != null && !currentPath.equals(basePath)) {
+//	        if (Files.isSymbolicLink(currentPath)) {
+//	            return false; // Reject if any part of the path is a symlink
+//	        }
+//	        currentPath = currentPath.getParent();
+//	    }
+//	    
+//	    return true;
+//	}
+	
+	private static boolean isValidPath(String directory, String filePath) throws IOException {
+		return isValidPath(directory, null, filePath);
+	}
+    
+	private static boolean isValidPath(String directory, @Nullable String fileExtension, String filePath) throws IOException {
+	    // Prevent path traversal attacks (regex + normalized path check)
+	    String regex = fileExtension == null ? "^[a-zA-Z0-9/_\\.\\-]+$" : "^[a-zA-Z0-9/_\\.\\-]+\\." + fileExtension + "$";
+	    if (!filePath.matches(regex))
+	        return false;
+
+	    String staticPath = "static/" + directory;
+	    Path basePath = Paths.get(staticPath).toAbsolutePath().normalize();
+	    Path requestedPath = basePath.resolve(filePath).normalize();
+	    
+	    // Ensure the file has the correct extension if specified
+	    if (fileExtension != null && !filePath.endsWith("." + fileExtension))
+	        return false;
+	    
+	    // Ensure the requested path is within the allowed directory
+	    if (!requestedPath.startsWith(basePath))
+	        return false;
+	    
+	    return true;
+	}
+	
 	private final OCIStorageService storage_service;
 	
 	// Constructor-based injection (Recommended)
     public StaticDirectoryController(OCIStorageService storage_service) {
         this.storage_service = storage_service;
     }
+    
+    
 
 	/**
 	 * at some point need to change this so that it gets the file from the storage bucket instead
@@ -55,36 +129,7 @@ public class StaticDirectoryController {
 	 * @return
 	 * @throws IOException
 	 */
-	@GetMapping("/fonts/{fileName:.+}")
-	public ResponseEntity<byte[]> getFontFile(@PathVariable("fileName") String fileName) throws IOException {
-	    // Allow only alphanumeric, underscores, hyphens, and dots to prevent path traversal
-	    if (!fileName.matches("^[a-zA-Z0-9._-]+$")) {
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-	    }
-
-	    // Load the font file from classpath
-	    Resource resource = new ClassPathResource("static/fonts/" + fileName);
-
-	    if (!resource.exists()) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-	    }
-	    
-	    return ResponseEntity.status(HttpStatus.FOUND)
-                .header(HttpHeaders.LOCATION, storage_service.getPreAuthURL("fonts/" +fileName))
-                .build();
-
-	    // Read file content
-//	    Path path = resource.getFile().toPath();
-//	    byte[] fileContent = Files.readAllBytes(path);
-//
-//	    // Set correct content type based on file extension
-//
-//	    HttpHeaders headers = new HttpHeaders();
-//	    headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream");
-//	    headers.add("X-Content-Type-Options", "nosniff");
-//
-//	    return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
-	}
+	
 
     
 //    @GetMapping("/css/{fileName:.+\\.css}")
@@ -111,166 +156,113 @@ public class StaticDirectoryController {
 //       
 //        return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
 //    }
+	
+	
+	
+//    @GetMapping("/css/**")
+//    public ResponseEntity<byte[]> getCssFile(HttpServletRequest request) throws IOException {
+//        
+//        String filePath = request.getRequestURI().replaceFirst("/css/", "");
+//
+//        // Prevent path traversal attacks
+//        if (!isValidPath("css", filePath))
+//        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//
+//        // Read the CSS file as bytes
+//        byte[] cssContent = getContent("static/css/" + filePath);
+//        if (cssContent == null)
+//        	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//
+//        // Set response headers
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add(HttpHeaders.CONTENT_TYPE, "text/css");
+//        headers.add("X-Content-Type-Options", "nosniff");
+//
+//        return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
+//
+//    }
     
-    @GetMapping("/css/**")
-    public ResponseEntity<byte[]> getCssFile(HttpServletRequest request) throws IOException {
-        // Extract the CSS file path after "/css/"
-        String filePath = request.getRequestURI().replaceFirst("/css/", "");
-
-        // Prevent path traversal attacks
-        if (!filePath.matches("^[a-zA-Z0-9/_\\.-]+\\.css$")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-
-        // Load the CSS file from the static directory
-        Resource resource = new ClassPathResource("static/css/" + filePath);
-
-        if (!resource.exists()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        // Read file content
-        byte[] cssContent = Files.readAllBytes(resource.getFile().toPath());
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "text/css");
-        headers.add("X-Content-Type-Options", "nosniff");
-
-        return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
-    }
-
-    
-    @GetMapping("/texts/{fileName:.+\\.txt}")
-    public ResponseEntity<byte[]> getTextFile(@PathVariable("fileName") String fileName) throws IOException {
-        // Prevent path traversal
-    	if (!fileName.matches("^[a-zA-Z0-9._-]+\\.txt$")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-
-        // Load the CSS file from classpath
-        Resource resource = new ClassPathResource("static/texts/" + fileName);
-
-        if (!resource.exists()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        // Read file content
-        Path path = resource.getFile().toPath();
-        byte[] cssContent = Files.readAllBytes(path);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "text/css");
-        headers.add("X-Content-Type-Options", "nosniff");
-       
-        return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
-    }
-    
-    @GetMapping("/sounds/{fileName:.+\\.mp3}")
-    public ResponseEntity<byte[]> getSoundFile(@PathVariable("fileName") String fileName) throws IOException {
-        // Prevent path traversal
-    	if (!fileName.matches("^[a-zA-Z0-9._-]+\\.mp3$")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-
-        Resource resource = new ClassPathResource("static/sounds/" + fileName);
-
-        if (!resource.exists()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        // Read file content
-        Path path = resource.getFile().toPath();
-        byte[] cssContent = Files.readAllBytes(path);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "audio/mpeg");
-        headers.add("X-Content-Type-Options", "nosniff");
-        return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
-    }
     
     @GetMapping("/images/**")
     public ResponseEntity<byte[]> getPngFile(HttpServletRequest request) throws IOException {
-        // Extract the CSS file path after "/css/"
+        
         String filePath = request.getRequestURI().replaceFirst("/images/", "");
 
         // Prevent path traversal attacks
-        if (!filePath.matches("^[a-zA-Z0-9/_\\.-]+\\.png$")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        if (!isValidPath("images", "png", filePath))
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-        // Load the CSS file from the static directory
-        Resource resource = new ClassPathResource("static/images/" + filePath);
+        // Read the CSS file as bytes
+        if (!contentExists("static/images/" + filePath))
+        	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        if (!resource.exists()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header(HttpHeaders.LOCATION, storage_service.getPreAuthURL("images/" + filePath))
                 .build();
+
     }
     
-//    @GetMapping("/images/{fileName:.+\\.png}")
-//    public ResponseEntity<byte[]> getPngFile(@PathVariable("fileName") String fileName) throws IOException {
-//        // Prevent path traversal
-//    	if (!fileName.matches("^[a-zA-Z0-9._-]+\\.png$")) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//        }
-//
-//        Resource resource = new ClassPathResource("static/images/" + fileName);
-//
-//        if (!resource.exists()) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//        }
-//        
-//        return ResponseEntity.status(HttpStatus.FOUND)
-//                .header(HttpHeaders.LOCATION, storage_service.getPreAuthURL("images/" + fileName))
-//                .build();
-//    }
-    
-    @GetMapping("/js/{fileName:.+\\.js}")
-    public ResponseEntity<byte[]> getJsFile(@PathVariable("fileName") String fileName) throws IOException {
-        // Prevent path traversal
-
-        if (!fileName.matches("^[a-zA-Z0-9._-]+\\.js$")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-
-        // Load the JS file from classpath
-        Resource resource = new ClassPathResource("static/js/" + fileName);
-
-        if (!resource.exists()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        // Read file content
-        Path path = resource.getFile().toPath();
-        byte[] jsContent = Files.readAllBytes(path);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "application/javascript");
-        headers.add("X-Content-Type-Options", "nosniff");
-        //headers.add(HttpHeaders.CACHE_CONTROL, "no-store, no-cache, must-revalidate, max-age=0");
+    @GetMapping("/fonts/**")
+    public ResponseEntity<byte[]> getFontFile(HttpServletRequest request) throws IOException {
         
-//        String origin = request.getHeader("Origin");
-//        if ("http://localhost:8080".equals(origin)) {  // Change this to your website's domain
-//            headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-//        }
+        String filePath = request.getRequestURI().replaceFirst("/fonts/", "");
 
-        return new ResponseEntity<>(jsContent, headers, HttpStatus.OK);
+        // Prevent path traversal attacks
+        if (!isValidPath("fonts", filePath))
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+        // Read the CSS file as bytes
+        if (!contentExists("static/fonts/" + filePath))
+        	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .header(HttpHeaders.LOCATION, storage_service.getPreAuthURL("fonts/" + filePath))
+                .build();
+
     }
     
-//    @GetMapping("/badges")
-//    public String getBadges(Model model) {
-//        List<Badge> badges = List.of(
-//            new Badge("googlecybersecurity.png", "Google Cybersecurity", "Description for Badge 1"),
-//            new Badge("poweredbyOracle.png", "Powered By Oracle", "Description for Badge 2")
-//        );
+    @GetMapping("/texts/**")
+    public ResponseEntity<byte[]> getTextFile(HttpServletRequest request) throws IOException {
+        
+        String filePath = request.getRequestURI().replaceFirst("/texts/", "");
+
+        // Prevent path traversal attacks
+        if (!isValidPath("texts", "txt", filePath))
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+        // Read the CSS file as bytes
+        if (!contentExists("static/texts/" + filePath))
+        	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .header(HttpHeaders.LOCATION, storage_service.getPreAuthURL("texts/" + filePath))
+                .build();
+
+    }
+    
+    
+    
+//    @GetMapping("/js/**")
+//    public ResponseEntity<byte[]> getJsFile(HttpServletRequest request) throws IOException {
+//        
+//        String filePath = request.getRequestURI().replaceFirst("/js/", "");
 //
-//        model.addAttribute("badges", badges);
-//        return "badges"; // Your Thymeleaf template name (badges.html)
+//        // Prevent path traversal attacks
+//        if (!isValidPath("js", filePath))
+//        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//
+//        // Read the CSS file as bytes
+//        byte[] cssContent = getContent("static/js/" + filePath);
+//        if (cssContent == null)
+//        	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//
+//        // Set response headers
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add(HttpHeaders.CONTENT_TYPE, "application/javascript");
+//        headers.add("X-Content-Type-Options", "nosniff");
+//
+//        return new ResponseEntity<>(cssContent, headers, HttpStatus.OK);
+//
 //    }
 
 }

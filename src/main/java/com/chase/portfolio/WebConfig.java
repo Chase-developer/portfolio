@@ -14,10 +14,13 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-        .allowedOrigins("http://localhost:8080")
-        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-        .allowedHeaders("Content-Type", "Authorization")  // Allow specific headers
-        .allowCredentials(true);
+//        .allowedOrigins("*")
+//        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+//        .allowedHeaders("Content-Type", "Authorization")  // Allow specific headers
+        .allowedOrigins("*")
+        .allowedMethods("GET", "OPTIONS")
+        .allowedHeaders("*")  // Allow specific headers
+        .allowCredentials(false);
         
     }
     
@@ -27,12 +30,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/css/");
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("classpath:/static/js/");
-        registry.addResourceHandler("/images/**")
-                .addResourceLocations("classpath:/static/images/");
-        registry.addResourceHandler("/fonts/**")
-        		.addResourceLocations("classpath:/static/fonts/");
-        registry.addResourceHandler("/texts/**")
-				.addResourceLocations("classpath:/static/texts/");
     }
     
 //    @Bean

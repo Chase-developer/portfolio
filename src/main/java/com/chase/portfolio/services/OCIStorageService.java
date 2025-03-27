@@ -7,9 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -29,10 +29,8 @@ import org.springframework.stereotype.Service;
 
 import com.chase.oracle.EnvReader;
 import com.oracle.bmc.ConfigFileReader;
-import com.oracle.bmc.Region;
 import com.oracle.bmc.auth.AbstractAuthenticationDetailsProvider;
 import com.oracle.bmc.auth.ConfigFileAuthenticationDetailsProvider;
-import com.oracle.bmc.auth.InstancePrincipalsAuthenticationDetailsProvider;
 import com.oracle.bmc.objectstorage.ObjectStorageClient;
 import com.oracle.bmc.objectstorage.model.CreatePreauthenticatedRequestDetails;
 import com.oracle.bmc.objectstorage.model.PreauthenticatedRequestSummary;
@@ -52,45 +50,55 @@ import jakarta.annotation.PreDestroy;
 @Service
 public class OCIStorageService {
 	
-	private static final String Bucket_Name;
-	private static final String Bucket_Namespace;
-	private static final Region Bucket_Region;
+//	private static final String Bucket_Name;
+//	private static final String Bucket_Namespace;
+//	private static final Region Bucket_Region;
 	private static final Logger logger = LoggerFactory.getLogger(OCIStorageService.class);
 	
-	static
+//	static
+//	{
+//		EnvReader reader = new EnvReader();
+//		Bucket_Name = reader.getBucketName();
+//		Bucket_Namespace = reader.getBucketNamespace();
+//		Bucket_Region = Region.fromRegionId(reader.getBucketRegion());
+//	}
+
+//	private static final String OCI_METADATA_URL = "http://169.254.169.254/opc/v2/instance/";
+
+//    private static boolean isRunningOnOracleCloud() {
+//        try {
+//            URL url = new URL(OCI_METADATA_URL);
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setRequestMethod("GET");
+//            connection.setRequestProperty("Authorization", "Bearer Oracle");
+//            connection.setConnectTimeout(2000); // 2-second timeout
+//            connection.setReadTimeout(2000);
+//
+//            int responseCode = connection.getResponseCode();
+//            return responseCode == 200; // 200 means it's running on OCI
+//        } catch (IOException e) {
+//            return false; // If request fails, assume it's not on OCI
+//        }
+//    }
+    
+    private static boolean isInProject()
 	{
-		EnvReader reader = new EnvReader();
-		Bucket_Name = reader.getBucketName();
-		Bucket_Namespace = reader.getBucketNamespace();
-		Bucket_Region = Region.fromRegionId(reader.getBucketRegion());
+		return new File(".project").exists();
 	}
-
-	private static final String OCI_METADATA_URL = "http://169.254.169.254/opc/v2/instance/";
-
-    private static boolean isRunningOnOracleCloud() {
-        try {
-            URL url = new URL(OCI_METADATA_URL);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Authorization", "Bearer Oracle");
-            connection.setConnectTimeout(2000); // 2-second timeout
-            connection.setReadTimeout(2000);
-
-            int responseCode = connection.getResponseCode();
-            return responseCode == 200; // 200 means it's running on OCI
-        } catch (IOException e) {
-            return false; // If request fails, assume it's not on OCI
-        }
-    }
 	
 	private static AbstractAuthenticationDetailsProvider authenticateAPI()
 	{	
-		try {
-			if (isRunningOnOracleCloud())
+		try
+		{
+			ConfigFileReader.ConfigFile configFile = null;
+			if (!isInProject())
 			{
-				return InstancePrincipalsAuthenticationDetailsProvider.builder().build();
+				String currentDirectory = Paths.get("").toAbsolutePath().toString(); // Get the current directory
+		        String customConfigFilePath = Paths.get(currentDirectory, "oci-config").toString();
+		        configFile = ConfigFileReader.parse(customConfigFilePath);
 			}
-			ConfigFileReader.ConfigFile configFile = ConfigFileReader.parseDefault();
+			else
+				configFile = ConfigFileReader.parseDefault();
 			return new ConfigFileAuthenticationDetailsProvider(configFile);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -122,6 +130,10 @@ public class OCIStorageService {
 		for (String file : getDirResources("static/fonts"))
 		{
 			resources.add("fonts/" + file);
+		}
+		for (String file : getDirResources("static/texts"))
+		{
+			resources.add("texts/" + file);
 		}
 		return resources;
 	}
@@ -193,7 +205,7 @@ public class OCIStorageService {
 	
 	@PostConstruct
     public void initializeOracleClient() {
-		this.client = ObjectStorageClient.builder().region(Bucket_Region).build(authenticateAPI());
+		this.client = ObjectStorageClient.builder().region(EnvReader.Bucket_Region).build(authenticateAPI());
 		syncResourcesWithBucket();
 		startScheduler();
 	}
@@ -361,15 +373,15 @@ public class OCIStorageService {
 
         // Create the request
         CreatePreauthenticatedRequestRequest request = CreatePreauthenticatedRequestRequest.builder()
-                .namespaceName(Bucket_Namespace)
-                .bucketName(Bucket_Name)
+                .namespaceName(EnvReader.Bucket_Namespace)
+                .bucketName(EnvReader.Bucket_Name)
                 .createPreauthenticatedRequestDetails(details)
                 .build();
 
         // Execute request
         CreatePreauthenticatedRequestResponse response = client.createPreauthenticatedRequest(request);
         // Construct the URL
-        return "https://objectstorage." + Bucket_Region.getRegionId() +
+        return "https://objectstorage." + EnvReader.Bucket_Region.getRegionId() +
                 ".oraclecloud.com" + response.getPreauthenticatedRequest().getAccessUri();
     }
 	
@@ -378,8 +390,8 @@ public class OCIStorageService {
 		HashSet<String> resources = new HashSet<String>();
 		ListObjectsResponse response = client.listObjects(
 		        ListObjectsRequest.builder()
-		                .namespaceName(Bucket_Namespace)
-		                .bucketName(Bucket_Name)
+		                .namespaceName(EnvReader.Bucket_Namespace)
+		                .bucketName(EnvReader.Bucket_Name)
 		                .build());
 		response.getListObjects().getObjects().forEach(object -> 
 		        resources.add(object.getName()));
@@ -388,8 +400,8 @@ public class OCIStorageService {
 	
 	private void uploadResource(String objectName, InputStream inputStream, long file_size) {
         PutObjectRequest request = PutObjectRequest.builder()
-                .namespaceName(Bucket_Namespace)
-                .bucketName(Bucket_Name)
+                .namespaceName(EnvReader.Bucket_Namespace)
+                .bucketName(EnvReader.Bucket_Name)
                 .objectName(objectName)
                 .contentLength(file_size)
                 .putObjectBody(inputStream)
@@ -409,8 +421,8 @@ public class OCIStorageService {
 	private void clearPreAuthURLs() {
 		ListPreauthenticatedRequestsResponse response = client.listPreauthenticatedRequests(
 		        ListPreauthenticatedRequestsRequest.builder()
-		                .namespaceName(Bucket_Namespace)
-		                .bucketName(Bucket_Name)
+		                .namespaceName(EnvReader.Bucket_Namespace)
+		                .bucketName(EnvReader.Bucket_Name)
 		                .build()
 		);
 //		if (response.getItems().isEmpty())
@@ -422,8 +434,8 @@ public class OCIStorageService {
 		for (String parId : preAuthIdsToDelete) {
 		    client.deletePreauthenticatedRequest(
 		            DeletePreauthenticatedRequestRequest.builder()
-		                    .namespaceName(Bucket_Namespace)
-		                    .bucketName(Bucket_Name)
+		                    .namespaceName(EnvReader.Bucket_Namespace)
+		                    .bucketName(EnvReader.Bucket_Name)
 		                    .parId(parId)
 		                    .build()
 		    );
