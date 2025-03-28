@@ -22,14 +22,6 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '17'
-	    java-package: jdk
-	    architecture: x64
-	    check-latest: false
-	    distribution: 'amazon-corretto'  # Use Amazon Corretto as the distribution
-	    server-id: github
-	    server-username: GITHUB_ACTOR
-	    server-password: GITHUB_TOKEN
-	    overwrite-settings: true
 
     # Step 3: Build with Gradle
     - name: Build with Gradle
