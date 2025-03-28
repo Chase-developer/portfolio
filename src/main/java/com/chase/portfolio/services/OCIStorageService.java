@@ -27,8 +27,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.chase.oracle.EnvReader;
+import com.chase.portfolio.EnvLoader;
+import com.chase.portfolio.PortfolioApplication;
 import com.oracle.bmc.ConfigFileReader;
+import com.oracle.bmc.Region;
 import com.oracle.bmc.auth.AbstractAuthenticationDetailsProvider;
 import com.oracle.bmc.auth.ConfigFileAuthenticationDetailsProvider;
 import com.oracle.bmc.objectstorage.ObjectStorageClient;
@@ -50,9 +52,9 @@ import jakarta.annotation.PreDestroy;
 @Service
 public class OCIStorageService {
 	
-//	private static final String Bucket_Name;
-//	private static final String Bucket_Namespace;
-//	private static final Region Bucket_Region;
+	private static final String Bucket_Name = EnvLoader.get().bucket_Name;
+	private static final String Bucket_Namespace = EnvLoader.get().bucket_Namespace;
+	private static final Region Bucket_Region = EnvLoader.get().bucket_Region;
 	private static final Logger logger = LoggerFactory.getLogger(OCIStorageService.class);
 	
 //	static
@@ -81,17 +83,14 @@ public class OCIStorageService {
 //        }
 //    }
     
-    private static boolean isInProject()
-	{
-		return new File(".project").exists();
-	}
+    
 	
 	private static AbstractAuthenticationDetailsProvider authenticateAPI()
 	{	
 		try
 		{
 			ConfigFileReader.ConfigFile configFile = null;
-			if (!isInProject())
+			if (!PortfolioApplication.isInProject())
 			{
 				String currentDirectory = Paths.get("").toAbsolutePath().toString(); // Get the current directory
 		        String customConfigFilePath = Paths.get(currentDirectory, "oci-config").toString();
@@ -205,7 +204,7 @@ public class OCIStorageService {
 	
 	@PostConstruct
     public void initializeOracleClient() {
-		this.client = ObjectStorageClient.builder().region(EnvReader.Bucket_Region).build(authenticateAPI());
+		this.client = ObjectStorageClient.builder().region(Bucket_Region).build(authenticateAPI());
 		syncResourcesWithBucket();
 		startScheduler();
 	}
@@ -373,15 +372,15 @@ public class OCIStorageService {
 
         // Create the request
         CreatePreauthenticatedRequestRequest request = CreatePreauthenticatedRequestRequest.builder()
-                .namespaceName(EnvReader.Bucket_Namespace)
-                .bucketName(EnvReader.Bucket_Name)
+                .namespaceName(Bucket_Namespace)
+                .bucketName(Bucket_Name)
                 .createPreauthenticatedRequestDetails(details)
                 .build();
 
         // Execute request
         CreatePreauthenticatedRequestResponse response = client.createPreauthenticatedRequest(request);
         // Construct the URL
-        return "https://objectstorage." + EnvReader.Bucket_Region.getRegionId() +
+        return "https://objectstorage." + Bucket_Region.getRegionId() +
                 ".oraclecloud.com" + response.getPreauthenticatedRequest().getAccessUri();
     }
 	
@@ -390,8 +389,8 @@ public class OCIStorageService {
 		HashSet<String> resources = new HashSet<String>();
 		ListObjectsResponse response = client.listObjects(
 		        ListObjectsRequest.builder()
-		                .namespaceName(EnvReader.Bucket_Namespace)
-		                .bucketName(EnvReader.Bucket_Name)
+		                .namespaceName(Bucket_Namespace)
+		                .bucketName(Bucket_Name)
 		                .build());
 		response.getListObjects().getObjects().forEach(object -> 
 		        resources.add(object.getName()));
@@ -400,8 +399,8 @@ public class OCIStorageService {
 	
 	private void uploadResource(String objectName, InputStream inputStream, long file_size) {
         PutObjectRequest request = PutObjectRequest.builder()
-                .namespaceName(EnvReader.Bucket_Namespace)
-                .bucketName(EnvReader.Bucket_Name)
+                .namespaceName(Bucket_Namespace)
+                .bucketName(Bucket_Name)
                 .objectName(objectName)
                 .contentLength(file_size)
                 .putObjectBody(inputStream)
@@ -421,8 +420,8 @@ public class OCIStorageService {
 	private void clearPreAuthURLs() {
 		ListPreauthenticatedRequestsResponse response = client.listPreauthenticatedRequests(
 		        ListPreauthenticatedRequestsRequest.builder()
-		                .namespaceName(EnvReader.Bucket_Namespace)
-		                .bucketName(EnvReader.Bucket_Name)
+		                .namespaceName(Bucket_Namespace)
+		                .bucketName(Bucket_Name)
 		                .build()
 		);
 //		if (response.getItems().isEmpty())
@@ -434,8 +433,8 @@ public class OCIStorageService {
 		for (String parId : preAuthIdsToDelete) {
 		    client.deletePreauthenticatedRequest(
 		            DeletePreauthenticatedRequestRequest.builder()
-		                    .namespaceName(EnvReader.Bucket_Namespace)
-		                    .bucketName(EnvReader.Bucket_Name)
+		                    .namespaceName(Bucket_Namespace)
+		                    .bucketName(Bucket_Name)
 		                    .parId(parId)
 		                    .build()
 		    );

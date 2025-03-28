@@ -26,6 +26,7 @@ public class SecurityConfig {
 				.disable());
 		http.authorizeHttpRequests((authorize) -> 
 			authorize
+				.requestMatchers(HttpMethod.GET, "/.well-known/pki-validation/E86F8C4B2F4DFDBADD3B43031B3C303D.txt").permitAll()
 				.requestMatchers(HttpMethod.GET, "/", "/error", "/htb/**").permitAll()
 				.requestMatchers(HttpMethod.GET, StaticCalls).permitAll()
 				//.requestMatchers("/actuator/**").permitAll()

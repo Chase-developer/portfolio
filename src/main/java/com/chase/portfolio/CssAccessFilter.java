@@ -7,14 +7,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.chase.oracle.EnvReader;
-
 import java.io.IOException;
 
 @Component
 public class CssAccessFilter extends OncePerRequestFilter {
 
-    private static final String ALLOWED_REFERER = "http://" + EnvReader.IP_Address; // Change this to your domain
+    private static final String ALLOWED_REFERER = EnvLoader.get().web_Address; // Change this to your domain
     private static final AntPathRequestMatcher CSSMatcher = new AntPathRequestMatcher("/css/**");
     private static final AntPathRequestMatcher JSMatcher = new AntPathRequestMatcher("/js/**");
     private static final AntPathRequestMatcher FONTMatcher = new AntPathRequestMatcher("/font/**");
