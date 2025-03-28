@@ -25,7 +25,7 @@ jobs:
         java-package: jdk
         architecture: x64
         check-latest: false
-        distribution: 'corretto'  # Use Amazon Corretto as the distribution
+        distribution: 'temurin'  # Use Amazon Corretto as the distribution
         server-id: github
         server-username: GITHUB_ACTOR
         server-password: GITHUB_TOKEN
