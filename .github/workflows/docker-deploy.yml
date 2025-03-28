@@ -30,6 +30,9 @@ jobs:
         server-username: GITHUB_ACTOR
         server-password: GITHUB_TOKEN
         overwrite-settings: true
+        
+    - name: Grant execute permissions to Gradle wrapper
+      run: chmod +x gradlew
 
     # Step 3: Build with Gradle
     - name: Build with Gradle
