@@ -15,11 +15,11 @@ jobs:
     steps:
     # Step 1: Checkout the repository
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     # Step 2: Set up Gradle (if you use Gradle wrapper)
     - name: Set up JDK 17
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
         java-version: '17'
         java-package: jdk
@@ -40,7 +40,7 @@ jobs:
 
     # Step 4: Log in to Docker Hub using GitHub Secrets
     - name: Log in to Docker Hub
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKER_USERNAME }}  # Your Docker Hub username stored in GitHub secrets
         password: ${{ secrets.DOCKER_PASSWORD }}  # Your Docker Hub password stored in GitHub secrets
@@ -52,19 +52,14 @@ jobs:
     # Step 6: Push Docker image to Docker Hub
     - name: Push Docker image
       run: docker push chasedeveloper/portfolio:latest
-
-    - name: Decode SSH Key
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 -d > ~/.ssh/id_workflow
-        chmod 600 ~/.ssh/id_workflow
+    
     # Step 7: SSH into your server and deploy
     - name: SSH into server and deploy
-      uses: appleboy/ssh-action@v0.1.4
+      uses: appleboy/ssh-action@v1.2.2
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
-        key: ~/.ssh/id_workflow
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd portfolio/docker
           docker-compose down
