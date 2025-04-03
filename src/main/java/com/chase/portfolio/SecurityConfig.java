@@ -20,6 +20,18 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		//http.addFilter(new RequestLoggingFilter());
+		/*
+		 * .headers()
+            .contentSecurityPolicy("default-src 'self'; "
+                + "script-src 'self'; "
+                + "img-src 'self' https://bucket-name.s3.us-ashburn-1.oraclecloud.com; "
+                + "report-uri /csp-violation-report-endpoint;")
+		 */
+		http.headers((headers) -> 
+			headers.contentSecurityPolicy((csp) -> 
+				csp.policyDirectives("default-src 'self' https://objectstorage.eu-frankfurt-1.oraclecloud.com;"))
+				);
+		//This can be disabled safely for simple website without post, put, delete requests
 		http.csrf((csrf) -> csrf
 				//.requireCsrfProtectionMatcher(new AntPathRequestMatcher("/api/**")) // Enable CSRF for API endpoints
 	            //.ignoringRequestMatchers("/api/auth/login"));  // Disable CSRF for login endpoint only

@@ -8,19 +8,17 @@
 ## Findings and Recommendations
 
 ### Finding 1: **Open Network Ports and Services**
+#### Observation:
 #### Identified Ports:
 ```bash
 PORT     STATE SERVICE        VERSION
-53/tcp   open  domain         Microsoft DNS
 ```
 
 #### Risk Rating:
-- **High**: SMB and LDAP services are exposed, increasing the attack surface for authentication-based attacks.
-- **Medium**: Web service on port 80 could be susceptible to web-based vulnerabilities.
+
 
 #### Recommendations:
-- Enforce stronger authentication mechanisms for LDAP and Kerberos.
-- Conduct security assessments on the web service hosted on IIS.
+
 
 ---
 
