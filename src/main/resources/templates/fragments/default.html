@@ -1,0 +1,62 @@
+<div th:fragment="head-content">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/ui-styles.css}">
+    <link rel="stylesheet" th:href="@{/css/waveform.css}">
+    <link rel="stylesheet" th:href="@{/css/navutils.css}">
+</div>
+
+<section th:fragment="contact">
+    <div class="contact">
+        <h2>Contact Me</h2>
+        <p>Reach out via email chase@chase-developer.com</p>
+    </div>
+</section>
+
+<header th:fragment="header-nav">
+    <div class="ui top-bar">
+        <div class="bar-item">
+            <div class="logo">Chase-Developer</div>
+            <img th:src="@{/images/chaselogo.png}" class="icon">
+        </div>
+        
+        
+        <div class="bar-item mhide">
+            <a th:href="@{/home}" class="nav-item">Home</a>
+            <a href="@{/home#projects}" class="nav-item">Projects</a>
+            <a th:href="@{/home/journey}" class="nav-item">My Journey</a>
+        </div>
+        <div class="bar-item">
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/leng-jia-yong-609689346/"><img th:src="@{/images/linkedin.png}" class="icon link"></a>
+                <a href="https://github.com/Chase-developer"><img th:src="@{/images/github.png}" class="icon link"></a>
+            </div>
+        </div>
+        
+            
+        <div id="menu" class="bar-item mshow">
+            <button class="toggle-action" data-toggle-id="menu-toggle">
+                <div id="menu-toggle-switch">
+                    <img th:src="@{/images/close.png}" class="icon link hidden">
+                    <img th:src="@{/images/menu.png}" class="icon link">
+                </div>
+            </button>
+        </div>
+    </div>
+    
+    <div id="menu-toggle-content" class="ui pop hidden">
+        <a th:href=@{/home} class="link">Home</a><br>
+        <a th:href=@{/home/journey} class="link">My Journey</a><br>
+        <a th:href=@{/home#projects} class="link">Projects</a>
+    </div>
+    
+    <div class="web-info">
+        <div class="web-badge">
+            <img th:src="@{/images/positivessl.png}"><br>
+            <span>Integrated With Oracle Cloud</span><br>
+            <span>Hosted On AWS</span>  
+        </div>
+    </div>
+</header>

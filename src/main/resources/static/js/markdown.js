@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", async function () {
+    //document.querySelectorAll(".tab-content").forEach(element => {
+           // element.innerHTML = element.innerHTML
+               // .replace(/(^|\s)-/g, '$1<span class="highlight-dash">-</span>') // Match `-`
+               // .replace(/(^|\s)&gt;/g, '$1<span class="highlight-arrow">&gt;</span>'); // Match `>` (HTML entity)
+        //});
     var converter = new showdown.Converter();
 	const textArea = document.getElementById("raw-text");
     const fileUrl = textArea.getAttribute("data-src"); // Get the Thymeleaf-resolved URL

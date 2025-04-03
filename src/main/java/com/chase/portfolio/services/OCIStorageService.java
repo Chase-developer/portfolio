@@ -1,14 +1,8 @@
 package com.chase.portfolio.services;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -46,6 +40,7 @@ import com.oracle.bmc.objectstorage.responses.CreatePreauthenticatedRequestRespo
 import com.oracle.bmc.objectstorage.responses.ListObjectsResponse;
 import com.oracle.bmc.objectstorage.responses.ListPreauthenticatedRequestsResponse;
 
+import jakarta.annotation.Nullable;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 
@@ -54,7 +49,7 @@ public class OCIStorageService {
 	
 	private static final String Bucket_Name = EnvLoader.get().bucket_Name;
 	private static final String Bucket_Namespace = EnvLoader.get().bucket_Namespace;
-	private static final Region Bucket_Region = EnvLoader.get().bucket_Region;
+	private static final Region Bucket_Region = Region.fromRegionId(EnvLoader.get().bucket_Region);
 	private static final Logger logger = LoggerFactory.getLogger(OCIStorageService.class);
 	
 //	static
@@ -98,6 +93,7 @@ public class OCIStorageService {
 			}
 			else
 				configFile = ConfigFileReader.parseDefault();
+				
 			return new ConfigFileAuthenticationDetailsProvider(configFile);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -111,76 +107,7 @@ public class OCIStorageService {
 //		return new OCIStorageAPI(authenticateAPI());
 //	}
 	
-	private static HashSet<String> getLocalResources()
-	{
-		HashSet<String> resources = new HashSet<String>();
-		for (String file : getDirResources("static/images"))
-		{
-			resources.add("images/" + file);
-		}
-		for (String file : getDirResources("static/images/badge"))
-		{
-			resources.add("images/badge/" + file);
-		}
-		for (String file : getDirResources("static/images/logo"))
-		{
-			resources.add("images/logo/" + file);
-		}
-		for (String file : getDirResources("static/fonts"))
-		{
-			resources.add("fonts/" + file);
-		}
-		for (String file : getDirResources("static/texts"))
-		{
-			resources.add("texts/" + file);
-		}
-		return resources;
-	}
 	
-	private static List<String> getDirResources(String resource_dir)
-	{
-		InputStream resourceStream = OCIStorageService.class.getClassLoader().getResourceAsStream(resource_dir);
-        if (resourceStream == null) {
-            throw new IllegalArgumentException("Folder not found: " + resource_dir);
-        }
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resourceStream))) {
-            return reader.lines().collect(Collectors.toList());
-        } catch (IOException e) {
-			e.printStackTrace();
-		}
-        return null;
-	}
-	
-	private static File getResourceFile(String filePath)
-	{
-		URL resourceUrl = OCIStorageService.class.getClassLoader().getResource(filePath);
-		if (resourceUrl == null) {
-		    throw new IllegalArgumentException("File not found: " + filePath);
-		}
-		try {
-			return new File(resourceUrl.toURI());
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public static InputStream getResourceStream(String filePath)
-	{
-		return OCIStorageService.class.getClassLoader().getResourceAsStream(filePath);
-	}
-	
-	public static InputStream getResourceStream(File file)
-	{
-		try {
-			return new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	public static int getHoursLeft(Date date) {
 	    long diffMillis = Math.abs(date.getTime() - new Date().getTime());
@@ -221,13 +148,33 @@ public class OCIStorageService {
         Runnable task = () -> {
             clearPreAuthURLs();
             
-            createPreAuthURLs(getLocalResources());
+            createPreAuthURLs(ResourceService.getStaticIndex());
         };
 
         // Schedule to run every 23 hours
         scheduler.scheduleAtFixedRate(task, 23, 23, TimeUnit.HOURS);
         //scheduler.scheduleAtFixedRate(task, 1, 1, TimeUnit.MINUTES);
     }
+	
+	private void updateBucketResources(HashSet<String> cloud_resources, HashSet<String> index_resources)
+	{
+		if (!PortfolioApplication.isInProject())
+			return;
+		ResourceService.updateStaticIndex();
+		//first need to get index
+		for (String local_file : index_resources)
+		{
+			if (cloud_resources.contains(local_file))
+				continue;
+			File file = ResourceService.getIndexFile(local_file);
+			if (file.isDirectory())
+				continue;
+			//should probably only upload it if on project
+    		uploadResource(local_file, ResourceService.getResourceStream(file), file.length());
+    		logger.info("Successfully Uploaded File = " + local_file);
+		}
+		logger.info("Uploaded Resources To Bucket");
+	}
 	
 	private void syncResourcesWithBucket()
 	{
@@ -236,21 +183,11 @@ public class OCIStorageService {
 		
 		lock.writeLock().lock();
         try {
-        	HashSet<String> files = getCloudResources();
-    		for (String local_file : getLocalResources())
-    		{
-    			logger.info("Local File = " + local_file);
-    			if (files.contains(local_file))
-    				continue;
-    			File file = getResourceFile("static/" + local_file);
-    			if (file.isDirectory())
-    				continue;
-        		uploadResource(local_file, getResourceStream(file), file.length());
-        		logger.info("Successfully Uploaded");
-    		}
-    		logger.info("Uploaded Resources To Bucket");
+        	
+        	HashSet<String> index_files = ResourceService.getStaticIndex();
+    		updateBucketResources(getCloudResources(), index_files);
     		clearPreAuthURLs();
-    		createPreAuthURLs(files);
+    		createPreAuthURLs(index_files);
         } finally
         {
         	lock.writeLock().unlock();
@@ -259,6 +196,7 @@ public class OCIStorageService {
 
 	}
 	
+	@Nullable
 	public String getPreAuthURL(String objectname)
 	{
 		lock.readLock().lock();
@@ -347,6 +285,7 @@ public class OCIStorageService {
 	
 	private void createPreAuthURLs(HashSet<String> objects)
 	{
+		objects.add("videos/background.webm");
 		for (String local_file : objects)
 		{
 			if (preAuthUrls.containsKey(local_file))

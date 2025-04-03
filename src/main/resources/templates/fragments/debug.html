@@ -1,0 +1,16 @@
+<script th:fragment="header-nav">
+    function updateFontSizes() {
+        const root = document.documentElement;
+        const styles = getComputedStyle(root);
+    
+        document.getElementById("font-sizes").innerHTML = `
+            <p>Title Font Size: ${styles.getPropertyValue("--title-font-size")}</p>
+            <p>Header Font Size: ${styles.getPropertyValue("--header-font-size")}</p>
+            <p>Content Font Size: ${styles.getPropertyValue("--content-font-size")}</p>`
+            ;
+    }
+    
+    // Run initially and on window resize
+    updateFontSizes();
+    window.addEventListener("resize", updateFontSizes);
+</script>

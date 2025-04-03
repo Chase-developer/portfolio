@@ -1,0 +1,352 @@
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes shine {
+    0% { background-position: 200%; }
+    100% { background-position: -200%; }
+}
+
+@keyframes floatAnimation {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+.ui
+{
+    border-radius: var(--border-radius);
+    border: var(--border-style);
+    background: var(--border-background); /* Semi-transparent background */
+    z-index: 10; 
+}
+
+.ui.hidden {
+    display: none !important;/* Hides the inactive image */
+}
+
+.ui.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: var(--layout-gap-size); /* Controls horizontal spacing */
+    padding: var(--mid-gap-size);
+    margin: var(--low-gap-size) auto; /* Centers it */
+    width: 97%;
+    max-width: 100%; /* Prevents overflow issues */
+    position: relative;
+    box-sizing: border-box;
+    flex-wrap: nowrap; /* Prevents wrapping */
+}
+
+/* Only apply styles when inside .ui.top-bar */
+.ui.top-bar .bar-item {
+    display: flex;
+    align-items: center;
+    gap: var(--low-gap-size);
+}
+
+.ui.top-bar .bar-item.mshow {
+    display: none;
+}
+
+.ui.pop {
+    display: block;
+    padding: 10px; 
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* Moves it back by 50% of its width/height */
+    padding: var(--mid-gap-size);
+    margin: var(--low-gap-size) auto; /* Centers it */
+    width: 92%;
+    max-width: 100%; /* Prevents overflow issues */
+}
+
+.ui.ref
+{
+    display: flex;
+    padding: 30px; 
+    position: relative;
+    padding: var(--mid-gap-size);
+    margin: var(--low-gap-size) auto; /* Centers it */
+    max-width: 100%; /* Prevents overflow issues */
+    align-items: center;
+    flex-direction: column;
+}
+
+.ui.ref img
+{
+    max-width: 90%;
+}
+
+.toggle-action {
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    border: none;
+}
+
+
+.nav-item {
+    color: white;
+    text-decoration: none;
+    background: none;
+    font-weight: bold;
+    font-size: var(--header-font-size);
+    padding: 0px 16px;
+    cursor: pointer;
+}
+
+
+.icon {
+   
+    width: var(--title-font-size);
+    height: var(--title-font-size);
+    margin: auto auto;
+}
+
+.logo {
+
+    font-size: var(--header-font-size);
+    font-weight: bold;
+}
+
+
+
+.loading-text {
+    font-size: 18px; /* Adjust as needed */
+    font-weight: bold;
+    text-align: center;
+    animation: fadeInOut 1.5s infinite ease-in-out;
+}
+
+.ui.top-bar .social-icons {
+    display: flex; /* Ensures gap works */
+    gap: var(--low-gap-size);
+}
+
+
+.ui.top-bar .icon.link {
+    transition: filter 0.3s ease-in-out;
+}
+
+.ui.top-bar .icon.link:hover {
+    filter: invert(56%) sepia(48%) saturate(288%) hue-rotate(180deg); /* Adjusted to #4A90E2 */
+}
+
+.web-info {
+    position: relative; /* Ensures child absolute positioning is relative to this container */
+    top: 0;  /* Stick to the top */
+    left: var(--low-gap-size); /* Stick to the left */
+    font-size: var(--content-font-size); /* Shared styles */
+    font-weight: bold;
+    margin-left: var(--low-gap-size);
+    text-align: left;
+    max-width: 70%;
+}
+
+.web-info img {
+    /* width: 20px;*/
+    height: var(--title-font-size);
+}
+
+.img-stack {
+    position: relative;
+    display: inline-block;
+    width: clamp(150px, 50%, 400px); /* Scales the entire stack */
+    transition: transform 0.3s ease-in-out;
+}
+
+
+/* Adjust layering with optional offsets */
+.img-stack img.border 
+{
+    width: 100%;
+    height: 100%; /* Ensures it scales with the container */ 
+    z-index: 1;
+    opacity: 0.6;
+    animation: rotate 8s linear infinite;  
+}
+
+.img-stack img.pic 
+{ 
+    transform: translate(-133%, 34%); 
+    
+    width: 60%;
+    height: auto; /* Maintain aspect ratio */
+    z-index: 2;
+    position: absolute; /* Remove from document flow */
+    
+}
+
+.img-stack video {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);/* Keeps the previous centering */
+    z-index: -1;
+    width: 1920px; /* Ensures full width without exceeding container */
+    max-width: 99vw; /* Prevents overflow */
+    height: auto; /* Maintains aspect ratio */
+    
+    max-height: 160%;
+    object-fit: cover;
+    box-sizing: border-box;
+    display: block;
+    overflow: hidden;
+}
+
+
+
+.role
+{
+    font-size: var(--title-font-size);
+    font-weight: bold;
+    margin-top: var(--mid-gap-size);
+    
+    background: linear-gradient(90deg, #ffffff, #b3e5fc, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 100%;
+    animation: shine 4s linear infinite;
+    display: block;
+    transition: transform 0.3s ease-in-out;
+}
+
+.contact
+{
+    width: 98%;
+}
+
+.quote {
+    height: clamp(30px, 5vw, 50px); /* Allow it to expand as needed */
+    font-size: var(--title-font-size); /* Scales with screen size */
+    font-weight: bold;
+    position: relative;
+    display: inline-block;
+    color: white;
+    text-align: center; /* Ensures proper alignment */
+    max-width: 90vw; /* Prevents it from being too wide on large screens */
+    word-wrap: break-word; /* Prevents overflow */
+    white-space: normal; /* Allows wrapping */
+}
+
+.quote .cursor {
+    font-size: inherit;
+    font-weight: bold;
+    display: inline-block;
+    animation: blink 0.6s infinite;
+}
+
+.intro {
+    font-size: var(--title-font-size);
+    font-weight: bold;
+    text-align: left;
+    padding: 20px;
+    max-width: 90vw; /* Prevents it from being too wide on large screens */
+    word-wrap: break-word; /* Prevents overflow */
+    white-space: normal; /* Allows wrapping */
+    margin: clamp(100px, 30vw, 300px) auto;
+}
+
+.shine-text
+{
+    font-size: inherit;
+    font-weight: inherit;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 100%;
+    animation: shine 4s linear infinite;
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+}
+
+.shine-text.fullstack
+{
+    background-image: linear-gradient(90deg, #1E4A9D, #2E6BBF, #4A90E2);
+}
+
+.shine-text.cybersecurity
+{
+    background-image: linear-gradient(90deg, #148040, #1FA75B, #2ECC71);
+}
+
+.shine-text.devops
+{
+    background-image: linear-gradient(90deg, #B3620D, #D98210, #F39C12);
+}
+
+.shine-text.name
+{
+    background-image: linear-gradient(90deg, #ffffff, #b3e5fc, #ffffff);
+}
+
+.fullstack:hover, .cybersecurity:hover, .devops:hover, .name:hover {
+    transform: scale(1.1);
+}
+
+
+
+@media (max-width: 768px) {
+    .ui.top-bar {
+        align-items: center;
+        text-align: center;
+        margin: var(--low-gap-size) auto; /* Centers it */
+        width: 97%;
+    }
+    
+    .icon {
+        width: var(--ex-font-size);
+        height: var(--ex-font-size);
+    }
+    
+    .ui.top-bar .bar-item.mhide {
+        display: none;
+    }
+    
+    .ui.top-bar .bar-item.mshow {
+        display: flex;
+    }
+    
+    .img-stack {
+        width: clamp(120px, 80%, 300px); /* Shrinks properly on smaller screens */
+    }
+    
+    .quote {
+        height: clamp(100px, 20vw, 200px); /* Allow it to expand as needed */
+        font-size: var(--ex-font-size); /* Smaller text for mobile */
+        text-align: center; /* Ensures proper positioning */
+        max-width: 95vw; /* Uses more of the screen width */
+    }
+    
+    .role
+    {
+        font-size: var(--ex-font-size);
+    }
+    
+    .intro {
+        font-size: var(--ex-font-size);
+    }
+    
+    .img-stack video {
+        min-height: 185%;
+        max-height: 185%;
+    }
+    
+    
+}

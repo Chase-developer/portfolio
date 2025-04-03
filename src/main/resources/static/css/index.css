@@ -9,41 +9,6 @@
     100% { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes shine {
-    0% { background-position: 200%; }
-    100% { background-position: -200%; }
-}
-
-.intro-container {
-    display: flex;
-    justify-content: center;
-	align-items: flex-start; /* Aligns items to the top */
-    gap: 50px; /* Space between showcase and list */
-	margin-top: 75px;
-	animation: fadeIn 1.5s ease-out;
-}
-
-.intro-image {
-	margin-top: 100px;
-    width: 300px; /* Adjust size as needed */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 10px; /* Optional: adds rounded corners */
-	animation: floatAnimation 2s ease-in-out infinite;
-}
-
-.intro-desc {
-    
-	/*background: linear-gradient(90deg, #4A90E2, #2ECC71, #F39C12);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-	*/
-	
-	font-size: 36px; /* Shared styles */
-    font-weight: bold;
-    max-width: 1000px;
-    margin: 0 auto;
-    margin-top: 100px;
-}
 
 .shining-text {
     background: linear-gradient(120deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 70%);
@@ -52,49 +17,6 @@
     
 }
 
-.name {
-    background: linear-gradient(90deg, #ffffff, #b3e5fc, #ffffff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-	background-size: 200% 100%;
-	animation: shine 4s linear infinite;
-	display: inline-block;
-    transition: transform 0.3s ease-in-out;
-}
-
-.fullstack {
-    background: linear-gradient(90deg, #1E4A9D, #2E6BBF, #4A90E2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-	background-size: 200% 100%;
-	animation: shine 4s linear infinite;
-	display: inline-block;
-    transition: transform 0.3s ease-in-out;
-}
-
-.cybersecurity {
-    background: linear-gradient(90deg, #148040, #1FA75B, #2ECC71);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-	background-size: 200% 100%;
-	animation: shine 4s linear infinite;
-	display: inline-block;
-    transition: transform 0.3s ease-in-out;
-}
-
-.devops {
-    background: linear-gradient(90deg, #B3620D, #D98210, #F39C12);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-	background-size: 200% 100%;
-	animation: shine 4s linear infinite;
-	display: inline-block;
-	transition: transform 0.3s ease-in-out;
-}
-
-.fullstack:hover, .cybersecurity:hover, .devops:hover, .nice:hover {
-    transform: scale(1.1);
-}
 
 .profile-container
 {
@@ -106,36 +28,6 @@
 	margin-top: 300px;
 	animation: fadeIn 1.5s ease-out;
 	width: 1200px;
-}
-
-.quote-container {
-	
-	height: 200px;
-	width: 800px;
-}
-
-.role
-{
-	font-size: 30px;
-	font-weight: bold;
-	margin-top: 20px;
-	
-	background: linear-gradient(90deg, #ffffff, #b3e5fc, #ffffff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-	background-size: 200% 100%;
-	animation: shine 4s linear infinite;
-	display: inline-block;
-    transition: transform 0.3s ease-in-out;
-}
-
-.quote {
-	height: 150px;
-    font-size: 40px;
-    font-weight: bold;
-    position: relative;
-    display: inline-block;
-    color: white;
 }
 
 .pfp-container {
@@ -184,25 +76,16 @@
 
 .author {
     display: block;
-    font-size: 40px;
+    font-size: var(--ex-font-size);
     font-style: italic;
     margin-top: 10px;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
 }
 
-.text-cursor {
-	font-size: 40px;
-    font-weight: bold;
-    display: inline-block;
-    animation: blink 0.6s infinite;
-}
 
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
-}
+
+
 
 
 

@@ -15,6 +15,7 @@ const maxDotSize = 10; // Max dot size when affected
 const growSpeed = 0.05; // How quickly dots change size
 let inactivityTimer;
 let isIdle = false; // Track inactivity state
+let waveInterval;
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -186,12 +187,30 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
+function startWaves() {
+    waveInterval = setInterval(createRandomWave, 250);
+}
+
+// Function to stop the wave creation
+function stopWaves() {
+    clearInterval(waveInterval);
+}
+
+function handleVisibilityChange() {
+    if (document.hidden) {
+        stopWaves(); // Stop the waves when the page is not visible
+    } else {
+        startWaves(); // Resume the waves when the page is visible
+    }
+}
+
 window.addEventListener("resize", resizeCanvas);
 window.addEventListener("mousemove", handleMouseMove);
+document.addEventListener('visibilitychange', handleVisibilityChange);
 resizeCanvas();
 animate();
 
-setInterval(createRandomWave, 250);
+startWaves();
 
 
 

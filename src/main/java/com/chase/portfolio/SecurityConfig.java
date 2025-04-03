@@ -15,7 +15,7 @@ public class SecurityConfig {
 	
 	//public static String[] TestApiCalls = new String[] {"api/auth/login", "api/auth/refresh"};
 	
-	public static final String[] StaticCalls = new String[] {"/css/**", "/js/**", "/images/**", "/fonts/**", "/texts/**"};
+	public static final String[] StaticCalls = new String[] {"/css/**", "/js/**", "/images/**", "/fonts/**", "/texts/**", "/videos/**"};
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,8 +26,9 @@ public class SecurityConfig {
 				.disable());
 		http.authorizeHttpRequests((authorize) -> 
 			authorize
-				.requestMatchers(HttpMethod.GET, "/.well-known/pki-validation/E86F8C4B2F4DFDBADD3B43031B3C303D.txt").permitAll()
-				.requestMatchers(HttpMethod.GET, "/", "/error", "/htb/**").permitAll()
+				//.requestMatchers(HttpMethod.GET, "/.well-known/pki-validation/E86F8C4B2F4DFDBADD3B43031B3C303D.txt").permitAll()
+				.requestMatchers(HttpMethod.GET, "/", "/error", "/htb/**", "/home/**", "/favicon.ico").permitAll()
+				
 				.requestMatchers(HttpMethod.GET, StaticCalls).permitAll()
 				//.requestMatchers("/actuator/**").permitAll()
 				//.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()

@@ -31,3 +31,9 @@
     width: 80px;
     height: 80px;
 }
+
+@media (max-width: 768px) {
+    .skill-list {
+        grid-template-columns: repeat(3, 1fr); /* Up to 5 badges per row */
+    }
+}

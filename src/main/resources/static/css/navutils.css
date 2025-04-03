@@ -1,86 +1,104 @@
-.navbar {
-	position: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 20px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    background: rgba(20, 20, 20, 0.8); /* Semi-transparent background */
-    margin: 20px;
-	position: relative;
-	z-index: 10; /* Ensure it's above other elements */
-	/*backdrop-filter: blur(10px);*/
-}
-
-.nav-container {
-	display: flex;
-    justify-content: center;
-	align-items: center; /* Aligns items to the top */
-    gap: 100px; /* Space between showcase and list */
-	margin-top: 100px;
-}
-
 .tab-container {
 	display: flex;
     justify-content: center;
 	align-items: flex-start; /* Aligns items to the top */
-    gap: 50px; /* Space between showcase and list */
-	margin-top: 100px;
+    gap: 50px;
 }
 
-.tab-wiki-container {
-    display: flex;
-    justify-content: center; /* Centers everything horizontally */
-    padding: 20px;
+.tab
+{
+    border-radius: var(--border-radius);
+    padding: 20px 10px;
+    border: var(--border-style);
+    background: var(--border-background); /* Semi-transparent background */
+    position: relative;
+    z-index: 10; /* Ensure it's above other elements */
 }
 
-.tab-wiki {
-    display: flex;
-    justify-content: space-between; /* Separates content and navigation */
-    align-items: flex-start; /* Aligns items to the top */
-    gap: 50px; /* Fixed gap between content and navigation */
-    max-width: 1400px; /* Limits the total width */
-    width: 100%;
-}
-
-.tab-wiki .content {
-    flex: 1; /* Allows it to grow */
-    max-width: 1200px; /* Prevents excessive width */
-}
-
-.tab-wiki .navigation {
-    width: 250px; /* Fixed width */
-    position: sticky;
-    top: 20px; /* Makes navigation stick on scroll */
-}
-
-
-.tab-block {
+.tab.block
+{
     display: flex;
     align-items: center;
     justify-content: space-between;
-	padding: 20px 20px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    background: rgba(20, 20, 20, 0.8); /* Semi-transparent background */
-	position: relative;
-	z-index: 10; /* Ensure it's above other elements */
-	/*backdrop-filter: blur(10px);*/
 }
 
-.tab-markdown {
+.tab.markdown
+{
+    padding: 20px 10px;
     display: block;
     text-align: left;
-    padding: 20px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    background: rgba(20, 20, 20, 0.8); /* Semi-transparent background */
-    position: relative;
-    z-index: 10; /* Ensure it's above other elements */
-    max-width: 100ch; /* Limit width to prevent stretching */
-    width: 100%; /* Ensures it adapts to the container */
     margin: auto; /* Center horizontally */
     word-wrap: break-word; /* Forces words to break if too long */
     overflow-wrap: break-word; /* Ensures text wraps properly */
     white-space: normal; /* Allows normal text wrapping */
+    max-width: 95%;
+}
+
+.tab.markdown .tab-title{
+    font-size: var(--title-font-size);
+    font-weight: bold; 
+    white-space: nowrap;
+}
+
+.tab.markdown .tab-header{
+    font-size: var(--header-font-size);
+    font-weight: bold; 
+}
+
+.tab.markdown .tab-content{
+    font-size: var(--content-font-size);  
+    margin-left: var(--mid-gap-size);   /* Adjust spacing as needed */
+}
+
+.tab-content .tab-content {
+    margin-left: var(--mid-gap-size); /* Adjust spacing as needed */
+}
+
+.tab-content .highlight-gray {
+    color: #B0B0B0;
+}
+
+.tab-content .highlight-cyan {
+    color: #00C3FF;
+}
+
+.tab-content .next, 
+.tab-content .previous {
+    position: absolute;
+    bottom: 10px; /* Aligns both buttons to the bottom */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: clamp(14px, 1.7vw, 36px);
+}
+
+.tab-content .previous {
+    left: 10px; /* Aligns to the left bottom */
+}
+
+.tab-content .next {
+    right: 10px; /* Aligns to the right bottom */
+}
+
+.highlight {
+    color: red;
+    font-weight: bold;
+}
+
+.tab-markdown .tab-seperator
+{
+    border: none;          /* Removes default HR styling */
+    border-top: var(--border-style);
+    width: 100%;           /* Full width */
+    margin: 10px 0;        /* Space above & below */
+}
+.tab-markdown .tab-point {
+    font-size: clamp(10px, 1.2vw, 30px);  
+    margin-left: clamp(10px, 1.3vw, 30px); /* Adjust spacing as needed */
+    display: block; /* Ensures it appears on a new line */
 }
 
 .tab-markdown pre {
@@ -89,31 +107,6 @@
     word-wrap: break-word; /* Ensures long words in code blocks break */
 }
 
-.oracle {
-    position: relative; /* Ensures child absolute positioning is relative to this container */
-	font-size: 20px; /* Shared styles */
-	font-weight: bold;
-	margin-left: 20px;
-}
-
-.oracle-badge {
-    position: absolute;
-    top: 0;  /* Stick to the top */
-    left: -20; /* Stick to the left */
-    padding: 5px 10px;
-	
-}
-
-.oracle-badge img {
-	width: 20px;
-	height: 20px;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-	margin-right: 10px;
-}
 
 .toggle-content {
 	display: block;
@@ -127,7 +120,7 @@
 
 .toggle-btn {
 	font: inherit;
-    font-size: 16px;
+    font-size: var(--header-font-size);
     font-weight: bold;
     text-align: left;
     cursor: pointer;
@@ -156,7 +149,7 @@
 
 
 .tab-title {
-	font-size: 24px; /* Shared styles */
+	font-size: var(--header-font-size); /* Shared styles */
     font-weight: bold;
     margin: 0 auto;
     margin-top: 10px;
@@ -180,7 +173,7 @@
 
 .section-title
 {
-	font-size: 20px; /* Shared styles */
+	font-size: var(--title-font-size); /* Shared styles */
     font-weight: bold;
     margin: 0 auto;
 	text-align: left;
@@ -188,7 +181,7 @@
 
 .section-desc
 {
-	font-size: 18px; /* Shared styles */
+	font-size: var(--content-font-size); /* Shared styles */
     margin: 0 auto;
 	text-align: left;
 }
@@ -197,24 +190,6 @@
 {
 	width: 50px; /* Prevents it from being too large */
 	height: 50px; /* Prevents it from being too large */
-}
-
-.nav-links {
-    display: flex;
-    gap: 20px;
-}
-.social-icons {
-    display: flex;
-    gap: 15px;
-}
-.icon {
-    width: 36px;
-    height: 36px;
-	transition: filter 0.3s ease-in-out;
-}
-
-.icon:hover {
-    filter: invert(56%) sepia(48%) saturate(288%) hue-rotate(180deg); /* Adjusted to #4A90E2 */
 }
 
 .nav-top {
@@ -233,65 +208,24 @@
 	width: 300px;
 }
 
-/* Left Section */
-.nav-left {
-    flex: 1;
-    display: flex;
-    align-items: center;
-}
-
-/* Center Section */
-.nav-center {
-    flex: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-/* Right Section */
-.nav-right {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    position: relative;
-	gap: 10px
-}
-
-/* Vertical Line Between Left and Center */
-.nav-center::before {
-    content: "";
-    position: absolute;
-    left: -15px; /* Adjust spacing */
-    height: 30px;
-    width: 2px;
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Vertical Line Between Center and Right */
-.nav-right::before {
-    content: "";
-    position: absolute;
-    left: -15px; /* Adjust spacing */
-    height: 30px;
-    width: 2px;
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-.nav-item {
-    color: white;
-    text-decoration: none;
-    background: none;
-    font-size: 16px;
-    padding: 8px 16px;
-    cursor: pointer;
-}
-
 /* Hover Effect */
 .nav-item:hover {
     color: #33ff33;
     transition: color 0.3s ease-in-out;
+}
+
+/* Mobile Fixes */
+@media (max-width: 768px) {
+    .tab-container {
+        flex-direction: column; /* Stack content vertically */
+        justify-content: center; /* Adjust as needed */
+        max-width: 98vw;
+        align-items: center;
+    }
+    
+    .nav-top {
+        width: clamp(300px, 35vw, 400px);
+    }
 }
 
 

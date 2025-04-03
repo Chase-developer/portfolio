@@ -1,0 +1,132 @@
+.item-showcase {
+    display: flex;
+    position: relative;
+    gap: var(--mid-gap-size); /* Adds spacing between item-selected and item-details */
+    align-items: center;
+    flex-wrap: nowrap; /* Ensures they stay side by side */
+    width: 95%;
+    margin-top: var(--layout-gap-size);
+    max-width: 1000px;
+    min-height: var(--layout-gap-size);
+
+}
+
+.item-showcase .item-selected {
+    flex: 1; /* Takes available space */
+    min-width: 100px; /* Ensures it doesn't shrink too much */
+    
+    display: flex; /* Enables flexbox */
+    align-items: center; /* Centers image vertically */
+}
+
+.item-showcase .item-selected img{
+    
+    width: clamp(100px, 25vw, 300px); /* Prevents it from being too large */
+    height: clamp(100px, 25vw, 300px); /* Prevents it from being too large */
+    animation: floatAnimation 2s ease-in-out infinite;
+}
+
+.item-showcase .item-details {
+    flex: 1; /* Gives it more space than item-selected */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Ensures consistent positioning */
+    gap: var(--mid-gap-size); /* Adds spacing between name, description, etc. */
+    min-width: 200px; /* Ensures proper scaling */
+    word-wrap: break-word; /* Ensures long words break properly */
+    overflow-wrap: break-word; /* Handles word wrapping */
+    white-space: normal; /* Allows text to wrap */
+    min-height: 0;
+}
+
+/* Basic layout for the item list */
+.item-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--layout-gap-size); /* Adjustable gap between items */
+    padding: 20px;
+    justify-content: center;
+}
+
+/* Item styling */
+.item-list .item {
+    flex: 0 1 auto;  /* Default to 6 items per row on larger screens */
+    position: relative; /* For absolute positioning of image */
+    transition: transform 0.3s ease; /* Smooth hover transition */
+    width: clamp(75px, 15vw, 150px);
+    height: clamp(150px, 25vw, 250px);
+    cursor: pointer;
+}
+
+.item-list .item .item-title
+{
+    font-size: var(--content-font-size);
+    font-weight: normal;
+}
+
+.item-list .item img {
+    width: 90%; /* Ensures the image fills the container */
+    height: auto; /* Maintains the image's aspect ratio */
+    object-fit: cover; /* Ensures image scales properly */
+}
+
+/* Hover effect to scale the item */
+.item-list .item:hover {
+    transform: scale(1.1); /* Scales the item to 1.1 times its size */
+}
+
+#badgeVerify {
+    font-size: var(--content-font-size);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#badgeTitle {
+    min-height: 40px; /* Adjust based on longest title */
+    font-size: var(--header-font-size);
+    font-weight: bold;
+    margin-top: 10px;
+    display: flex;
+    align-items: center; /* Centers text */
+    justify-content: center;
+    background: linear-gradient(90deg, #ffffff, #b3e5fc, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 100%;
+    animation: shine 4s linear infinite;
+}
+
+#badgeDesc {
+    min-height: 40px; /* Adjust to the longest description */
+    font-size: var(--content-font-size);
+    text-align: center;
+    display: block;
+    align-items: center; /* Ensures consistent positioning */
+    justify-content: center;
+    overflow-y: auto;
+    max-height: clamp(50px, 10vw, 100px);
+    max-width: clamp(200px, 30vw, 1000px);
+    padding: var(--mid-gap-size);
+}
+
+@media (max-width: 768px) {
+    
+    
+    .item-showcase {
+        flex-wrap: nowrap; /* Keeps items in a row */
+        min-height: 250px;
+    }
+    
+    .item-list .item {
+        width: clamp(75px, 15vw, 150px);
+        height: clamp(80px, 15vw, 150px);  
+    }
+    
+    .item-list .item .item-title
+    {
+        display: none;
+    }
+    
+    
+    
+}

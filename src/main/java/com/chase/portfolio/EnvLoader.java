@@ -8,8 +8,6 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.oracle.bmc.Region;
-
 public class EnvLoader {
 	
 	public static void init()
@@ -27,8 +25,9 @@ public class EnvLoader {
 	
 	public final String bucket_Name;
 	public final String bucket_Namespace;
-	public final Region bucket_Region;
+	public final String bucket_Region;
 	public final String web_Address;
+	
 	/*
 	 * 
 	 */
@@ -36,6 +35,7 @@ public class EnvLoader {
 	
 	private EnvLoader()
 	{
+
 		try (FileInputStream fileInputStream = new FileInputStream(".env")) {
 	        properties.load(fileInputStream);
 	        if (!PortfolioApplication.isInProject())
@@ -59,7 +59,7 @@ server.ssl.key-alias=${SSL_KEY_ALIAS}
 		}
 		bucket_Name = properties.getProperty("bucket-name");
 		bucket_Namespace = properties.getProperty("bucket-namespace");
-		bucket_Region = Region.fromRegionId(properties.getProperty("bucket-region"));
+		bucket_Region = properties.getProperty("bucket-region");
 		web_Address = properties.getProperty("web-address");
 		instance = this;
 	}

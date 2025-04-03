@@ -1,57 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const quote1El = document.getElementById("quote-one");
-	const cursor1El = document.getElementById("cursor-one");
-	const quote2El = document.getElementById("quote-two");
-	const cursor2El = document.getElementById("cursor-two");
-	
-	//const quoteEl = document.getElementById("quote");
-		//const cursorEl = document.querySelector(".text-cursor");
+    const quoteEl = document.getElementById("quote");
     const finalQuote = "Continuously mastering the ever-evolving world of technology.";
+    
+    quoteEl.innerHTML = `<span id="text"></span><span class="cursor">|</span>`;
+    const textEl = document.getElementById("text");
     let index = 0;
 	
-	function typeWriter1() {
-		quote1El.innerHTML += finalQuote.charAt(index); // Use innerHTML instead of textContent
-        index++;
-
-        // Delay before continuing after the line break
-		if (index == 26)
-		{
-			
-			setTimeout(typeWriter2, 50);
-		}
-		else
-		{
-			setTimeout(typeWriter1, 50);
-		}
-        //let delay = (index === 32) ? 1000 : 50;
-        
-	}
-	
-	function typeWriter2() {
-		    if (index < finalQuote.length) {
-		      	if (index == 26)
-				{
-					cursor1El.style.display = "none";
-					cursor2El.style.display = "inline-block";
-				}
-		        quote2El.innerHTML += finalQuote.charAt(index); // Use innerHTML instead of textContent
-		        index++;
-		        setTimeout(typeWriter2, 50);
-		    } else {
-		        //cursor2El.style.display = "none"; // Hide cursor when done
-		        //setTimeout(() => {
-		           // authorEl.style.opacity = "1"; // Fade in author name
-		        //}, 500);
-		    }
-		}
-
+	function typeWriter() {
+        if (index < finalQuote.length) {
+    		textEl.innerHTML += finalQuote.charAt(index); // Use innerHTML instead of textContent
+            index++;
     
+            // Delay before continuing after the line break
+            setTimeout(typeWriter, 50);
+        }
+	}
 
     // Observer to start effect when in view
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                typeWriter1();
+                typeWriter();
                 observer.disconnect(); // Stop observing after animation
             }
         });

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Journey</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/ui-styles.css}">
+    <link rel="stylesheet" th:href="@{/css/waveform.css}">
+    <link rel="stylesheet" th:href="@{/css/navutils.css}">
+    <link rel="stylesheet" th:href="@{/css/badges.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="icon" th:href="@{/images/chasefavicon.png}" type="image/x-icon">
+</head>
+<body>
+    <div class="background"></div>
+    <canvas id="waveCanvas"></canvas>
+    <div th:replace="fragments/main_nav :: header_nav"></div>
+    
+    <p id="titlecenter" class="title">My Journey - January</p>
+    <div class="tab-wiki-container">
+        <div class="tab-wiki">
+            <div class="content">
+                <div class="tab-markdown">
+                    <p class="tab-title">
+                        The Beginning: A Career Pivot
+                    </p><br>
+                    <hr class="separator">
+                    <p class="tab-content">
+                        At the start of January, I made a crucial decision. To transition from freelancing to a stable, full-time job. For years, 
+                        I had built my expertise through freelance projects, solving complex problems, and adapting to new challenges. However, 
+                        when I began applying for jobs, I quickly realized a major obstacle: despite my experience, I had no tangible credentials or 
+                        publicly available proof of my work. Since I had signed NDAs with my freelance clients, I couldn't showcase my previous 
+                        projects, leaving me at a disadvantage.<br><br>
+                        I faced numerous rejections, either getting filtered out by Applicant Tracking Systems (ATS) or failing to progress beyond 
+                        interviews. However, one interview stood out. A cybersecurity company that not only considered my application but also provided 
+                        insights into its Oracle Cloud infrastructure, company culture, ongoing projects, and real-world cybersecurity incidents like 
+                        DDoS attacks.<br><br>
+                        What truly inspired me was the industry veteran who interviewed me. Their depth of knowledge and passion for cybersecurity 
+                        left a lasting impression, sparking my curiosity about the field. I started researching cybersecurity trends and discovered 
+                        that there was a global shortage of cybersecurity professionals. Even in Malaysia, initiatives were being launched to increase 
+                        the workforce due to the growing frequency of cyberattacks.<br><br>
+                        At the same time, I observed that the software development job market was becoming increasingly saturated. This realization, 
+                        combined with my newfound interest in cybersecurity, led me to make a bold decision: I would fully pivot into cybersecurity 
+                        and re-apply to the company that had inspired me.<br><br>
+                    </p>
+                </div>
+            </div>
+            <div class="navigation">
+                <div class="tab block">
+                    <div class="nav-wiki">
+                        <button class="toggle-btn" onclick="toggleContent()">
+                            <span id="triangle" class="triangle">
+                                <img id="arrow-down" th:src="@{/images/arrowdown.png}" alt="Arrow Down" class="arrow-icon">
+                                <img id="arrow-right" th:src="@{/images/arrowright.png}" alt="Arrow Right" class="arrow-icon hidden">
+                            </span>
+                            Section
+                        </button>
+                        <div id="rollDownSection" class="toggle-content">
+                            <a th:href=@{/htb/lockpick} class="link">Sherlock - Lockpick</a>
+                            <a th:href=@{/htb/escapetwo} class="link">Machine - EscapeTwo</a>
+                            <a th:href=@{/htb/brutus} class="link">Sherlock - Brutus</a>
+                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <p>Reach out via email chase@chase-developer.com</p>
+    </section>
+    <script th:src="@{/js/waveform.js}"></script>
+    <script th:src="@{/js/badges.js}"></script>
+    <script th:src="@{/js/textformat.js}"></script>
+    <script th:src="@{/js/markdown.js}"></script>
+</body>
+</html>

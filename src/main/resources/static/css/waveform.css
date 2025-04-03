@@ -4,7 +4,7 @@
     height: 100vh;
     /*background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 2px, transparent 1px);*/
     background-size: 40px 40px;
-	z-index: -1;
+	z-index: -2;
 }
 
 canvas {
@@ -14,5 +14,5 @@ canvas {
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-	z-index: -1;
+	z-index: -2;
 }

@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.chase.portfolio.services.OCIStorageService;
@@ -193,7 +194,8 @@ public class StaticDirectoryController {
         	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
         // Read the CSS file as bytes
-        if (!contentExists("static/images/" + filePath))
+        String url = storage_service.getPreAuthURL("images/" + filePath);
+        if (url == null)
         	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         return ResponseEntity.status(HttpStatus.FOUND)
@@ -212,7 +214,8 @@ public class StaticDirectoryController {
         	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
         // Read the CSS file as bytes
-        if (!contentExists("static/fonts/" + filePath))
+        String url = storage_service.getPreAuthURL("fonts/" + filePath);
+        if (url == null)
         	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         return ResponseEntity.status(HttpStatus.FOUND)
@@ -231,13 +234,26 @@ public class StaticDirectoryController {
         	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
         // Read the CSS file as bytes
-        if (!contentExists("static/texts/" + filePath))
+        String url = storage_service.getPreAuthURL("texts/" + filePath);
+        if (url == null)
         	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header(HttpHeaders.LOCATION, storage_service.getPreAuthURL("texts/" + filePath))
                 .build();
 
+    }
+    
+    @GetMapping("/favicon.ico")
+    public String favicon(Model model) {
+    	return "redirect:/images/chasefavicon.png";
+    }
+    
+    @GetMapping("/videos/background.webm")
+    public ResponseEntity<byte[]> background(Model model) {
+    	return ResponseEntity.status(HttpStatus.FOUND)
+                .header(HttpHeaders.LOCATION, storage_service.getPreAuthURL("videos/background.webm"))
+                .build();
     }
     
     

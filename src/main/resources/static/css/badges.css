@@ -1,116 +1,36 @@
-@keyframes floatAnimation {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
-}
+
 
 @keyframes shine {
     0% { background-position: 200%; }
     100% { background-position: -200%; }
 }
 
-.badge-container {
-    display: flex;
-    justify-content: center;
-	align-items: flex-start; /* Aligns items to the top */
-    gap: 220px; /* Space between showcase and list */
-	margin-top: 100px;
-	margin-right: 160px;
-}
 
-.badge-showcase {
-    text-align: center;
-    color: white;
-	width: 500px;  /* Set a fixed width */
-	
-    object-fit: contain; /* Ensures the image fits without distortion */
-    display: flex; /* Prevents any inline spacing issues */
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 300px; /* Adjust this value based on your layout */
-	
-    margin-bottom: 50px; /* Pushes content below downward */
-	
-}
-
-#badgeVerify {
-    font-size: 20px;
-    cursor: pointer;
-	font-weight: bold;
-}
-
-#badgeTitle {
-    min-height: 40px; /* Adjust based on longest title */
-    font-size: 20px;
-    margin-top: 10px;
-    display: flex;
-    align-items: center; /* Centers text */
-    justify-content: center;
-	background: linear-gradient(90deg, #ffffff, #b3e5fc, #ffffff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-	background-size: 200% 100%;
-	animation: shine 4s linear infinite;
-}
-
-#badgeDescription {
-    min-height: 40px; /* Adjust to the longest description */
-    font-size: 16px;
-    text-align: center;
-    display: flex;
-    align-items: center; /* Ensures consistent positioning */
-    justify-content: center;
-	max-width: 500px;
-}
 
 .badge-showcase img {
 	
-    width: 350px; /* Prevents it from being too large */
-	min-height: 400px; /* Prevents it from being too large */
+    width: clamp(100px, 35vw, 350px); /* Prevents it from being too large */
+	min-height: clamp(200px, 40vw, 400px); /* Prevents it from being too large */
 	object-fit: contain; /* Prevents stretching while keeping aspect ratio */
 	animation: floatAnimation 2s ease-in-out infinite;
 }
 
 .large-badge {
     border: 2px solid white;
-    padding: 20px;
+    padding: var(--high-gap-size);
     margin-bottom: 20px;
     display: inline-block;
-    width: 500px;
+    max-width: clamp(250px, 50vw, 500px);
 	
 }
 
 .large-badge img {
-    width: 100px;
-    height: 100px;
+    width: clamp(50px, 10vw, 100px);
+    height: clamp(50px, 10vw, 100px);
 }
 
-.badge-list {
-	flex-wrap: wrap;
-    justify-content: center;
-	
-	display: grid;
-	grid-template-columns: repeat(5, 1fr); /* Up to 5 badges per row */
-	max-width: 500px; /* Adjust as needed */
-	gap: 15px 0px;
-}
 
-.badge-item {
-	display: inline-block;
-	text-align: center;
-    cursor: pointer;
-    padding: 10px;
-	height: 160px;
-    width: 160px;
-    transition: transform 0.2s ease-in-out;
-}
 
-.badge-item:hover {
-    transform: scale(1.2);
-}
-
-.badge-item img {
-    width: 80px;
-    height: 80px;
+@media (max-width: 768px) {
+    
 }

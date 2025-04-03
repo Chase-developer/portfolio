@@ -1,0 +1,133 @@
+## Red Team Penetration Testing Report
+
+### Overview
+
+
+---
+
+## Findings and Recommendations
+
+### Finding 1: **Open Network Ports and Services**
+#### Identified Ports:
+```bash
+PORT     STATE SERVICE        VERSION
+22/tcp   open  ssh            OpenSSH 8.2p1 Ubuntu 4ubuntu0.12 (Ubuntu Linux; protocol 2.0)
+80/tcp   open  http           Apache httpd 2.4.41 (Ubuntu)
+```
+
+#### Risk Rating:
+- Medium: The web server is running Apache 2.4.41 on Ubuntu, which may have known vulnerabilities.
+- Medium: The SSH service is publicly accessible, which increases the risk of brute-force or credential stuffing attacks.
+Low: Default SSH keys are exposed in the fingerprint output, potentially aiding fingerprint-based attacks.
+
+#### Recommendations:
+- Restrict SSH access to specific IP addresses using firewall rules.
+- Enforce key-based authentication and disable password authentication.
+- Regularly rotate SSH host keys and monitor for unauthorized access attempts.
+- Upgrade Apache to the latest stable version to mitigate security vulnerabilities.
+- Remove unnecessary files like README.md and web.config to reduce information leakage.
+- Implement security headers to mitigate web-based attacks.
+
+
+---
+
+### Finding 2: **Exposed .git Directory Leading to Database Credential Leak**
+
+#### Observation:
+- The .git directory is publicly accessible, allowing attackers to extract repository files.
+- The Database Credentials are extracted from .git
+
+#### Risk Rating:
+- Critical: Exposure of database credentials could allow unauthorized access, modification, or deletion of sensitive data.
+
+#### Recommendations:
+- Immediately change database credentials and store them in a secure environment.
+- Restrict public access to the .git directory using web server configurations.
+- Remove sensitive files from version control and use environment variables for credentials.
+
+
+---
+
+### Finding 3: **Account Compromise via Leaked Credentials**
+
+#### Observation:
+- User credentials were found in /active/update.settings.json
+
+#### Risk Rating:
+- High: Attackers could use the credentials to log in and escalate privileges.
+
+#### Recommendations:
+- Reset compromised credentials immediately.
+- Implement multi-factor authentication (MFA) for user accounts.
+- Audit access logs for unauthorized logins.
+
+
+---
+
+### Finding 4: **Remote Code Execution (RCE) via BackDrop CMS Module Installation**
+
+#### Exploit Path:
+- Install a malicious module as a .tar file.
+- Execute a reverse shell using:
+```
+http://dog.htb/modules/<tar-name>/shell.php?cmd=<RCE-Command>
+```
+
+#### Observation:
+- User credentials were found in /active/update.settings.json
+
+#### Risk Rating:
+- Critical: Allows remote attackers to execute arbitrary commands on the server.
+
+#### Recommendations:
+- Disable module uploads unless strictly necessary.
+- Implement file integrity monitoring to detect unauthorized file modifications.
+- Update BackDrop CMS to the latest patched version.
+
+
+---
+
+### Finding 5: **Privilege Escalation via Reused Credentials**
+
+#### Identified User:
+- user found in /etc/passwd, using the same database password.
+
+
+#### Risk Rating:
+- High: Credential reuse increases the risk of privilege escalation if one set of credentials is compromised.
+
+#### Recommendations:
+- Enforce unique passwords for different accounts.
+- Implement strong password policies and regular password rotation.
+- Use a password manager to prevent credential reuse.
+
+
+---
+
+### Finding 6: **Root Privilege Escalation via bee Command**
+
+#### Exploit Path:
+- Run sudo -l to identify available commands.
+- Found "bee", a BackDrop CMS utility.
+- Execute the following to gain a root shell:
+```bash
+sudo bee eval 'system("/bin/bash -i")'
+
+```
+
+#### Risk Rating:
+- Critical: Allows an attacker to gain full control over the system.
+
+#### Recommendations:
+- Restrict the use of sudo for non-administrative users.
+- Remove unnecessary administrative tools like bee from production systems.
+- Implement the principle of least privilege (PoLP) for user roles.
+
+
+---
+
+## Conclusion
+The penetration test identified multiple critical vulnerabilities, SSH and HTTP services are publicly exposed, 
+with potential misconfigurations that could be exploited, 
+database credential leaks, RCE via BackDrop CMS, 
+and privilege escalation to root. Immediate remediation steps should be taken to secure the system and prevent exploitation.

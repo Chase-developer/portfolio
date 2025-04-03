@@ -33,10 +33,31 @@ body {
     text-align: center;
 }
 
+:root
+{
+    --ex-font-size: clamp(22px, 5vw, 60px);/* Define a variable */
+    --title-font-size: clamp(20px, 2.5vw, 40px);/* Define a variable */
+    --header-font-size: clamp(18px, 1.7vw, 25px);  /* Define a variable */
+    --content-font-size: clamp(14px, 1.2vw, 20px); /* Define a variable */
+    --low-gap-size: clamp(4px, 1vw, 12px);
+    --mid-gap-size: clamp(4px, 1.5vw, 18px);
+    --high-gap-size: clamp(4px, 2vw, 24px);
+    --layout-gap-size: clamp(20px, 5vw, 60px);
+    --low-gap-size-neg: calc(-1 * var(--low-gap-size));
+    --mid-gap-size-neg: calc(-1 * var(--mid-gap-size));
+    --high-gap-size-neg: calc(-1 * var(--high-gap-size));
+    --layout-gap-size-neg: calc(-1 * var(--layout-gap-size));
+    --border-style: 4px solid rgba(255, 255, 255, 0.3);
+    --border-radius: 10px; /* Rounded edges */
+    --border-background: rgba(20, 20, 20, 0.8); /* Semi-transparent background */
+}
+
 
 section {
     padding: 50px 20px;
 }
+
+
 
 .link {
     color: white; /* Default white color */
@@ -53,14 +74,39 @@ pre, code {
     background: transparent !important; /* Remove default background */
 }
 
-.title {
-	border-radius: 10px;
-    font-size: 36px; /* Shared styles */
+.section-text
+{
     font-weight: bold;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
+.section-text.title {
+    font-size: var(--title-font-size); /* Shared styles */  
+}
+
+.section-text.header {
+    font-size: var(--header-font-size); /* Shared styles */  
+}
+
+.section-text.ex {
+    font-size: var(--ex-font-size); /* Shared styles */  
+}
+
+.left {
+    align-items: left;
+    text-align: left;
+}
+
+.right {
+    align-items: right;
+    text-align: right; 
+}
+
+.center {
+    align-items: center;
+    text-align: center;
+}
 
 #titleleft {
     text-align: left; /* Aligns this one to the left */
@@ -69,4 +115,6 @@ pre, code {
 #titlecenter {
     text-align: center; /* Aligns this one to the center */
 }
+
+
 

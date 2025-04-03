@@ -1,0 +1,69 @@
+.wiki-layout {
+    display: flex;
+    position: relative;
+    padding: var(--high-gap-size);
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%; /* Ensure full width */
+    max-width: 100%; /* Prevents stretching */
+    box-sizing: border-box; /* Ensures padding doesn’t add extra width */
+    
+}
+
+.wiki-layout .content {
+    width: 75%; /* Adjusted to leave room for navigation */
+    max-width: 100%;
+    display: flex;
+    position: relative;
+    font-size: var(--content-font-size);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.wiki-layout .navigation {
+    max-width: 22%; /* Slightly reduced to fit properly */
+    width: 22%;
+    display: flex;
+    flex-direction: column; /* Fix incorrect align-items */
+    font-size: var(--content-font-size);
+    position: sticky;
+    top: 20px;
+}
+
+.intro-layout {
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    align-items: center; /* Centers the content */
+    justify-content: center; /* Adjust as needed */
+    padding: var(--high-gap-size);
+    width: 90%; /* Keep it within borders */
+    max-width: 100%; /* Prevents excessive stretching on large screens */
+    margin: 0 auto; /* Centers the section */
+    box-sizing: border-box;
+}
+
+/* Mobile Fixes */
+@media (max-width: 768px) {
+    .wiki-layout {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: var(--low-gap-size);
+        gap: var(--low-gap-size);
+    }
+    
+    .wiki-layout .content {
+        width: 100%;
+        max-width: 100%; /* Ensures content fits */
+        order: 2;
+    }
+
+    .wiki-layout .navigation {
+        width: 100%; /* Makes it full width */
+        max-width: 100%;
+        position: relative; /* Remove stickiness on small screens */
+        order: 1;
+        top: 0px;
+    }
+}

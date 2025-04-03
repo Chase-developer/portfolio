@@ -14,6 +14,13 @@
 	<div th:replace="~{fragments/default :: header-nav}"></div>
 	<p id="titlecenter" class="section-text title" th:text="${reportTitle}"></p>
     <section>
+        <div class="intro-layout">
+            <div class="ui ref">
+                <img th:src="@{/images/{img}(img=${HTBImg})}">
+                <a th:href= "${HTBVerify}" class="section-text header link">VERIFY</a><br>
+            </div>
+        </div>
+        
 	    <div class="wiki-layout">
             <div class="content">
                 <textarea id="raw-text" th:data-src="@{${reportFile}}" style="display:none;"></textarea>
@@ -45,9 +52,9 @@
 
                         </button>
                         <div id="toggle-nav-content" class="toggle-content">
-                            <a th:href=@{/htb/lockpick} class="link">Sherlock - Lockpick</a><br>
-                            <a th:href=@{/htb/escapetwo} class="link">Machine - EscapeTwo</a><br>
-                            <a th:href=@{/htb/brutus} class="link">Sherlock - Brutus</a>
+                            <th:block th:each="report : ${reports}">
+                                <a th:href="@{'/htb/' + ${report.id}}" class="link" th:text="${report.name}"></a><br>
+                            </th:block>
                         </div>
 					</div>
 				</div>
@@ -58,7 +65,7 @@
 	<section th:insert="~{fragments/default :: contact}"></section>
 	<script th:src="@{/js/waveform.js}"></script>
 	<script th:src="@{/js/badges.js}"></script>
-	<script th:src="@{/js/wiki.js}"></script>
+	<script th:src="@{/js/toggle.js}"></script>
 	<script th:src="@{/js/markdown.js}"></script>
 	
 	
