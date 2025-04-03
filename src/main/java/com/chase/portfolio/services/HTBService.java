@@ -24,6 +24,8 @@ public class HTBService {
 			red("shocker", "https://www.hackthebox.com/achievement/machine/2297566/108"),
 			red("dog", "https://www.hackthebox.com/achievement/machine/2297566/651"),
 			red("titanic", "https://www.hackthebox.com/achievement/machine/2297566/648"),
+			red("underpass", "https://www.hackthebox.com/achievement/machine/2297566/641"),
+			red("linkvortex", "https://www.hackthebox.com/achievement/machine/2297566/638"),
 			blue("brutus", ReportType.DFIR ,"https://labs.hackthebox.com/achievement/sherlock/2297566/631"),
 			blue("lockpick", ReportType.MA ,"https://labs.hackthebox.com/achievement/sherlock/2297566/556")
 			);

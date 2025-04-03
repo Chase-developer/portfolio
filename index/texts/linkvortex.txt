@@ -1,0 +1,97 @@
+## Red Team Penetration Testing Report
+
+### Overview
+This report documents the security weaknesses identified during the assessment of `linkvortex.htb`. 
+The engagement led to privilege escalation from an initial foothold to full domain compromise.
+
+---
+
+## Findings and Recommendations
+
+### Finding 1: **Open Network Ports and Services**
+#### Identified Ports:
+```bash
+PORT     STATE SERVICE        VERSION
+22/tcp   open  ssh            OpenSSH 8.2p1 Ubuntu 4ubuntu0.12 (Ubuntu Linux; protocol 2.0)
+80/tcp   open  http           Apache httpd 2.4.41 (Ubuntu)
+```
+
+#### Risk Rating:
+- Medium: The web server is running Apache 2.4.41 on Ubuntu, which may have known vulnerabilities.
+- Medium: The SSH service is publicly accessible, which increases the risk of brute-force or credential stuffing attacks.
+Low: Default SSH keys are exposed in the fingerprint output, potentially aiding fingerprint-based attacks.
+
+#### Recommendations:
+- Restrict SSH access to specific IP addresses using firewall rules.
+- Enforce key-based authentication and disable password authentication.
+- Regularly rotate SSH host keys and monitor for unauthorized access attempts.
+- Upgrade Apache to the latest stable version to mitigate security vulnerabilities.
+- Remove unnecessary files like README.md and web.config to reduce information leakage.
+- Implement security headers to mitigate web-based attacks.
+
+
+---
+
+### Finding 2: **Exposure of Hard-Coded Credentials in Git Repository**
+#### Observation:
+- Wappalyzer identified that the application is running Ghost 5.58.
+- Directory enumeration of the website revealed the robots.txt file, which contained an entry for /ghost, leading to the login page for the Ghost CMS.
+- Further subdirectory enumeration revealed a dev domain, which, upon inspection, contained a .git directory.
+- By pulling the contents of the .git directory, we discovered authentication.test.js, which contained a hard-coded password.
+- The admin username was referenced in a blog post, indicating the possibility of unauthorized access using these credentials.
+
+#### Risk Rating:
+- High: Hard-coded credentials expose sensitive information, providing attackers with a straightforward path to access critical systems or accounts. 
+In this case, the admin credentials for the Ghost CMS are easily retrievable, allowing for full administrative access to the platform.
+
+#### Recommendations:
+- Remove Hard-Coded Credentials: Immediately remove any hard-coded passwords from the source code and replace them with secure, encrypted authentication 
+mechanisms.
+- Use Secure Authentication Practices: Implement environment variables or secure vault solutions to store sensitive credentials.
+- Perform Code Reviews: Conduct regular code reviews and vulnerability scans to ensure that no sensitive information is exposed within the source code.
+- Restrict .git Directory Access: Ensure that the .git directory is not publicly accessible via the web. 
+Use proper web server configurations to prevent direct access to hidden directories.
+
+---
+
+### Finding 3: **Privilege Escalation via Symbolic Link Abuse in clean_symlink.sh Script**
+#### Observation:
+- The sudo -l command revealed the presence of a script located at /opt/ghost/clean_symlink.sh.
+- Upon reviewing the script, we identified a vulnerability: it moves a symbolic link png file while reading its contents.
+- By creating a symbolic link from a root file (e.g., /root/root.txt) to the current user's directory, 
+we can potentially manipulate the script into accessing sensitive root-level files.
+- The following symbolic link was created:
+```bash
+ln -s /root/root.txt root.png
+```
+Running the script with sudo privileges:
+```bash
+sudo CHECK_CONTENT=true /usr/bin/bash /opt/ghost/clean_symlink.sh /home/bob/root.png
+```
+The script was executed, revealing the contents of /root/root.txt, which contains sensitive credentials.
+
+#### Risk Rating:
+- Critical: The ability to manipulate a symbolic link and execute it with sudo privileges can lead to unauthorized access to critical system files, 
+including root credentials. This represents a severe security vulnerability, potentially allowing attackers to escalate privileges to root.
+
+#### Recommendations:
+- Sanitize User Input: Modify the script to validate and sanitize user input to ensure only intended files are processed, 
+preventing symlink manipulation.
+- Restrict Sudo Access: Ensure that only necessary and trusted scripts have sudo access. 
+Avoid running user-generated or untrusted files with elevated privileges.
+- Implement Principle of Least Privilege: Restrict access to sensitive files and directories to only those processes and users who need them, 
+and ensure symbolic link creation cannot be abused.
+- Use Symlink Protection: Configure the system to prevent symbolic links from pointing to sensitive or root-owned files unless absolutely necessary.
+
+---
+
+## Conclusion
+The security assessment of the system revealed two critical vulnerabilities:
+Exposure of Hard-Coded Credentials in Git Repository: Sensitive hard-coded credentials were found within a Git repository, 
+which could allow an attacker to gain unauthorized access to the application. These credentials, coupled with the visibility of the admin username, 
+present a significant security risk.
+Privilege Escalation via Symbolic Link Abuse in clean_symlink.sh Script: A misconfiguration in the clean_symlink.sh script allows an attacker to exploit 
+symbolic link handling, enabling them to gain access to sensitive files, including root credentials. This vulnerability presents a clear path to 
+privilege escalation and could compromise the entire system.
+Both vulnerabilities highlight critical weaknesses in the system’s handling of sensitive information and privilege management. Immediate remediation is 
+required to secure the system and protect it from unauthorized access and potential compromise.

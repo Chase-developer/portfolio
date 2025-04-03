@@ -4,13 +4,16 @@ images/logo/html.png
 images/badge/googlecybersecurity.png
 images/logo/metasploit.png
 images/arrowright.png
+images/htb/underpass.png
 images/badge/oracle.png
 images/lock.png
 images/error.png
+images/htb/titanic.png
 images/arrowdown.png
 images/face.png
 images/htb/shocker.png
 images/logo/thymeleaf.png
+images/htb/linkvortex.png
 images/logo/maven.png
 images/menu.png
 images/chasefavicon.png
@@ -20,9 +23,11 @@ images/logo/git.png
 images/badge/amazon.png
 images/logo/splunk.png
 texts/escapetwo.txt
+images/htb/dog.png
 images/positivessl.png
 images/isc2cctraining.png
 fonts/CeraProRegular2
+texts/underpass.txt
 images/htb/lockpick.png
 images/logo/junit.png
 images/logo/burpsuite.png
@@ -58,6 +63,7 @@ images/logo/mysql.png
 images/github.png
 images/logo/python.png
 fonts/HKGroteskRegular2
+texts/linkvortex.txt
 texts/titanic.txt
 images/profileborder.png
 fonts/CeraProRegular

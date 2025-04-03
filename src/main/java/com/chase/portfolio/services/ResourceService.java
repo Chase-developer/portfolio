@@ -45,7 +45,7 @@ public class ResourceService {
 	
 	public static void main(String[] args)
 	{
-		//updateStaticIndex();
+		updateStaticIndex();
 		for (String s : getStaticIndex())
 		{
 			System.out.println(s);

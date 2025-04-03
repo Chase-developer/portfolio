@@ -31,7 +31,7 @@ public class SecurityConfig {
 			headers.contentSecurityPolicy((csp) -> 
 				csp.policyDirectives("default-src 'self' https://objectstorage.eu-frankfurt-1.oraclecloud.com;"))
 				);
-		//This can be disabled safely for simple website without post, put, delete requests
+		//This can be disabled safely for simple website without post, put, delete requests. should be re-enabled when features are added tho
 		http.csrf((csrf) -> csrf
 				//.requireCsrfProtectionMatcher(new AntPathRequestMatcher("/api/**")) // Enable CSRF for API endpoints
 	            //.ignoringRequestMatchers("/api/auth/login"));  // Disable CSRF for login endpoint only

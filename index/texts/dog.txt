@@ -1,7 +1,8 @@
 ## Red Team Penetration Testing Report
 
 ### Overview
-
+This report documents the security weaknesses identified during the assessment of `dog.htb`. 
+The engagement led to privilege escalation from an initial foothold to full domain compromise.
 
 ---
 
