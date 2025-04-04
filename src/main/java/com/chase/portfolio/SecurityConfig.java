@@ -29,7 +29,7 @@ public class SecurityConfig {
 		 */
 		http.headers((headers) -> 
 			headers.contentSecurityPolicy((csp) -> 
-				csp.policyDirectives("default-src 'self' https://objectstorage.eu-frankfurt-1.oraclecloud.com;"))
+				csp.policyDirectives("default-src 'self' https://objectstorage.eu-frankfurt-1.oraclecloud.com https://cdnjs.cloudflare.com;"))
 				);
 		//This can be disabled safely for simple website without post, put, delete requests. should be re-enabled when features are added tho
 		http.csrf((csrf) -> csrf
