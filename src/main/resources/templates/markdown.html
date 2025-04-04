@@ -13,10 +13,12 @@
 	<canvas id="waveCanvas"></canvas>
 	<div th:replace="~{fragments/default :: header-nav}"></div>
 	<p id="titlecenter" class="section-text title" th:text="${reportTitle}"></p>
+    
     <section>
+        <textarea id="raw-text" th:data-src="@{${reportFile}}" style="display:none;"></textarea>
 	    <div class="wiki-layout">
             <div class="content">
-                <textarea id="raw-text" th:data-src="@{${reportFile}}" style="display:none;"></textarea>
+                
         	    
         	
         		    <!-- Raw Markdown (Hidden) -->
