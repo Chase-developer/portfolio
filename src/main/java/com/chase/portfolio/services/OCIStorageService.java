@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -33,11 +32,9 @@ import com.oracle.bmc.objectstorage.model.PreauthenticatedRequestSummary;
 import com.oracle.bmc.objectstorage.model.StorageTier;
 import com.oracle.bmc.objectstorage.requests.CreatePreauthenticatedRequestRequest;
 import com.oracle.bmc.objectstorage.requests.DeletePreauthenticatedRequestRequest;
-import com.oracle.bmc.objectstorage.requests.ListObjectsRequest;
 import com.oracle.bmc.objectstorage.requests.ListPreauthenticatedRequestsRequest;
 import com.oracle.bmc.objectstorage.requests.PutObjectRequest;
 import com.oracle.bmc.objectstorage.responses.CreatePreauthenticatedRequestResponse;
-import com.oracle.bmc.objectstorage.responses.ListObjectsResponse;
 import com.oracle.bmc.objectstorage.responses.ListPreauthenticatedRequestsResponse;
 
 import jakarta.annotation.Nullable;
@@ -156,23 +153,27 @@ public class OCIStorageService {
         //scheduler.scheduleAtFixedRate(task, 1, 1, TimeUnit.MINUTES);
     }
 	
-	private void updateBucketResources(HashSet<String> cloud_resources, HashSet<String> index_resources)
+	private void updateBucketResources(HashMap<String, String> index_resources)
 	{
 		if (!PortfolioApplication.isInProject())
 			return;
-		ResourceService.updateStaticIndex();
+		
 		//first need to get index
-		for (String local_file : index_resources)
+		for (Map.Entry<String, String> local_file : index_resources.entrySet())
 		{
-			if (cloud_resources.contains(local_file))
-				continue;
-			File file = ResourceService.getIndexFile(local_file);
+			
+			File file = ResourceService.getIndexFile(local_file.getKey());
+			
 			if (file.isDirectory())
 				continue;
+			System.out.println("Index = " + local_file.getValue() + ", Local = " + ResourceService.getFileMd5(file));
+			if (local_file.getValue().equalsIgnoreCase(ResourceService.getFileMd5(file)))
+				continue;
 			//should probably only upload it if on project
-    		uploadResource(local_file, ResourceService.getResourceStream(file), file.length());
+    		uploadResource(local_file.getKey(), ResourceService.getResourceStream(file), file.length());
     		logger.info("Successfully Uploaded File = " + local_file);
 		}
+		ResourceService.updateStaticIndex(false);
 		logger.info("Uploaded Resources To Bucket");
 	}
 	
@@ -184,8 +185,9 @@ public class OCIStorageService {
 		lock.writeLock().lock();
         try {
         	
-        	HashSet<String> index_files = ResourceService.getStaticIndex();
-    		updateBucketResources(getCloudResources(), index_files);
+        	HashMap<String, String> index_files = ResourceService.getStaticIndex();
+        	System.out.println(index_files.size());
+    		updateBucketResources(index_files);
     		clearPreAuthURLs();
     		createPreAuthURLs(index_files);
         } finally
@@ -283,15 +285,15 @@ public class OCIStorageService {
 	
 	
 	
-	private void createPreAuthURLs(HashSet<String> objects)
+	private void createPreAuthURLs(HashMap<String, String> objects)
 	{
-		objects.add("videos/background.webm");
-		for (String local_file : objects)
+		objects.put("videos/background.webm", "");
+		for (Map.Entry<String, String> local_file : objects.entrySet())
 		{
-			if (preAuthUrls.containsKey(local_file))
+			if (preAuthUrls.containsKey(local_file.getKey()))
 				continue;
-			logger.info("Create File URL = " + local_file);
-			preAuthUrls.put(local_file, generatePreAuthUrl(local_file));
+			logger.info("Create File URL = " + local_file.getKey());
+			preAuthUrls.put(local_file.getKey(), generatePreAuthUrl(local_file.getKey()));
 		}
 		logger.info("Finished Generation of Pre-Auth URLs");
 			
@@ -323,18 +325,21 @@ public class OCIStorageService {
                 ".oraclecloud.com" + response.getPreauthenticatedRequest().getAccessUri();
     }
 	
-	private HashSet<String> getCloudResources() 
-	{
-		HashSet<String> resources = new HashSet<String>();
-		ListObjectsResponse response = client.listObjects(
-		        ListObjectsRequest.builder()
-		                .namespaceName(Bucket_Namespace)
-		                .bucketName(Bucket_Name)
-		                .build());
-		response.getListObjects().getObjects().forEach(object -> 
-		        resources.add(object.getName()));
-		return resources;
-	}
+//	private HashMap<String, ObjectSummary> getCloudResources() 
+//	{
+//		HashMap<String, ObjectSummary> resources = new HashMap<String, ObjectSummary>();
+//		ListObjectsResponse response = client.listObjects(
+//		        ListObjectsRequest.builder()
+//		                .namespaceName(Bucket_Namespace)
+//		                .bucketName(Bucket_Name)
+//		                .build());
+//		response.getListObjects().getObjects().forEach(object ->
+//		{
+//	        resources.put(object.getName(), object);
+//		}
+//		);
+//		return resources;
+//	}
 	
 	private void uploadResource(String objectName, InputStream inputStream, long file_size) {
         PutObjectRequest request = PutObjectRequest.builder()

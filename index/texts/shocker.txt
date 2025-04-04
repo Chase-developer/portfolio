@@ -28,6 +28,7 @@ PORT     STATE SERVICE        VERSION
 - Regularly update OpenSSH to mitigate known vulnerabilities.
 - Update the Linux kernel and associated packages to the latest stable versions.
 - Implement network segmentation to restrict access to critical services.
+
 ---
 
 ### Finding 2: **Vulnerable CGI Script**
@@ -48,8 +49,10 @@ http://shocker.htb/cgi-bin/user.sh
 - Immediately restrict access to the CGI directory using web server configuration settings or firewall rules.
 - Audit the script (user.sh) for vulnerabilities and remove or replace it if not essential.
 - Update the web server to the latest secure version and ensure secure scripting practices are followed.
-- Perform regular scans and pen-testing to identify any additional vulnerabilities.
 - Monitor logs for any unauthorized access attempts and set up intrusion detection mechanisms.
+- Perform regular scans and pen-testing to identify any additional vulnerabilities.
+
+
 ---
 
 ### Finding 3: **Unrestricted Sudo Access to Perl**
@@ -71,8 +74,8 @@ sudo /usr/bin/perl -e 'exec "/bin/sh"'
 - Implement principle of least privilege (POLP) to minimize potential attack vectors.
 - Regularly monitor system logs for signs of unauthorized sudo activity.
 - Train administrators and users on secure privilege management practices.
----
 
+---
 
 ## Conclusion
 The penetration test uncovered significant security vulnerabilities that allowed attackers to escalate privileges and achieve full domain compromise. Key findings included exposed network services, vulnerable CGI scripts, and unrestricted sudo access to system binaries. Each of these weaknesses poses a critical risk to the host's security posture and highlights the importance of proactive measures to mitigate threats.

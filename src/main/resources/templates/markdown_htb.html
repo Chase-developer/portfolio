@@ -7,14 +7,16 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 	<link rel="stylesheet" th:href="@{/css/badges.css}">
 	<title th:text="${reportTitle}">Default Title</title>
+    
 </head>
 <body>
 	<div class="background"></div>
 	<canvas id="waveCanvas"></canvas>
 	<div th:replace="~{fragments/default :: header-nav}"></div>
+    <textarea id="raw-text" th:data-src="@{${reportFile}}" hidden></textarea>
 	<p id="titlecenter" class="section-text title" th:text="${reportTitle}"></p>
     <section>
-        <textarea id="raw-text" th:data-src="@{${reportFile}}" style="display:none;"></textarea>
+        
         <div class="intro-layout">
             <div class="ui ref">
                 <img th:src="@{/images/{img}(img=${HTBImg})}">

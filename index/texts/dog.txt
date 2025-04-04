@@ -29,7 +29,6 @@ Low: Default SSH keys are exposed in the fingerprint output, potentially aiding 
 - Remove unnecessary files like README.md and web.config to reduce information leakage.
 - Implement security headers to mitigate web-based attacks.
 
-
 ---
 
 ### Finding 2: **Exposed .git Directory Leading to Database Credential Leak**
@@ -46,7 +45,6 @@ Low: Default SSH keys are exposed in the fingerprint output, potentially aiding 
 - Restrict public access to the .git directory using web server configurations.
 - Remove sensitive files from version control and use environment variables for credentials.
 
-
 ---
 
 ### Finding 3: **Account Compromise via Leaked Credentials**
@@ -61,7 +59,6 @@ Low: Default SSH keys are exposed in the fingerprint output, potentially aiding 
 - Reset compromised credentials immediately.
 - Implement multi-factor authentication (MFA) for user accounts.
 - Audit access logs for unauthorized logins.
-
 
 ---
 
@@ -85,7 +82,6 @@ http://dog.htb/modules/<tar-name>/shell.php?cmd=<RCE-Command>
 - Implement file integrity monitoring to detect unauthorized file modifications.
 - Update BackDrop CMS to the latest patched version.
 
-
 ---
 
 ### Finding 5: **Privilege Escalation via Reused Credentials**
@@ -101,7 +97,6 @@ http://dog.htb/modules/<tar-name>/shell.php?cmd=<RCE-Command>
 - Enforce unique passwords for different accounts.
 - Implement strong password policies and regular password rotation.
 - Use a password manager to prevent credential reuse.
-
 
 ---
 
@@ -124,7 +119,6 @@ sudo bee eval 'system("/bin/bash -i")'
 - Remove unnecessary administrative tools like bee from production systems.
 - Implement the principle of least privilege (PoLP) for user roles.
 
-
 ---
 
 ## Conclusion
@@ -132,3 +126,7 @@ The penetration test identified multiple critical vulnerabilities, SSH and HTTP 
 with potential misconfigurations that could be exploited, 
 database credential leaks, RCE via BackDrop CMS, 
 and privilege escalation to root. Immediate remediation steps should be taken to secure the system and prevent exploitation.
+
+---
+
+_End of Report_

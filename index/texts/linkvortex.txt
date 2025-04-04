@@ -95,3 +95,7 @@ symbolic link handling, enabling them to gain access to sensitive files, includi
 privilege escalation and could compromise the entire system.
 Both vulnerabilities highlight critical weaknesses in the system’s handling of sensitive information and privilege management. Immediate remediation is 
 required to secure the system and protect it from unauthorized access and potential compromise.
+
+---
+
+_End of Report_

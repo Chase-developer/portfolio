@@ -9,12 +9,14 @@
 **Analyst:** Leng Jia Yong  
 
 ---
+
 ## 2. Initial Observations
 **Source of Sample:** [HTB, phishing email, attachment, etc.]  
 **File Type:** ELF 64-bit LSB PIE Executable  
 **File Size:** 16.9 KB  
 
 ---
+
 ## 3. Static Analysis
 ### Compiler
 - **GCC x86**  
@@ -29,12 +31,14 @@
 - **Libc.so.6**  
 
 ---
+
 ### Main Function Analysis
 **Observations:** The main function calls `process_directory()` with a specific directory path (`/forela-criticaldata/`) and 
 a string that may serve as an encryption key. 
 This suggests that the ransomware targets files within this directory for encryption or processing.  
 
 ---
+
 ### Process Directory Function Analysis
 **Observations:**
 - The function attempts to open the directory using `opendir()`.
@@ -45,6 +49,7 @@ a predefined list (`.txt, .sql, .pdf, .docx, .xlsx, .csv, .json, .xml`).
 - If the file matches an extension, it calls `encrypt_file()` with the file path and the encryption key from `main()`.  
 
 ---
+
 ### Encryption Function Analysis
 **Observations:**
 - The ransomware uses a simple XOR cipher with a hardcoded key that repeats.
@@ -52,6 +57,7 @@ a predefined list (`.txt, .sql, .pdf, .docx, .xlsx, .csv, .json, .xml`).
 - The original files are deleted after encryption.  
 
 ---
+
 ### Lazy Decryption
 Knowing that XOR with the same key applied twice returns the plaintext data, we can decrypt files without needing any additional tools. 
 To do this:
@@ -64,6 +70,7 @@ To do this:
 3. The ransomware binary, `bescrypt3.2`, will recognize the files and perform the XOR operation again, effectively decrypting them.
 
 ---
+
 ## 4. Dynamic Analysis
 **Execution Behavior:** The ransomware scans the `/forela-criticaldata/` directory, encrypts targeted files, and deletes the originals.
 **File System Changes:**
@@ -72,16 +79,19 @@ To do this:
 - A ransom note is created in the same directory.
 
 ---
+
 ## 5. Behavioral Indicators
 **Encryption Method:** XOR cipher with a hardcoded repeating key  
 **Ransom Note Location & Content:** A ransom note is created in the same location as the encrypted files.
 
 ```
+
 This file has been encrypted by bes24 group, please contact us at bes24@protonmail.com to 
 discuss payment for us providing you the decryption software..
 ```
 
 ---
+
 ## 6. Mitigation & Recommendations
 ### Detection & Prevention:
 - Implement endpoint protection solutions to detect and block ransomware activity.
@@ -96,6 +106,7 @@ discuss payment for us providing you the decryption software..
 - Educate employees on phishing risks and malware delivery methods.
 
 ---
+
 ## 7. Conclusion
 This ransomware, Bescrypt 3.2, utilizes a simple XOR-based encryption mechanism with a hardcoded key. 
 It encrypts targeted files within the `/forela-criticaldata/` directory, renames them with a `.24bes` extension, 

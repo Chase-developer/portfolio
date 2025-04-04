@@ -30,6 +30,7 @@ PORT     STATE SERVICE        VERSION
 - Implement security headers to mitigate web-based attacks.
 
 ---
+
 ### Finding 2: **Local File Inclusion (LFI) in /download Endpoint**
 
 #### Observation:

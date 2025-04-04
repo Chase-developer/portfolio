@@ -24,3 +24,11 @@ PORT     STATE SERVICE        VERSION
 
 ## Conclusion
 The penetration test revealed multiple vulnerabilities
+
+<copy everything below this line>
+
+- Implement network segmentation to restrict access to critical services.
+
+---
+
+<copy everything above this line>

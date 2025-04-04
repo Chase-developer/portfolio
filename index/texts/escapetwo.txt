@@ -98,4 +98,11 @@ evil-winrm -i 10.10.11.51 -u Administrator -H '7a8d4e04986afa8ed4060f75e5a0b3ff'
 ---
 
 ## Conclusion
-The penetration test revealed multiple vulnerabilities, including open network services, insecure SMB shares, and misconfigured Active Directory Certificate Services. The exploitation chain led to full domain compromise, demonstrating the need for stringent security measures. Implementing the recommended mitigations will significantly enhance the security posture of `escapetwo.htb`.
+The penetration test revealed multiple vulnerabilities, including open network services, insecure SMB shares, 
+and misconfigured Active Directory Certificate Services. The exploitation chain led to full domain compromise, 
+demonstrating the need for stringent security measures. Implementing the recommended mitigations will significantly enhance the security posture of 
+`escapetwo.htb`.
+
+---
+
+_End of Report_
