@@ -186,7 +186,6 @@ public class OCIStorageService {
         try {
         	
         	HashMap<String, String> index_files = ResourceService.getStaticIndex();
-        	System.out.println(index_files.size());
     		updateBucketResources(index_files);
     		clearPreAuthURLs();
     		createPreAuthURLs(index_files);
