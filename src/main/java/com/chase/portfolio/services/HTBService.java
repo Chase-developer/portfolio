@@ -27,7 +27,9 @@ public class HTBService {
 			red("underpass", "https://www.hackthebox.com/achievement/machine/2297566/641"),
 			red("linkvortex", "https://www.hackthebox.com/achievement/machine/2297566/638"),
 			blue("brutus", ReportType.DFIR ,"https://labs.hackthebox.com/achievement/sherlock/2297566/631"),
-			blue("lockpick", ReportType.MA ,"https://labs.hackthebox.com/achievement/sherlock/2297566/556")
+			blue("lockpick", ReportType.MA ,"https://labs.hackthebox.com/achievement/sherlock/2297566/556"),
+			blue("litter", ReportType.SOC, "https://labs.hackthebox.com/achievement/sherlock/2297566/555"),
+			blue("ufo-1", ReportType.TI, "https://labs.hackthebox.com/achievement/sherlock/2297566/840")
 			);
 	//private static final HashSet<String> Reports = HashSet.of("brutus", "lockpick", "escapetwo");
 	public static final Map<String, HTBReport> ReportMap;

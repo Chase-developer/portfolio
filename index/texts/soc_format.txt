@@ -1,0 +1,90 @@
+# 🛡️ Security Incident Report
+
+## 1. General Information
+- **Incident Title:**  
+- **Incident ID / Ticket Number:**  
+- **Reported By:**  
+- **Date & Time Reported:**  
+- **Date & Time Detected:**  
+- **SOC Analyst Name:**  
+- **Incident Priority (Low/Medium/High/Critical):**  
+- **Current Status (Open/Investigating/Contained/Resolved/Closed):**
+
+---
+
+## 2. Incident Summary
+_A brief description of the incident, how it was detected, and the potential impact._
+
+---
+
+## 3. Indicators of Compromise (IOCs)
+
+| Type        | Value                         | Description                      |
+|-------------|-------------------------------|----------------------------------|
+| IP Address  |                               |                                  |
+| File Hash   |                               |                                  |
+| Domain      |                               |                                  |
+| URL         |                               |                                  |
+
+---
+
+## 4. Affected Assets
+
+| Asset Name     | IP Address    | Location | Role               | Impact                  |
+|----------------|---------------|----------|--------------------|--------------------------|
+|                |               |          |                    |                          |
+
+---
+
+## 5. Timeline of Events
+
+| Date & Time (UTC)     | Event Description                         |
+|-----------------------|-------------------------------------------|
+| YYYY-MM-DD HH:MM      | Initial detection                         |
+| YYYY-MM-DD HH:MM      | Alert triggered / escalated               |
+| YYYY-MM-DD HH:MM      | Mitigation step (e.g., IP blocked)        |
+
+---
+
+## 6. Root Cause Analysis
+_Explanation of how the incident occurred, the exploited vulnerabilities, and the initial attack vector._
+
+---
+
+## 7. Mitigation & Response Actions
+
+- [ ] Contained threat (e.g., isolated host)
+- [ ] Blocked malicious IP/domain
+- [ ] Reset affected credentials
+- [ ] Applied patches/updates
+- [ ] Conducted full system scan
+- [ ] Reviewed logs and network traffic
+- [ ] Escalated to relevant teams
+
+---
+
+## 8. Recommendations
+
+- Enforce strong password policies
+- Apply MFA for critical systems
+- Regular system patching and updates
+- Restrict unnecessary external access
+- Increase logging and monitoring coverage
+- Conduct internal security training
+
+---
+
+## 9. Conclusion
+_A summary of what happened, how it was handled, final status, and whether any data loss or impact occurred._
+
+---
+
+## 10. Attachments / Evidence
+
+- `auth.log` from affected host
+- SIEM alert screenshots
+- PCAP capture: `incident_capture_2025-04-05.pcap`
+- Malware sample hash: `e99a18c428cb38d5f260853678922e03`
+
+---
+

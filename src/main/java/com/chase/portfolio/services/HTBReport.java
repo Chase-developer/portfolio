@@ -6,7 +6,7 @@ public class HTBReport {
 	
 	public static enum ReportType
 	{
-		DFIR("DFIR"), MA("Malware Analysis"), PT("Penetration Testing");
+		DFIR("DFIR"), MA("Malware Analysis"), PT("Penetration Testing"), SOC("Security Incident"), TI("Threat Intelligence");
 		
 		private final String name;
 		
