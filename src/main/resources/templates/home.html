@@ -37,7 +37,55 @@
             <br>I have a deep passion for learning and a natural ability to pick up new skills quickly, 
             allowing me to adapt and grow in any technical environment.
             <br><br>Nice to meet you! 😁
+            <br>Below are my Projects, Badges & Certifications and Technical Skillsets.
+            <br>If you're curious about how I got here, I highly recommend checking out <a th:href="@{/home/journey}" class="link">[My Journey]</a> 
+            <br>— a personal log of everything I've learned, tried, broken, and fixed along the way!
         </div>
+        <p id="titlecenter" class="section-text title">Projects<br>
+        <section id="projects">
+            <div class="tab-container">
+                <div class="tab block">
+                    <div class="nav-top">
+                        <div class="tab-title">Portfolio Website</div>
+                        <div class="tab-section">
+                            <p class="section-desc">
+                                The website you are on right now!<br>
+                                Documents the framework, decisions and technical systems
+                            </p>
+                            <a href="" class="section-desc">
+                                Source Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab block">
+                    <div class="nav-top">
+                        <div class="tab-title">My Journey</div>
+                        <div class="tab-section">
+                            <p class="section-desc">
+                                Documents the training, my actual roadblocks and how I overcame them
+                            </p>
+                            <a th:href="@{/home/journey}" class="section-desc">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab block">
+                    <div class="nav-top">
+                        <div class="tab-title">HackTheBox</div>
+                        <div class="tab-section">
+                            <p class="section-desc">
+                                Documents my HackTheBox machines, challenges and reports
+                            </p>
+                            <a href="" class="section-desc">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <p id="titlecenter" class="section-text title">Badges & Certificates</p>
         <div class="item-showcase">
             <div class="item-selected">
@@ -110,52 +158,7 @@
                 </div>
             </div>
         </section>
-        <p id="titlecenter" class="section-text title">Projects<br>
-        <section id="projects">
-            
-            <div class="tab-container">
-                <div class="tab block">
-                    <div class="nav-top">
-                        <div class="tab-title">Portfolio Website</div>
-                        <div class="tab-section">
-                            <p class="section-desc">
-                                The website you are on right now!<br>
-                                Documents the framework, decisions and technical systems
-                            </p>
-                            <a href="" class="section-desc">
-                                Source Code
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab block">
-                    <div class="nav-top">
-                        <div class="tab-title">My Journey</div>
-                        <div class="tab-section">
-                            <p class="section-desc">
-                                Documents the training, my actual roadblocks and how I overcame them
-                            </p>
-                            <a href="" class="section-desc">
-                                View
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab block">
-                    <div class="nav-top">
-                        <div class="tab-title">HackTheBox</div>
-                        <div class="tab-section">
-                            <p class="section-desc">
-                                Documents my HackTheBox machines, challenges and reports
-                            </p>
-                            <a href="" class="section-desc">
-                                View
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        
 
     </div>
     <section th:insert="~{fragments/default :: contact}"></section>
