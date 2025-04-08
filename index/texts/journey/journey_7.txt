@@ -1,0 +1,22 @@
+## Configuring Environment Properties for Seamless Testing
+
+Once the container was up and running, I encountered an issue where I couldn’t access the application. I quickly realized I was still using port **8080**, which wasn't correctly mapped to my **Spring Boot** application. After adjusting this, I took the opportunity to enhance my configuration by introducing **environment properties** stored in a **.env** file and defining profiles in **application.properties**. This allowed me to seamlessly switch between **local testing** and **production deployment** without modifying the application code.
+
+Additionally, I ensured that all sensitive information was securely stored in the **.env** file and never exposed to the public. Since my **GitHub source code** will be public, I made sure that the **.env file** was never included in the repository. The only places where the **.env file** exists are within my **compute instance** and my local **IDE project**, ensuring security and preventing accidental exposure of credentials.
+
+## Integrating OCI SDK and Cloud Resources
+
+With my application successfully running in the container, I proceeded to mount additional volumes onto the Docker container. These included:
+- **OCI Config**: To integrate with **Oracle Cloud Infrastructure (OCI)** resources.
+- **.env File**: Containing sensitive environment variables.
+- **Private Key**: Required for accessing the **Oracle Storage Object Bucket**.
+
+After configuring these, I relaunched the **docker-compose**, and my website became accessible via the instance’s IP address.
+
+---
+
+### Key Actions:
+- Configured **environment properties** for seamless switching between local and production deployments using **.env** and **application.properties**.
+- Ensured security by keeping the **.env** file out of **GitHub** and limiting access to the compute instance and local IDE project.
+- Integrated **OCI SDK** and mounted necessary volumes, including **OCI Config**, **.env file**, and **Private Key**, to connect the application to **Oracle Cloud Infrastructure** resources.
+- Successfully launched the application and made it accessible via the compute instance’s IP address.

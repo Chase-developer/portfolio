@@ -1,0 +1,92 @@
+# 🛡️ Security Incident Report
+
+## 1. General Information
+- **Incident Title:** DNS Tunneling Data Exfiltration via Dnscat2
+- **Incident ID / Ticket Number:** IR-2023-0430-DNS
+- **Reported By:** SOC Monitoring System
+- **Date & Time Reported:** April 30, 2023 05:31:01 CDT
+- **Date & Time Detected:** April 30, 2023 05:31:01 CDT
+- **SOC Analyst Name:** Leng Jia Yong
+- **Incident Priority:** High
+- **Current Status:** Resolved
+
+---
+
+## 2. Incident Summary
+A DNS tunneling attack was detected on April 30, 2023. DNS traffic accounted for 20% of total packets while transferring a 40MB file, which is abnormally high. Analysis revealed DNS queries containing hexadecimal-encoded data. The traffic was traced to a known Dnscat2 client. The attacker successfully exfiltrated sensitive PII data.
+
+---
+
+## 3. Indicators of Compromise (IOCs)
+
+| Type        | Value                         | Description                                      |
+|-------------|-------------------------------|--------------------------------------------------|
+| IP Address  | 192.168.157.145               | Internal system receiving outbound DNS traffic   |
+| Domain      | microsofto365.com             | Typosquatted domain used in DNS tunneling        |
+| Tool        | Dnscat2 0.07                  | DNS tunneling tool used for exfiltration         |
+
+---
+
+## 4. Affected Assets
+
+| Asset Name        | IP Address      | Location | Role        | Impact                                   |
+|-------------------|-----------------|----------|-------------|------------------------------------------|
+| Internal Host     | 192.168.157.145 | On-Prem  | Workstation | Used for staging and exfiltrating data   |
+
+---
+
+## 5. Timeline of Events
+
+| Date & Time (UTC)     | Event Description                                                  |
+|-----------------------|--------------------------------------------------------------------|
+| 2023-04-30 05:31:01   | High DNS traffic detected (20% of total packets)                  |
+| 2023-04-30 05:32:00   | Query name revealed hexadecimal payload                           |
+| 2023-04-30 05:35:00   | DNS tunneling identified as Dnscat2 traffic                       |
+| 2023-04-30 05:40:00   | File renamed to `win_installer.exe`                               |
+| 2023-04-30 05:42:00   | Exfiltration of `user details.csv` containing PII completed       |
+| 2023-04-30 06:00:00   | Host isolated; DNS traffic blocked                                |
+
+---
+
+## 6. Root Cause Analysis
+The attacker used Dnscat2 0.07 to establish a covert channel using DNS queries. A lack of DNS traffic monitoring and outbound query restrictions allowed data to be tunneled. Sensitive PII data in a local directory was accessed, repackaged, and exfiltrated over DNS.
+
+---
+
+## 7. Mitigation & Response Actions
+
+- [x] Isolated affected workstation
+- [x] Blocked Dnscat2 signatures and tunneling DNS traffic
+- [x] Reviewed all DNS logs for lateral movement
+- [x] Notified data protection officer due to PII exposure
+- [x] Updated IDS/IPS rules to detect DNS tunneling behavior
+- [x] Enforced DNS egress filtering via internal resolvers
+
+---
+
+## 8. Recommendations
+
+- Implement strict DNS egress policies (whitelist-based)
+- Deploy DNS tunneling detection rules in SIEM/IDS
+- Encrypt and monitor access to sensitive files
+- Enable endpoint DLP to prevent unauthorized file access
+- Conduct employee awareness training on data storage hygiene
+
+---
+
+## 9. Conclusion
+A DNS tunneling exfiltration attack led to the unauthorized transmission of 721 PII records using the Dnscat2 tool. The incident was detected via anomalous DNS traffic patterns and has since been contained. No further lateral movement or secondary infections were identified.
+
+---
+
+## 10. Attachments / Evidence
+
+- PCAP file of DNS traffic: `dns_tunnel_exfil_0430.pcap`
+- CyberChef conversion log showing decoded PII
+- Screenshot of Dnscat2 client session
+- File exfiltrated: `user details.csv`
+- Hash of `win_installer.exe`: [Add hash here]
+
+---
+
+_End of Report_

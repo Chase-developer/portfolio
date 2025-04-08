@@ -1,18 +1,17 @@
-
 .skill-list {
-	flex-wrap: wrap;
+    flex-wrap: wrap;
     justify-content: center;
-	gap: 20px 20px;
-	display: grid;
-	grid-template-columns: repeat(4, 1fr); /* Up to 5 badges per row */
-	max-width: 500px; /* Adjust as needed */
-	margin-top: 40px;
+    gap: 20px 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Up to 5 badges per row */
+    max-width: 500px; /* Adjust as needed */
+    margin-top: 40px;
 }
 
 .skill-item {
-	display: inline-block;
-	text-align: center;
-	height: 120px;
+    display: inline-block;
+    text-align: center;
+    height: 120px;
     width: 80px;
     transition: transform 0.2s ease-in-out;
 }

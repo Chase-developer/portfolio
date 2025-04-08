@@ -31,6 +31,7 @@
     display: flex;
     flex-direction: column;
     align-items: center; /* Ensures consistent positioning */
+    justify-items: center;
     gap: var(--mid-gap-size); /* Adds spacing between name, description, etc. */
     min-width: 200px; /* Ensures proper scaling */
     word-wrap: break-word; /* Ensures long words break properly */
@@ -76,9 +77,17 @@
 }
 
 #badgeVerify {
+    min-height: 100px;
     font-size: var(--content-font-size);
     cursor: pointer;
     font-weight: bold;
+    align-items: center; /* Centers text */
+    justify-content: center;
+    position: relative; /* Allow absolute positioning of child elements */
+    text-align: center; /* Center child elements */
+    margin: 10px auto;
+    display: inline-flex;
+        
 }
 
 #badgeTitle {

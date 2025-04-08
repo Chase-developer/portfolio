@@ -1,0 +1,41 @@
+## Enhancing the Website’s Appearance and Responsiveness
+
+After successfully implementing **GitHub Actions** and auto-deployment, I turned my attention back to refining the overall website. I began by researching other full-stack developers' portfolio websites for inspiration. One, in particular, caught my eye, leading me to update the appearance of my site by adding **software logos** to my technical skillset section. This improved the visual appeal and made my skills stand out more clearly.
+
+While browsing through the site, I also took note of how smooth and well-designed the mobile view was. Initially, I was content with keeping my portfolio website **desktop-only**, but after realizing that an interviewer might view it on a mobile device, I decided to make it **mobile-friendly**. However, when I checked the mobile view of my site, I was horrified to find everything out of scale and misaligned. I learned the hard way that using **fixed pixel values** was causing the layout issues.
+
+At first, I thought I could easily fix it by making changes, but after a frustrating few hours of editing, I decided to start from scratch. My **CSS classes** were a mess anyway since this was my first time writing them. With a clearer understanding of how **CSS** works, I approached the task with a **mobile-first mindset**, ensuring that the site was responsive and scaled smoothly across different screen sizes. The process went much faster, thanks to my years of **freelancing experience** and familiarity with rewriting systems.
+
+## Exploring Tailwind CSS and Enhancing My Design
+
+During my research, I noticed that the reference website I had admired used **Tailwind CSS**, and I hoped it would magically solve the mobile scaling issue. Unfortunately, I was disappointed to discover that **Tailwind CSS** is a **utility-first framework** that helps generate CSS classes for HTML elements but doesn't offer shared UI components. The lack of reusable classes made it difficult to implement consistent designs across multiple pages, and it didn’t handle complex JavaScript interactions well. Ultimately, I gave up on using **Tailwind CSS** and returned to writing my custom CSS files.
+
+With a better grasp of **CSS**, I was able to rewrite the styling from scratch, again using a **mobile-first approach**. This ensured that the website would scale properly on all devices, making it user-friendly regardless of screen size.
+
+## Implementing Markdown for Efficient Content Management
+
+As I continued to build out my site, I added a **markdown implementation** to make it easier to write and display **HackTheBox** reports. This allowed me to use simple syntax like **bold** and **# headers** instead of manually adjusting formatting every time I added a new report. This markdown feature saved me time and helped keep the reports organized.
+
+However, as the number of **HackTheBox reports** grew, I began to worry about scalability. With so many images and text files accumulating, I knew the build could become increasingly unwieldy. To solve this, I created a separate **index directory** outside of the main resources folder and ensured that it was excluded from the **Gradle build** process.
+
+## Improving File Management and Security Measures
+
+At first, I included the files in the build to easily upload them to the **Oracle Bucket** and to implement a resource check that would only allow a **GET** request when the requested file was valid. After I separated the files from the build, I needed to find another way to maintain the security measure. So, I created a file called **static_index**, which recorded all the images, fonts, and text files. I stored this information in a **map**, and it would only fetch a pre-authorized URL if the file existed, preventing **Local File Inclusion (LFI)** attacks—a technique I had learned about during **pen-testing**.
+
+By removing the files from the build and loading them dynamically, I was able to prevent the **Docker image size** from growing unnecessarily. The only download now occurs when a new developer pulls the project from **GitHub**, which helps keep the project light and manageable.
+
+## Handling File Updates and Adding Content Security Policy
+
+While working on the file management system, I encountered an issue: when I replaced files but kept the same file name, the changes wouldn’t always reflect. To resolve this, I added an **MD5 hash** property to the static_index file. This hash would change whenever the content of a file was updated, ensuring that the most recent version of the file was always used and preventing outdated content from being served.
+
+As I continued to refine the website’s security, I stumbled upon a feature called **Content Security Policy (CSP)**. This policy allows websites to define which sources they can load static content from, helping prevent injection attacks, including malicious JavaScript. I decided to implement **CSP**, which further increased the security of my website.
+
+---
+
+### Key Actions:
+- Enhanced the website’s **responsiveness** using a **mobile-first approach** and custom **CSS**.
+- Researched and moved away from **Tailwind CSS** to maintain full control over the site’s design and layout.
+- Implemented **markdown** for efficient content management, organizing **HackTheBox** reports.
+- Improved **file management** and implemented security measures to prevent **LFI** attacks and ensure that outdated files are not served.
+- Added **MD5 hashes** to update files dynamically and implemented a **Content Security Policy (CSP)** for improved security.
+

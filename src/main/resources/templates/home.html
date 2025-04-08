@@ -5,7 +5,6 @@
     <title>Chase's Portfolio</title>
 	<link rel="stylesheet" th:href="@{/css/showcase.css}">
 	<link rel="stylesheet" th:href="@{/css/skills.css}">
-	<link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
 <body>
 	<div class="background"></div>
@@ -37,8 +36,8 @@
             <br>I have a deep passion for learning and a natural ability to pick up new skills quickly, 
             allowing me to adapt and grow in any technical environment.
             <br><br>Nice to meet you! 😁
-            <br>Below are my Projects, Badges & Certifications and Technical Skillsets.
-            <br>If you're curious about how I got here, I highly recommend checking out <a th:href="@{/home/journey}" class="link">[My Journey]</a> 
+            <br><br>Below are my Projects, Badges & Certifications and Technical Skillsets.
+            <br><br>If you're curious about how I got here, I highly recommend checking out <a th:href="@{/home/journey}" class="link">[My Journey]</a> 
             <br>— a personal log of everything I've learned, tried, broken, and fixed along the way!
         </div>
         <p id="titlecenter" class="section-text title">Projects<br>
@@ -53,7 +52,10 @@
                                 Documents the framework, decisions and technical systems
                             </p>
                             <a href="" class="section-desc">
-                                Source Code
+                                <button class="sync-btn" th:attr="data-text=View">
+                                  <span class="ui sync-layer sync-top small"></span>
+                                  <span class="ui sync-layer sync-btm small"></span>
+                                </button>
                             </a>
                         </div>
                     </div>
@@ -65,8 +67,11 @@
                             <p class="section-desc">
                                 Documents the training, my actual roadblocks and how I overcame them
                             </p>
-                            <a th:href="@{/home/journey}" class="section-desc">
-                                View
+                            <a th:href="@{/journey}" class="section-desc">
+                                <button class="sync-btn" th:attr="data-text=View">
+                                  <span class="ui sync-layer sync-top small"></span>
+                                  <span class="ui sync-layer sync-btm small"></span>
+                                </button>
                             </a>
                         </div>
                     </div>
@@ -78,8 +83,11 @@
                             <p class="section-desc">
                                 Documents my HackTheBox machines, challenges and reports
                             </p>
-                            <a href="" class="section-desc">
-                                View
+                            <a th:href="@{/htb}" class="section-desc">
+                                <button class="sync-btn" th:attr="data-text=View">
+                                  <span class="ui sync-layer sync-top small"></span>
+                                  <span class="ui sync-layer sync-btm small"></span>
+                                </button>
                             </a>
                         </div>
                     </div>
@@ -94,7 +102,12 @@
             <div class="item-details">
                 <h2 id="badgeTitle" th:text="${badges[0].name}"></h2>
                 <p id="badgeDesc" th:text="${badges[0].description}"></p>
-                <a id="badgeVerify" th:href="${badges[0].verifyLink}" target="_blank" class="link">VERIFY</a>
+                <a id="badgeVerify" th:href="${badges[0].verifyLink}">
+                    <button class="sync-btn" th:attr="data-text=VERIFY">
+                      <span class="ui sync-layer sync-top small"></span>
+                      <span class="ui sync-layer sync-btm small"></span>
+                    </button>
+                </a>
             </div>
     
         </div>
@@ -162,10 +175,9 @@
 
     </div>
     <section th:insert="~{fragments/default :: contact}"></section>
-    
-	<script th:src="@{/js/waveform.js}"></script>
+    <th:block th:replace="~{fragments/default :: footer-script}"></th:block>
+
 	<script th:src="@{/js/badges.js}"></script>
-	<script th:src="@{/js/textformat.js}"></script>
 	<script th:src="@{/js/typewriter.js}"></script>
     <script th:src="@{/js/toggle.js}"></script>
 </body>

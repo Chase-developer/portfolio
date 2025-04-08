@@ -90,6 +90,78 @@
     flex-direction: column;
 }
 
+.sync-btn
+{
+    position: relative; /* Position the button absolutely inside the <a> */
+    background: none;
+    cursor: pointer;
+    z-index: 11;
+    font-family: inherit;
+    font-size: var(--header-font-size);
+    font-weight: bold;
+    margin: var(--mid-gap-size);
+    padding: var(--high-gap-size);
+    border: none;
+    display: inline-flex; /* Use flexbox to stretch the button */
+    align-items: center;  /* Align children vertically */
+    justify-content: center; /* Align children horizontally */
+    
+}
+
+.sync-btn .sync-layer
+{
+    display: inline-block;
+    position: absolute;
+    padding: var(--high-gap-size);
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    white-space: nowrap;
+    
+}
+
+.sync-btn .small
+{
+    font-size: var(--content-font-size);
+    padding: var(--mid-gap-size);
+}
+
+.sync-btn .sync-top
+{
+    display: inline-block;
+    transform: translate(-5px, -5px);
+    color: white;
+    z-index: 2;
+    transition:
+        transform 0.3s ease, 
+        color 0.3s ease,
+        background-color 0.3s ease;
+}
+
+.sync-btn:hover .sync-top {
+    color: black;
+    background-color: white;
+    transform: translate(0px, 0px);
+}
+
+.sync-btn .sync-btm
+{
+    display: inline-block;
+    transform: translate(5px, 5px);
+    color: transparent;
+    z-index: 1;
+    transition:
+        transform 0.3s ease, 
+        color 0.3s ease,
+        background-color 0.3s ease;
+}
+
+.sync-btn:hover .sync-btm {
+    color: black;
+    background-color: white;
+    transform: translate(0px, 0px);
+}
+
+
+
 .ui.ref img
 {
     max-width: 90%;

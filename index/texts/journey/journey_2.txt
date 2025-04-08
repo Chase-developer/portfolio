@@ -1,0 +1,22 @@
+## Learning with Limited Resources
+
+To make a successful transition into cybersecurity, I knew I needed the right knowledge and credentials. However, financial constraints meant I had to be strategic about my learning journey. I discovered that Coursera offered a variety of professional certificates for a monthly fee of around RM350. Given my ability to learn quickly—a skill honed during my freelancing years—I saw this as a great opportunity to gain multiple certifications in a short period.
+
+I enrolled in the Google Cybersecurity Professional Certificate to build foundational knowledge. Since the interviewer had mentioned Oracle Cloud in relation to their company, I also pursued Oracle Cloud certifications to align with their job requirements. Additionally, I enrolled in the Amazon Junior Software Developer course, which covered HTML, CSS, and JavaScript—technologies listed in the job posting.
+
+Within a month, I had completed several certifications, including Google Cybersecurity, Oracle Cloud, and Amazon Junior Software Developer. I also took additional courses that piqued my interest, such as C++. Around the same time, I discovered the ISC2 One Million Certified in Cybersecurity campaign, which provided free training for the ISC2 Certified in Cybersecurity (CC) certification. I completed the training but decided to postpone the exam until I moved to the city, where commuting to Kuala Lumpur would be more manageable.
+
+Despite these certifications, I knew they weren’t enough. I needed practical, hands-on experience to back up my newfound knowledge.
+
+---
+
+### Key Actions:
+- Identified the need for knowledge and credentials to transition into cybersecurity.
+- Discovered Coursera's affordable professional certifications.
+- Enrolled in Google Cybersecurity Professional Certificate to build foundational knowledge.
+- Pursued Oracle Cloud certifications to align with job requirements.
+- Completed the Amazon Junior Software Developer course focusing on HTML, CSS, and JavaScript.
+- Gained multiple certifications in Google Cybersecurity, Oracle Cloud, and Amazon Junior Software Developer within a month.
+- Explored the ISC2 One Million Certified in Cybersecurity campaign and completed free training.
+- Postponed the ISC2 Certified in Cybersecurity (CC) exam until relocating for easier commuting.
+- Recognized the need for practical experience to complement certifications.

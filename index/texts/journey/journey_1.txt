@@ -1,0 +1,22 @@
+## The Beginning: A Career Pivot
+
+In January, I made the decision to pivot from freelancing to a stable, full-time role. For years, I had developed expertise by solving complex problems and adapting to various challenges. However, when I began applying for jobs, I quickly realized I lacked tangible credentials or publicly available proof of my work. Since I had signed NDAs with my freelance clients, I couldn't showcase past projects, putting me at a disadvantage.
+
+Despite facing numerous rejections, either from Applicant Tracking Systems (ATS) or from not advancing beyond interviews, one interview stood out. I interviewed with a cybersecurity company that not only considered my application but also provided insights into their Oracle Cloud infrastructure, company culture, ongoing projects, and real-world cybersecurity incidents like DDoS attacks.
+
+What truly inspired me was the industry veteran who interviewed me. Their depth of knowledge and passion for cybersecurity sparked my curiosity and prompted me to explore the field further. I learned about the global shortage of cybersecurity professionals, even in Malaysia, where initiatives were being launched to address the growing frequency of cyberattacks.
+
+At the same time, I noticed the software development job market was becoming increasingly saturated. This realization, combined with my newfound interest in cybersecurity, led me to a bold decision: I would pivot fully into cybersecurity and re-apply to the company that had inspired me.
+
+---
+
+### Key Actions:
+- Transitioned from freelancing to pursuing a full-time job.
+- Faced challenges due to a lack of tangible proof of work.
+- Experienced rejections from ATS and interviews.
+- Interviewed with a cybersecurity company, gaining valuable insights.
+- Became inspired by an industry veteran’s passion for cybersecurity.
+- Researched global cybersecurity trends and the workforce shortage.
+- Realized the saturation of the software development job market.
+- Decided to pivot into cybersecurity and re-apply to the inspiring company.
+

@@ -1,0 +1,34 @@
+## Implementing Docker for Deployment
+
+After finding the right compute instance, I shifted my focus back to my project and began researching **Docker**. I installed **Docker Desktop**, registered an account, and familiarized myself with the process of building Docker images using command-line instructions. As I explored **Dockerfile** configurations, I initially chose the most popular **JDK** but soon realized that it resulted in an excessively large image, which left me confused.
+
+### Optimizing Docker Image Size
+
+Understanding the distinction between **JDK** and **JRE** became crucial. I recalled a previous interview question I had struggled to answer and took the opportunity to research it properly. I learned that while developers need the JDK, the deployed program only requires the JRE. This realization led me to search for a smaller runtime, and I discovered **Amazon Corretto Alpine**. The "Alpine" variant is a lightweight version containing only the necessary runtime components. I switched to this base image, reducing my Docker image size to approximately **380MB**—still sizable but a significant improvement over my initial attempt.
+
+During my research, I came across companies producing Docker images as large as **10GB**. I found it fascinating to consider how many different runtimes and dependencies they must have included, likely spanning multiple programming languages and tech stacks.
+
+### Deploying the Docker Image
+
+Once I successfully built my Docker image, I faced a new challenge: how to deploy it to my compute instance. This led me to discover **Docker Hub**, a service that allows users to store container images. I created a free account, which permitted one private repository, and named it **chasedeveloper/portfolio:latest**.
+
+### Troubleshooting Deployment Issues
+
+Uploading my Docker image to **Docker Hub** was straightforward, but pulling it onto my compute instance proved unexpectedly difficult. Despite multiple attempts, my instance failed to recognize the repository name. I investigated potential issues and learned about **access tokens**, which I promptly created and used to authenticate my instance. However, the problem persisted.
+
+Through methodical troubleshooting, I eventually discovered that my compute instance lacked essential **Docker components**. Fortunately, Docker provides an official **installation script** that automatically detects the underlying OS and installs all necessary dependencies. After running this script, I successfully logged in to Docker and was finally able to pull my portfolio Docker image onto my compute instance.
+
+### Implementing Docker-Compose for Simplified Deployment
+
+After successfully pulling the Docker image onto my compute instance, I discovered the commands required to start a container. However, I realized that manually running these commands every time I needed to test changes would be tedious. This led me to explore **Docker-Compose**, a feature of Docker that allows defining volumes, environment variables, ports, and service names in a single configuration file. With this setup, I could launch my application with a simple command:
+
+docker-compose up -d
+
+---
+
+### Key Actions:
+- **Researched Docker** and built Docker images using **command-line instructions**.
+- Optimized Docker image size by switching to **Amazon Corretto Alpine**, reducing the image size to **380MB**.
+- Uploaded the Docker image to **Docker Hub** and created a private repository named **chasedeveloper/portfolio:latest**.
+- Troubleshot Docker image pull issues by investigating and resolving access token authentication problems and installing **Docker components** on the compute instance.
+- **Implemented Docker-Compose** to simplify the deployment process and enable one-command startup with **docker-compose up -d**.

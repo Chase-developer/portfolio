@@ -1,11 +1,9 @@
 package com.chase.portfolio.services;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +13,6 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -53,7 +50,8 @@ public class ResourceService {
 	
 	public static File getIndexFile(String file)
 	{
-		return new File("index/" + file);
+		File idx_file = new File("index/" + file);
+		return idx_file.exists() ? idx_file : null;
 	}
 	
 	public static InputStream getResourceStream(String filePath)
@@ -152,7 +150,7 @@ public class ResourceService {
 	            writer.write(entry.getKey() + "=" + (force ? "0" : entry.getValue()));
 	            writer.newLine(); // Add a new line after each key-value pair
 	        }
-	        System.out.println("Key-value pairs written to the file successfully!");
+	        //System.out.println("Key-value pairs written to the file successfully!");
 	    } catch (IOException e) {
 	        System.err.println("An error occurred while writing to the file: " + e.getMessage());
 	    }

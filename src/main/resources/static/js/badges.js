@@ -12,12 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	        let verifyLink = document.getElementById("badgeVerify");
 	        if (badgeEl.dataset.verify) {
 	            verifyLink.href = badgeEl.dataset.verify;
-	            verifyLink.innerText = "VERIFY";
-	            verifyLink.style.display = "block";  // Show the link if available
-	        } else {
-	            verifyLink.href = "#";
-	            verifyLink.innerText = "No Link Available";
-	            verifyLink.style.display = "none";  // Hide if no link is provided
 	        }
 	    });
 	});

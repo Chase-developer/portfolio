@@ -3,6 +3,9 @@ package com.chase.portfolio.services;
 import java.util.Arrays;
 import java.util.List;
 
+import com.chase.portfolio.models.Badge;
+import com.chase.portfolio.models.Skill;
+
 
 public class BadgeSkillService {
 	
@@ -66,7 +69,11 @@ public class BadgeSkillService {
 	        new Skill("logo/ghidra.png", "Ghidra"),
 	        new Skill("logo/cyberchef.png", "Cyberchef"),
 	        new Skill("logo/exploitdb.png", "ExploitDB"),
-	        new Skill("logo/metasploit.png", "Metasploit")
+	        new Skill("logo/metasploit.png", "Metasploit"),
+	        new Skill("logo/cutter.png", "Cutter"),
+	        new Skill("logo/wireshark.png", "Wireshark"),
+	        new Skill("logo/mitreattack.png", "Mitre Att&ck"),
+	        new Skill("logo/crackstation.png", "CrackStation")
 	        
 	        );
 	
@@ -74,7 +81,8 @@ public class BadgeSkillService {
 	        new Skill("logo/githubactions.png", "Github Actions"),
 	        new Skill("logo/docker.png", "Docker"),
 	        new Skill("logo/kubernetes.png", "Kubernetes"),
-	        new Skill("logo/oraclecloud.png", "Oracle Cloud")
+	        new Skill("logo/oraclecloud.png", "Oracle Cloud"),
+	        new Skill("logo/amazoncloud.png", "Amazon Cloud")
 	        
 	 );
 

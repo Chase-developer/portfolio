@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.chase.portfolio.services.HTBReport.ReportType;
+import com.chase.portfolio.models.HTBReport;
+import com.chase.portfolio.models.HTBReport.ReportType;
 
 public class HTBService {
 	
@@ -27,9 +28,13 @@ public class HTBService {
 			red("underpass", "https://www.hackthebox.com/achievement/machine/2297566/641"),
 			red("linkvortex", "https://www.hackthebox.com/achievement/machine/2297566/638"),
 			blue("brutus", ReportType.DFIR ,"https://labs.hackthebox.com/achievement/sherlock/2297566/631"),
+			blue("bumblebee", ReportType.DFIR, "https://labs.hackthebox.com/achievement/sherlock/2297566/554"),
 			blue("lockpick", ReportType.MA ,"https://labs.hackthebox.com/achievement/sherlock/2297566/556"),
+			blue("heartbreaker", ReportType.MA ,"https://labs.hackthebox.com/achievement/sherlock/2297566/699"),
 			blue("litter", ReportType.SOC, "https://labs.hackthebox.com/achievement/sherlock/2297566/555"),
-			blue("ufo-1", ReportType.TI, "https://labs.hackthebox.com/achievement/sherlock/2297566/840")
+			blue("nubilum2", ReportType.SOC, "https://labs.hackthebox.com/achievement/sherlock/2297566/573"),
+			blue("ufo1", ReportType.TI, "https://labs.hackthebox.com/achievement/sherlock/2297566/840")
+			
 			);
 	//private static final HashSet<String> Reports = HashSet.of("brutus", "lockpick", "escapetwo");
 	public static final Map<String, HTBReport> ReportMap;
@@ -40,7 +45,7 @@ public class HTBService {
 		for (HTBReport report : Reports)
 		{
 			map.put(report.getId(), report);
-			System.out.println("Report ID added = " + report.getId());
+			//System.out.println("Report ID added = " + report.getId());
 		}
 		ReportMap = Collections.unmodifiableMap(map);
 	}

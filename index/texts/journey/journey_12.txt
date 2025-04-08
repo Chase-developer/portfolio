@@ -1,0 +1,40 @@
+## Malware Analysis – Ransomware and Credential Stealers
+
+Next up was **malware analysis**. I got to examine actual **ransomware samples** and programs that steal credentials.
+
+I used **Ghidra** to decompile and disassemble the executables, and I quickly realized most compiled languages (C++, Java, etc.) eventually get translated to **assembly**, while interpreted ones like **Python** don’t.
+
+Through analysis, I saw how different types of malware used various **encryption algorithms** to hide payloads and activities.
+
+One particular malware stole credentials, and I initially followed a guide that recommended **PE Studio**, only to find out it only runs on **Windows**, while I was using **Linux**. 
+
+After some frustration, I discovered **Cutter**, which provided a good surface-level overview. For deeper, detailed inspection, I went back to **Ghidra**. It made sense that different tools were better for different stages of the analysis.
+
+I ended up completing the analysis reports and learned a lot more about practical **malware behavior** than I expected.
+
+---
+
+## Threat Intelligence – Sandworm & The Dark Side of Cyberwarfare
+
+After completing the malware analysis segment, I dove into the world of **threat intelligence** and wrote a report on **Sandworm**, Russia’s infamous cybersecurity team, using the **MITRE ATT&CK** framework.
+
+While researching, I discovered how **Sandworm** had been targeting **Ukraine** since **2015**, using a multitude of attack vectors, long before any full-scale military conflict broke out. Their operations continued through 2016 and escalated significantly by **2022**. This made me realize that the war wasn't a spontaneous event, it was a long time in the making, carried out in the shadows through **cyberattacks** that most of the public remained unaware of.
+
+It also opened my eyes to the massive **attack surface** of **Windows systems**. The platform’s ubiquity makes it a prime target, and countless **zero-day vulnerabilities** can sit dormant, waiting to be chained together in large-scale cyber offensives.
+
+But beyond the technicalities, what struck me on a deeper level was the purpose behind these attacks. With **ransomware** and **cybercrime**, the motivations are often financial, driven by personal greed. But this… this was different. It was **state-sponsored**, designed to cause real-world harm and disrupt **critical infrastructure**, not for money, but for power.
+
+From a **strategic standpoint**, I understood it: **Ukraine** once formed part of the **Soviet Union**, and regaining control likely represented both tactical advantage and a nationalist agenda. But even with that logic in mind, I couldn’t help but feel deeply unsettled.
+
+> **“Do we really still need to conquer and absorb in this day and age?”**
+
+We have the technology to build and connect, not destroy. It made me question the direction of **modern geopolitics**, and whether the **digital world** will be used more for collaboration or conflict in the years to come.
+
+---
+
+### Key Actions:
+- Conducted **malware analysis** on ransomware and credential-stealing malware using **Ghidra** and **Cutter**.
+- Wrote **malware analysis reports** and learned practical insights into how different malware behaves and hides its activities.
+- Explored **threat intelligence** and wrote a report on **Sandworm**, using the **MITRE ATT&CK** framework to document its attack vectors.
+- Analyzed **state-sponsored cyberattacks** on Ukraine, understanding the strategic and geopolitical motivations behind these actions.
+- Reflected on the role of technology in geopolitics and the potential future use of digital tools for **collaboration vs. conflict**.

@@ -1,0 +1,127 @@
+# Introduction
+
+---
+
+Welcome to my cybersecurity reports homepage. Here, you’ll find a collection of executive summaries for various security assessments and penetration tests, all aimed at providing actionable insights into system vulnerabilities and attack vectors. These reports cover a wide range of topics, from cyberattacks on critical infrastructure to detailed vulnerability assessments of individual systems.
+
+Among the reports, you'll discover findings from Red Team Penetration Testing engagements, where I simulate real-world cyberattacks to uncover security weaknesses in systems. In addition, I share my work from HackTheBox, a platform for hands-on cybersecurity training, where I tackle practical challenges that mirror the complexity of modern cybersecurity environments.
+
+HackTheBox provides a unique opportunity for both beginners and seasoned professionals to refine their skills. It offers a range of machines, challenges, and labs that simulate real-life attack scenarios. The detailed reports here showcase not only the technical aspects of cybersecurity but also demonstrate my approach to identifying, analyzing, and mitigating security risks in diverse environments.
+
+
+## BumbleBee
+- JavaScript Injection Exploitation: The attacker used a JavaScript injection to steal admin tokens by sending them to a malicious server, leading to unauthorized access to the system.
+- Exfiltration of Sensitive Data: After gaining access, the attacker retrieved a backup file containing sensitive data, indicating a focus on data exfiltration.
+- Immediate Mitigation: The affected system was isolated, the malicious IP blocked, and monitoring was enhanced to prevent further exfiltration.
+- Security Enhancements: Long-term measures included JavaScript injection prevention, implementing Multi-Factor Authentication (MFA), and deploying a Web Application Firewall (WAF) to prevent future attacks.
+- Incident Response: Actions taken included blocking the malicious IP, reviewing compromised backups, and resetting admin account credentials, alongside reporting the incident to stakeholders.
+<br><br>[Go To BumbleBee](/htb/bumblebee)
+
+
+## Brutus
+- Persistence in Attack: The attacker showed persistence by continuing the brute-force attack even after multiple failed login attempts, indicating automated tools were likely used.
+- Privilege Escalation: After failing to access the "admin" account, the attacker shifted focus to the root account, eventually gaining full system access.
+- Post-Exploitation Activity: Once root access was achieved, the attacker created a new user with sudo privileges and attempted credential dumping and tool transfers, indicating preparation for further exploitation.
+- Mitigation Insight: Immediate actions like blocking the attacker's IP, disabling compromised accounts, and resetting passwords were crucial for stopping the attack.
+- Security Enhancements: Long-term measures like implementing Multi-Factor Authentication (MFA) and using SSH key-based authentication are vital to prevent similar attacks.
+<br><br>[Go To Brutus](/htb/brutus)
+
+
+## Dog
+- Importance of Access Restriction: Open SSH and HTTP ports without IP whitelisting or secure configurations can expose systems to brute-force and enumeration attacks.
+- Version Control Hygiene: Public .git directories can leak sensitive information like database credentials, stressing the need for proper .gitignore practices and server hardening.
+- Danger of Hardcoded Credentials: Storing credentials in web-accessible files (e.g., .json configs) and reusing them across accounts increases the risk of full system compromise.
+- CMS Exploitation Risk: Content management systems like BackDrop can allow RCE if insecure modules are uploaded. Module uploads should be tightly controlled or disabled entirely.
+- Privilege Escalation Paths: Tools like bee when improperly exposed via sudo, enable root access—highlighting the need for strict privilege management.
+- Defense-in-Depth Required: From network exposure to credential reuse, each misstep compounds the risk—secure systems require layered defense and regular audits.
+<br><br>[Go To Dog](/htb/dog)
+
+
+## EscapeTwo
+- Exposure of Internal Services: SMB, LDAP, and Kerberos were exposed externally, expanding the attack surface and enabling authentication attacks.
+- Sensitive Data via SMB Shares: Weak access control allowed retrieval of confidential files like accounting_2024.xlsx, highlighting the risks of overly permissive file sharing.
+- Active Directory Certificate Services (AD CS) Misconfiguration: Exploitable certificate template (DunderMifflinAuthentication) allowed requesting certificates for domain admin, leading to full domain compromise.
+- NT Hash Extraction and Lateral Movement: Recovered administrator NT hash enabled remote access via WinRM, proving the system's susceptibility to post-exploitation techniques.
+- Importance of AD CS Hardening: The attack emphasized how a single misconfigured AD CS template can undermine the entire domain, even without exploiting traditional vulnerabilities.
+- Defense Requires Layering: Escapetwo.htb illustrated that proper segmentation, access control, and certificate policy auditing are critical to securing a Windows domain environment.
+<br><br>[Go To EscapeTwo](/htb/escapetwo)
+
+
+## LinkVortex
+- Exposure of Sensitive Development Artifacts: A publicly accessible .git directory revealed internal source files, including test scripts with hard-coded credentials, exposing the Ghost CMS admin account.
+- CMS Compromise via Credential Reuse: The leaked credentials, combined with a known admin username from a blog post, enabled full administrative access to the content management system.
+- Symbolic Link Privilege Escalation: A misconfigured clean_symlink.sh script, executable with sudo, allowed attackers to access root-owned files through symbolic link manipulation.
+- Insufficient Access Controls: The ability to run scripts as root without strict input validation posed a critical risk, demonstrating the dangers of poorly restricted sudo privileges.
+- Unhardened Public-Facing Services: Apache and SSH were exposed without rate limiting, strict firewall rules, or version hardening, increasing exposure to brute-force and exploit attempts.
+- Secure Coding and Deployment Gaps: The compromise stemmed from common but severe issues — poor development hygiene, misconfigurations, and inadequate privilege separation — that highlight the importance of secure DevOps practices.
+<br><br>[Go To LinkVortex](/htb/linkvortex)
+
+## Litter
+- Exfiltration via DNS Tunneling: Dnscat2 was used to covertly exfiltrate a 40MB file containing PII, bypassing standard network detection by leveraging DNS traffic.
+- Typosquatting Domain Abuse: The attacker utilized the deceptive domain microsofto365.com to disguise malicious DNS queries, aiding stealth and evasion.
+- Anomalous Traffic Pattern: DNS made up 20% of total network traffic, triggering the SOC alert—highlighting the value of anomaly-based detection.
+- Failure in Egress Controls: Lack of DNS egress filtering and monitoring allowed the outbound tunnel to persist long enough to complete data theft.
+- Rapid Containment Prevented Spread: Prompt isolation of the affected host and DNS signature blocking halted the attack, preventing lateral movement or persistence.
+- Need for DNS Security Policies: The incident underscores the necessity of DNS egress restrictions, tunneling detection signatures, and endpoint file access monitoring.
+<br><br>[Go To Litter](/htb/litter)
+
+## Lockpick
+- Targeted Directory Encryption: Bescrypt 3.2 specifically scans and encrypts files in /forela-criticaldata/ using an XOR cipher with a hardcoded key.
+- Extension-Based Targeting: Files with sensitive extensions like .txt, .pdf, .docx, .csv, etc., are selectively encrypted and renamed with a .24bes suffix.
+- Reversible XOR Logic: The XOR encryption is weak—running the binary again on .24bes files in the original folder decrypts them due to symmetric cipher behavior.
+- Ransom Note Dropped: A note demands contact via bes24@protonmail.com for decryption, confirming intent to extort without using advanced encryption.
+- No Obfuscation or Persistence: The malware lacks advanced evasion or persistence tactics, making it easier to detect and remediate with proper tooling.
+- Importance of Basic Defenses: Highlights the need for endpoint protection, least-privilege access, file monitoring, and offline backups to mitigate basic ransomware threats.
+<br><br>[Go To Lockpick](/htb/lockpick)
+
+## Nubillum2
+- Public S3 Exposure: A misconfigured forela-fileshare S3 bucket was publicly accessible, allowing anonymous access to sensitive credentials.
+- Access Key Theft: The attacker exfiltrated a prod-EC2-readonly_accessKeys.csv file containing 7 active keys, enabling lateral movement and enumeration of EC2 resources.
+- Privilege Escalation: Using IAM user dev-policy-specialist, the attacker applied a custom admin policy (Sbhyy79zky) and established persistence through forela-admin.
+- Encryption & Ransom Drop: The attacker attempted to encrypt files using a KMS key and dropped a ransom note (README2DECRYPT.txt) in the bucket.
+- Root Cause: Improper bucket policy permitted public access—lack of enforced S3 security settings allowed for full external exploitation.
+- Mitigations Applied: Access keys were revoked, S3 permissions hardened, IAM policies cleaned up, and detection tooling (CloudTrail/GuardDuty) was activated to prevent recurrence.
+<br><br>[Go To Nubillum2](/htb/nubillum2)
+
+## Shocker
+- Initial Access via RCE: A publicly accessible CGI script (/cgi-bin/user.sh) was exploited using a known Shellshock vulnerability, allowing remote code execution and initial foothold.
+- Privilege Escalation: The perl binary was misconfigured with unrestricted sudo access, enabling attackers to gain root privileges effortlessly without a password.
+- Open & Unsecured Services: HTTP (Apache 2.4.18) and SSH (OpenSSH 7.2p2) were exposed to the public. SSH lacked access restrictions and used outdated versions, increasing attack surface.
+- Critical Risks Identified: All key findings—RCE, sudo misconfiguration, and open services—posed critical or high risk, enabling full system compromise.
+- Recommendations: Immediate restriction of CGI access, audit of sudo privileges, hardening of SSH, implementation of secure coding and least-privilege principles.
+- Outcome: The engagement successfully simulated a real-world attack scenario, demonstrating full domain compromise from external access to root. Strategic mitigation steps were outlined to reduce future risk.
+<br><br>[Go To Shocker](/htb/shocker)
+
+## Titanic
+- Initial Access via LFI: The /download endpoint allowed Local File Inclusion (LFI), enabling sensitive file access, including the /etc/passwd file, and database extraction.
+- Exposed Services: SSH and Apache services were publicly accessible, posing risks from brute-force attacks, while a Gitea instance exposed internal repositories, including sensitive configurations and database access.
+- Gitea Database Extraction: The LFI vulnerability enabled extraction of Gitea’s SQLite database, exposing user credentials that could be cracked offline, allowing unauthorized access.
+- Privilege Escalation via ImageMagick: The server was vulnerable to an ImageMagick exploit, allowing attackers to execute arbitrary code by uploading malicious image files, potentially leading to root access.
+- Critical Risks Identified: Key findings—including LFI, exposed repositories, database extraction, and ImageMagick exploit—pose immediate and severe risks, including privilege escalation and full system compromise.
+- Recommendations: Secure endpoints, restrict file access, implement input validation, update software versions, and apply the principle of least privilege to mitigate risks.
+<br><br>[Go To Titanic](/htb/titanic)
+
+## UFO1
+- 2016 Attack - Ukrainian Power Grid: In December 2016, a cyberattack targeted Ukraine's power grid, resulting in power outages affecting over 200,000 people. The attack, attributed to Russian cyber group Sandworm, used BlackEnergy malware and exploited phishing and unpatched systems. It demonstrated vulnerabilities in critical infrastructure.
+- 2022 Attack - Wiper Malware: In February 2022, just before Russia's invasion, Sandworm launched a cyberattack using HermeticWiper to erase critical data, disrupting Ukrainian governmental and military operations. This attack paralyzed digital infrastructure, impairing Ukraine's defense and diplomatic efforts.
+- Attribution: Both attacks were attributed to Sandworm, a Russian cyber espionage group linked to the GRU, known for its sophisticated cyberattacks on global infrastructure, including the 2017 NotPetya and 2018 Winter Olympics operations.
+- Geopolitical Implications: The 2022 attack aligned with physical military operations, signaling a new era of hybrid warfare blending cyberattacks with conventional conflicts. It disrupted Ukraine's ability to defend itself, severely impacting its digital economy and infrastructure.
+- Mitigation Recommendations: Key mitigation strategies include patch management, multi-factor authentication (MFA), comprehensive incident response planning, and collaboration on threat intelligence sharing to enhance detection and response capabilities.
+<br><br>[Go To UFO1](/htb/ufo1)
+
+## Underpass
+- Open Network Ports and Services: The target system exposed several open ports, including SSH, Apache, SNMP, and RADIUS, each presenting varying levels of risk. SNMP and RADIUS were particularly vulnerable to brute force and man-in-the-middle attacks. Recommendations include hardening SSH access and securing SNMP/RADIUS services.
+- Sensitive Information Exposure: Open SNMP and default daloradius credentials were exploited to access sensitive information about users and system configurations. Immediate actions include changing default passwords and restricting access to sensitive services.
+- Compromised Service Account Credentials: The svcMosh account's password hash was cracked, enabling SSH access and potentially lateral movement within the network. Strong password policies and the use of multi-factor authentication for SSH are recommended.
+- Privilege Escalation via Mosh-Server Misconfiguration: A misconfigured mosh-server allowed privilege escalation to root, providing attackers full system control. Recommendations include restricting sudo permissions and conducting regular audits of sudoers configurations.
+- Conclusion: The test revealed critical vulnerabilities, including exposed credentials, misconfigurations, and weak access controls, enabling attackers to escalate privileges and gain full system control. Immediate remediation is needed to secure the system.
+<br><br>[Go To Underpass](/htb/underpass)
+
+
+
+
+
+
+
+
+

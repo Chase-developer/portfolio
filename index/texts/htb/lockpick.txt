@@ -1,0 +1,120 @@
+**Malware Analysis Report**  
+---
+
+## 1. Overview
+**Malware Name:** Bescrypt 3.2  
+**Malware Type:** Ransomware  
+**MD5/SHA256 Hash:** 19ad47d6e0a43e77e1d23534404bd7bb7f0742b961ef2b219160c9ef3945572d  
+**Date of Analysis:** 3/22/2025  
+**Analyst:** Leng Jia Yong  
+
+---
+
+## 2. Initial Observations
+**Source of Sample:** [HTB, phishing email, attachment, etc.]  
+**File Type:** ELF 64-bit LSB PIE Executable  
+**File Size:** 16.9 KB  
+
+---
+
+## 3. Static Analysis
+### Compiler
+- **GCC x86**  
+
+### ELF Source Files 
+- **Scrt1.o**  
+- **Crtstuff.c**  
+- **Bescrypt2.c**  
+- **Crtstuff.c**  
+
+### Required Library
+- **Libc.so.6**  
+
+---
+
+### Main Function Analysis
+**Observations:** The main function calls `process_directory()` with a specific directory path (`/forela-criticaldata/`) and 
+a string that may serve as an encryption key. 
+This suggests that the ransomware targets files within this directory for encryption or processing.  
+
+---
+
+### Process Directory Function Analysis
+**Observations:**
+- The function attempts to open the directory using `opendir()`.
+- It iterates through the directory contents using `readdir()`.
+- If an entry is a directory (`d_type = 4`), it recursively calls `process_directory()`.
+- If an entry is a file (`d_type = 8`), it checks its extension against 
+a predefined list (`.txt, .sql, .pdf, .docx, .xlsx, .csv, .json, .xml`).
+- If the file matches an extension, it calls `encrypt_file()` with the file path and the encryption key from `main()`.  
+
+---
+
+### Encryption Function Analysis
+**Observations:**
+- The ransomware uses a simple XOR cipher with a hardcoded key that repeats.
+- The encrypted files are renamed with a `.24bes` extension.
+- The original files are deleted after encryption.  
+
+---
+
+### Lazy Decryption
+Knowing that XOR with the same key applied twice returns the plaintext data, we can decrypt files without needing any additional tools. 
+To do this:
+1. Ensure the folder `/forela-criticaldata` contains the encrypted `.24bes` files.
+2. Rename the files to match the expected pattern:
+   ```bash
+   cd /forela-criticaldata
+   mv *.24bes ./
+   ```
+3. The ransomware binary, `bescrypt3.2`, will recognize the files and perform the XOR operation again, effectively decrypting them.
+
+---
+
+## 4. Dynamic Analysis
+**Execution Behavior:** The ransomware scans the `/forela-criticaldata/` directory, encrypts targeted files, and deletes the originals.
+**File System Changes:**
+- New encrypted files (`*.24bes`) are created.
+- Original files are deleted.
+- A ransom note is created in the same directory.
+
+---
+
+## 5. Behavioral Indicators
+**Encryption Method:** XOR cipher with a hardcoded repeating key  
+**Ransom Note Location & Content:** A ransom note is created in the same location as the encrypted files.
+
+```
+
+This file has been encrypted by bes24 group, please contact us at bes24@protonmail.com to 
+discuss payment for us providing you the decryption software..
+```
+
+---
+
+## 6. Mitigation & Recommendations
+### Detection & Prevention:
+- Implement endpoint protection solutions to detect and block ransomware activity.
+- Monitor filesystem activity for unauthorized file modifications and deletions.
+- Utilize network segmentation to limit malware spread within an organization.
+- Regularly update and patch systems to mitigate vulnerabilities exploited by ransomware.
+
+### Recovery & Response:
+- Maintain regular, offline backups of critical data.
+- Implement access control policies to restrict write permissions to sensitive directories.
+- Use behavioral analytics to detect abnormal file access patterns.
+- Educate employees on phishing risks and malware delivery methods.
+
+---
+
+## 7. Conclusion
+This ransomware, Bescrypt 3.2, utilizes a simple XOR-based encryption mechanism with a hardcoded key. 
+It encrypts targeted files within the `/forela-criticaldata/` directory, renames them with a `.24bes` extension, 
+and deletes the originals. Additionally, a ransom note is created, instructing victims to contact the attackers for decryption software. 
+The behavior analysis confirms no complex obfuscation or persistence mechanisms, making recovery feasible if the key is known. 
+Recommended mitigations include regular backups, monitoring filesystem activity, and implementing endpoint protection solutions to detect 
+and block ransomware activity.
+
+---
+
+_End of Report_

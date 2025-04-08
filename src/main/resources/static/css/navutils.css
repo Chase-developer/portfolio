@@ -182,6 +182,7 @@
 .section-desc
 {
 	font-size: var(--content-font-size); /* Shared styles */
+    padding: 0 var(--mid-gap-size);
     margin: 0 auto;
 	text-align: left;
 }

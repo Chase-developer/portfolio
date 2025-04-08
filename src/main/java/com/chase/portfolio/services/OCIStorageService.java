@@ -153,21 +153,31 @@ public class OCIStorageService {
         //scheduler.scheduleAtFixedRate(task, 1, 1, TimeUnit.MINUTES);
     }
 	
-	private void updateBucketResources(HashMap<String, String> index_resources)
+	private void updateBucketResources()
 	{
 		if (!PortfolioApplication.isInProject())
 			return;
 		
 		//first need to get index
-		for (Map.Entry<String, String> local_file : index_resources.entrySet())
+		HashMap<String, String> static_index = ResourceService.getStaticIndex();
+		//that's why, I need the old hash but read index returns new everything, including the new hash
+		//I need to rethink this then
+		//I still need the new index. but then I should get the hash from static index, if it doesn't exist, that means it should upload
+		//if it exists but it's the wrong hash, then should also upload
+		//so that means if it 
+		for (Map.Entry<String, String> local_file : ResourceService.readIndex().entrySet())
 		{
 			
 			File file = ResourceService.getIndexFile(local_file.getKey());
-			
+			if (file == null)
+				continue;
 			if (file.isDirectory())
 				continue;
-			System.out.println("Index = " + local_file.getValue() + ", Local = " + ResourceService.getFileMd5(file));
-			if (local_file.getValue().equalsIgnoreCase(ResourceService.getFileMd5(file)))
+			//System.out.println("File " + local_file.getKey() + ", Index = " + local_file.getValue() + ", Local = " + ResourceService.getFileMd5(file));
+			//need to check if it's a file not in the static index
+			//System.out.println("Has Static Index = " + static_index.containsKey(local_file.getKey()))
+			String md5hash = static_index.get(local_file.getKey());
+			if (md5hash != null && md5hash.equalsIgnoreCase(local_file.getValue()))
 				continue;
 			//should probably only upload it if on project
     		uploadResource(local_file.getKey(), ResourceService.getResourceStream(file), file.length());
@@ -184,11 +194,9 @@ public class OCIStorageService {
 		
 		lock.writeLock().lock();
         try {
-        	
-        	HashMap<String, String> index_files = ResourceService.getStaticIndex();
-    		updateBucketResources(index_files);
+    		updateBucketResources();
     		clearPreAuthURLs();
-    		createPreAuthURLs(index_files);
+    		createPreAuthURLs(ResourceService.getStaticIndex());
         } finally
         {
         	lock.writeLock().unlock();

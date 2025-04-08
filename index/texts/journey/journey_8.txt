@@ -1,0 +1,40 @@
+## Registering a Domain and Configuring DNS Records
+
+Several months before, while studying for my certificates, I had purchased the domain name **chase-developer.com** from **Namecheap**. Now was the time to put it to use. I set up an **A Record** to point my domain to the compute instance’s **IP address**. After verifying propagation using **DNS Checker** and **MXToolbox**, I updated my **.env** file accordingly, and everything worked perfectly.
+
+## Setting Up SSL with PositiveSSL
+
+To secure my website with **HTTPS**, I activated the **PositiveSSL** certificate I had purchased. During the validation process, I encountered three verification methods:
+
+1. **Email Verification** via domain-specific admin emails (e.g., administrator@chase-developer.com) – which I did not have.
+2. **HTTP Validation** by uploading a file to chase-developer.com/.well-known/pki-validation/ with a verification hash.
+3. **CNAME Validation** by updating my domain’s DNS records.
+
+Initially, I opted for **CNAME validation**, as it seemed the simplest approach. However, after waiting over an hour with no progress, I researched and found that **CNAME propagation** takes the longest. To expedite the process, I switched to **HTTP validation**, created the necessary validation file dynamically within my application, and within 10 minutes, my SSL certificate was successfully issued and activated.
+
+## Setting Up a Professional Email
+
+Since I was already managing my domain, I decided to create a professional email for job applications. I discovered that I could get a private mailbox for as little as **$0.73 per month**, so I registered **chase@chase-developer.com** as my primary contact email.
+
+However, when I tested sending an email to my Gmail, it was flagged as spam. After investigating, I learned that **domain-based email reputations** play a role in email deliverability. To ensure my emails were trusted, I configured the following DNS records:
+- **SPF (Sender Policy Framework)**
+- **DKIM (DomainKeys Identified Mail)**
+- **DMARC (Domain-based Message Authentication, Reporting, and Conformance)**
+
+After verifying these configurations using **MXToolbox**, I resent the email, and it was successfully delivered to the main inbox without being flagged as spam.
+
+## Enabling HTTPS with SSL Configuration
+
+After obtaining my SSL certificate, I proceeded to update my **Spring Boot** configuration and **Docker-Compose** setup to use **TLS** and serve traffic over **HTTPS** (**port 443**). However, I encountered a frustrating issue when trying to dynamically set the keystore path in my application.
+
+Since all sensitive information was stored in **.env** for security reasons, I couldn't directly specify the keystore password in **application.properties**. I mounted the **keystore file** to `/app/keystore.p12`, but **Spring Boot** refused to detect this path and kept defaulting to `/root/.keystore`, despite explicitly setting the correct path. After extensive research, I found many others struggling with the same issue, with some resorting to workarounds such as creating custom classes (source).
+
+I initially wanted to avoid a workaround but eventually settled for a practical solution: mounting the **keystore.p12** file to both `/root/.keystore` and `/app/keystore.p12` simultaneously. With this, **Spring Boot** successfully detected the file, and I was able to access my website over **HTTPS**.
+
+---
+
+### Key Actions:
+- Configured **A Record** to point my domain to the compute instance’s **IP address**.
+- Activated **PositiveSSL** for HTTPS and opted for **HTTP validation** to expedite the process.
+- Set up a professional email using **chase@chase-developer.com** and ensured email deliverability with **SPF**, **DKIM**, and **DMARC** DNS records.
+- Resolved **Spring Boot keystore path issue** by mounting the **keystore file** to both `/root/.keystore` and `/app/keystore.p12`.

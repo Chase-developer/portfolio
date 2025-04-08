@@ -1,0 +1,24 @@
+## Solidifying My Learning with HackTheBox
+
+To solidify my learning, I dedicated the next couple of weeks to HackTheBox. I began with retired penetration testing machines that included guides to help learners grasp the basics. This was when I first encountered **Burp Suite**, a powerful HTTP request interceptor. Initially, I thought I'd need Python to craft specific HTTP requests, but Burp Suite simplified the process significantly. It allowed me to focus on the requests' cookies and headers, which often play a crucial role in the request’s success. Through this, I learned how to execute **Local File Inclusion (LFI) attacks**. I also became familiar with tools like **ExploitDB** and **Metasploit**, which provide pre-written scripts to exploit known vulnerabilities. I spent time studying how these vulnerabilities work in depth.
+
+Once I felt I had a solid foundation, I moved on to **active machines**. These didn’t come with guides, so I had to dive in blind. The first machine took me quite a while since I wasn’t familiar with quickly locating credentials. Over time, I started noticing patterns: many software or frameworks had specific files where developers left sensitive information or disabled features, such as Spring Boot’s **actuator** or **application.properties** for Java applications, and **settings.php** or **update.php** for PHP servers. I also encountered exposed **.git endpoints**, which are high-risk targets. I developed a habit of first identifying the software and then researching typical locations for sensitive files and default credentials.
+
+By this point, I had advanced through the ranks, from **Script Kiddie** to **Hacker Rank**, placing me in the top 2% of the HackTheBox user base. However, after weeks of intense work, I started feeling a bit burnt out. I decided to take a step back and focus on designing my portfolio website. I plan to return to HackTheBox with renewed energy and continue honing my practical skills later on.
+
+During my freelancing years, I often faced obscure problems, especially performance issues that didn’t have clear-cut solutions. These challenges sometimes required whole system rewrites. I applied the same principle during pen testing. When I hit a roadblock, I’d take a step back and let the issue digest. After a break, I’d return with a fresh perspective and often found the solution more quickly—whether it was exploiting a vulnerability or troubleshooting a complex machine.
+
+---
+
+### Key Actions:
+- Dedicated weeks to HackTheBox to solidify learning in penetration testing.
+- Started with retired machines and guides to learn basic concepts.
+- Encountered **Burp Suite**, used it to intercept HTTP requests, focusing on cookies and headers.
+- Learned how to execute **Local File Inclusion (LFI)** attacks.
+- Became familiar with **ExploitDB** and **Metasploit** to exploit known vulnerabilities.
+- Moved to **active machines** without guides, diving in blind to solve challenges.
+- Developed a habit of identifying software and researching typical file locations for sensitive information and default credentials (e.g., Spring Boot’s actuator, PHP’s settings.php, and exposed .git endpoints).
+- Advanced from **Script Kiddie** to **Hacker Rank**, placing in the top 2% of HackTheBox.
+- Took a break from HackTheBox to design a portfolio website, planning to return with renewed energy.
+- Applied problem-solving strategies from freelancing, taking breaks when stuck on challenges, and returning with a fresh perspective.
+

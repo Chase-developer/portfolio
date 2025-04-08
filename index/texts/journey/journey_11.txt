@@ -1,0 +1,47 @@
+## Returning to HackTheBox – Blue Team Focus
+
+With the website progressing well, I returned to **HackTheBox** to write more reports—this time focusing on **Blue Team challenges**. One machine, in particular, **Sherlock**, introduced me to a wide range of topics: **DFIR**, **Security Incident Response**, **Malware Analysis**, and **Threat Intelligence**.
+
+---
+
+### 🧪 Exploring DFIR and MITRE ATT&CK
+
+I started by exploring **Digital Forensics and Incident Response (DFIR)**. I wanted to learn how to properly write forensics reports, so I dug into examples of **industry standards**. That’s where I first came across the **MITRE ATT&CK framework**.
+
+Every technique was categorized with a **T** ID (like **T1059** for Command and Scripting Interpreter). It blew my mind how organized and resourceful the framework was—I immediately knew this would become a reference point for understanding exploitation techniques going forward.
+
+---
+
+### SOC Concepts – Wireshark, Splunk & DNS Tunneling
+
+Next, I looked into **Security Operations Centers (SOC)** and learned how to work with tools like **Wireshark** and **Splunk**. **Wireshark**, in particular, became a valuable tool for filtering and analyzing suspicious packets.
+
+It was during one of these investigations that I first encountered **DNS Tunneling**.
+
+In **red team** labs, it's pretty common to spin up a local **HTTP server** to serve reverse shell scripts or download payloads. But I started wondering—how practical is this in the real world? Surely real environments would block that sort of behavior.
+
+Sure enough, **HTTP port 80** is often completely blocked in secure setups since it's so commonly used for malicious requests. That also explains why browsers push so hard for **HTTPS**—there’s inherent risk in unencrypted HTTP traffic.
+
+This made **DNS (port 53)** an attractive alternative for attackers, since it's rarely blocked due to how essential it is to resolving domain names. **DNS tunneling** abuses this by encoding data into subdomains, like `abc123.attacker.com`, and sending multiple requests to exfiltrate information bit by bit.
+
+But then I started thinking like a defender.
+
+Couldn’t this be detected? For example, if within a short time frame there are many DNS queries to the same domain with changing subdomains—maybe flag at 5, and block at 20? With automation, this seems entirely doable, and I imagine most security suites already implement something similar.
+
+That led me to another thought: attackers could avoid DNS altogether and just use **HTTPS** for data exfiltration. But doing so ties activity to a real **SSL certificate**, which requires a verified identity. This is where **identity fraud** comes in. Threat actors might:
+
+- Purchase stolen credentials through underground marketplaces
+- Use them to verify and obtain legitimate **SSL/TLS certificates**
+- Set up **HTTPS servers** that look fully authentic to exfiltrate high-value data
+
+But that process is riskier and more costly. So, for **low-level exfiltration**, **DNS tunneling** remains the **low-cost, low-risk method**, and that's what makes it so popular.
+
+I wrapped up this investigation by writing a **Security Incident Report** on **DNS tunneling** and **detection strategies**.
+
+---
+
+### Key Actions:
+- Explored **DFIR** and the **MITRE ATT&CK** framework to improve my understanding of exploitation techniques.
+- Gained hands-on experience with **Wireshark** and **Splunk** for packet analysis and monitoring.
+- Investigated **DNS tunneling** as a method for data exfiltration and explored **detection strategies** to prevent it.
+- Wrote a **Security Incident Report** focusing on **DNS tunneling** and proposed detection techniques.

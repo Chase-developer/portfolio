@@ -1,0 +1,73 @@
+# Forensic Investigation Report
+
+**Case ID**: B1  
+**Date Of Investigation**: 03/04/2023  
+**Investigating Analyst**: Leng Jia Yong  
+
+---
+
+## 1. Incident Overview
+
+- **Incident Type**: JavaScript Injection and Token Theft
+- **Affected System**: phpBB Forum
+- **Initial Detection**: Unauthorized access detected via access logs and token theft from admin user.
+
+---
+
+## 2. Event Chronology  
+
+### 2.1 JavaScript Injection Event
+- **Timestamp**: 26/04/2023 10:53:12
+- **Source IP**: 10.10.0.78
+- **Service**: HTTP
+
+#### Event Details:
+- **Description**: An attacker injected a JavaScript payload into a POST request to steal tokens by sending them to `http://10.10.0.78/update.php`. The admin token was successfully stolen.
+- **User Action**: The attacker logged in as the admin using an injection, which enabled the collection and exfiltration of tokens.
+
+---
+
+## 3. Analysis  
+
+- **Initial Access**: Based on the logs, the attacker accessed the system by exploiting a JavaScript injection vulnerability. The injected script sent tokens to a malicious server (`http://10.10.0.78/update.php`), allowing the attacker to hijack administrative access.
+- **Exfiltration**: The access log shows a successful GET request to retrieve a backup file, which likely contained sensitive data.
+  
+### MITRE ATT&CK Techniques Identified:
+- **T1071.001** - Application Layer Protocol: Web Shell
+- **T1071.002** - Application Layer Protocol: Application Layer Protocol (HTTP)
+- **T1071.003** - Application Layer Protocol: Web Shell (JavaScript Injection)
+
+---
+
+## 4. Mitigation and Incident Response  
+
+### 4.1 Immediate Mitigation Steps
+- The affected system should be immediately isolated to prevent further token theft and exfiltration of sensitive data.
+- The malicious IP `10.10.0.78` should be blocked and additional monitoring should be enabled on the network to prevent further attacks from the same source.
+
+---
+
+### 4.2 Long-Term Security Measures
+- **JavaScript Injection Prevention**: Ensure that any input fields or parameters susceptible to injection are properly sanitized. This includes using frameworks that support automatic escaping of user input.
+- **Content Security Policy (CSP)**: Implement a strong CSP to restrict the sources from which scripts can be loaded, preventing malicious code from executing in the browser.
+- **Multi-Factor Authentication (MFA)**: Require MFA for all administrative logins to make it significantly harder for attackers to gain unauthorized access using stolen credentials.
+- **Session Management**: Implement secure session management practices, such as using secure cookies, enforcing session expiration, and allowing users to log out from all sessions remotely.
+- **Web Application Firewall (WAF)**: Deploy a WAF to filter out malicious traffic, such as injection attempts and suspicious POST requests, before they reach the web server.
+- **Enhanced Log Monitoring**: Implement centralized log management and analysis systems to monitor for unusual activities, such as unauthorized access or abnormal data exfiltration patterns.
+- **Encryption**: Ensure that all backups are encrypted both in transit and at rest. This ensures that even if backups are stolen, the data cannot be read without proper decryption keys.
+
+---
+
+### 4.3 Incident Response Actions 
+- **Forensic Analysis**: The investigation began by analyzing the logs and network traffic to identify the source of the injection attack. The attacker was identified as originating from IP `10.10.0.78`, and the malicious script was found to be exfiltrating admin tokens to this IP.
+- **Blocking Malicious IP**: The source IP `10.10.0.78` was immediately blocked from the network to prevent further access and exfiltration of data.
+- **Backup Review and Secure Storage**: The stolen backup (`backup_1682506471_dcsr71p7fyijoyq8.sql.gz`) was identified in the access logs. The integrity and security of this backup were reviewed, and the backup was securely encrypted to prevent unauthorized access. Further review was conducted to determine the scope of sensitive data compromised.
+- **Account Compromise Detection**: The admin account was found to have been compromised based on log entries showing `LOG_ADMIN_AUTH_SUCCESS` and `LOG_USERS_ADDED` entries from `10.10.0.78`. The compromised admin account was immediately disabled, and password reset procedures were enacted for all admin accounts.
+- **Malicious Script Removal**: Any traces of the injected JavaScript payload on the affected system were removed. The system was scanned for other potential vulnerabilities to ensure the integrity of the application.
+- **Incident Reporting**: The incident was reported to relevant stakeholders, including the system owners, to ensure they were informed of the breach and its implications. Additionally, a post-incident review was scheduled to improve future detection and response measures.
+- **User and Session Revalidation**: All active sessions were invalidated, and users were required to log in again with new, secure authentication mechanisms. Session management policies were updated to prevent similar attacks.
+- **Future Prevention**: Recommendations for improving security, including input validation, CSP implementation, and the addition of MFA, were provided to ensure this type of attack would be mitigated in the future.
+
+---
+
+_End of Report_

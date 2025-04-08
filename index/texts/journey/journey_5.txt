@@ -1,0 +1,25 @@
+## Integrating Oracle Cloud
+
+With the visuals in place, I shifted my focus to **Oracle Cloud integration**. I explored Oracle Cloud’s **Free Tier**, which provided permanent access to basic resources, making it a cost-effective solution.
+
+I registered an account and began experimenting with the **Oracle Cloud Infrastructure (OCI) SDK**, a built-in library that facilitates resource management. My first implementation was using **Oracle Object Storage buckets** to host my website images, reducing bandwidth usage on my compute instance. Although **pre-authenticated requests** weren’t strictly necessary, I implemented an **automated refresh system** that regenerated pre-auth URLs every 23 hours, showcasing my understanding of the system.
+
+### Overcoming Compute Limitations
+
+While setting up my backend, I encountered a significant challenge: Oracle’s **Free Tier compute instance** had only 1GB RAM and 1 OCPU. Having worked with higher-performance systems while modding and launching game projects, I knew this would be a constraint.
+
+I attempted to install **Docker**, but the compute instance crashed repeatedly, preventing me from deploying my application as planned. Frustrated but determined, I explored upgrade options, only to find that even the most basic **paid instance** cost SGD 35 per month—far beyond my budget. Unwilling to incur unnecessary expenses, I looked for alternatives.
+
+### Moving to AWS
+
+I turned to **Amazon Web Services (AWS)** and discovered **Amazon Lightsail**, which offered cost-effective compute instances for hosting websites. I secured a **1GB RAM, 2 vCPU instance** for $7 USD per month (approximately RM30), which also came with a **90-day free trial**. This was an ideal solution, balancing affordability and performance, allowing me to move forward with my deployment.
+
+---
+
+### Key Actions:
+- Explored Oracle Cloud's **Free Tier** for cost-effective resources.
+- Experimented with **OCI SDK** and implemented **Oracle Object Storage** to host images, reducing bandwidth usage.
+- Developed an **automated refresh system** for **pre-authenticated URLs** to regenerate every 23 hours.
+- Encountered performance limitations with **Oracle's Free Tier compute instance** and explored upgrade options.
+- Switched to **Amazon Lightsail** for a more affordable, scalable compute instance for hosting the website.
+- Secured a **1GB RAM, 2 vCPU Lightsail instance** for $7 USD per month with a **90-day free trial**, ensuring a balance of cost and performance.

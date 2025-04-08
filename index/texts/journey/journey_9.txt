@@ -1,0 +1,38 @@
+## Attempting Kubernetes Deployment
+
+With **HTTPS** working, I moved on to deploying my application using **Kubernetes**. I researched Kubernetes deployment, focusing on node clusters, necessary commands, and core configurations such as:
+- **deployment.yaml** (for defining the application deployment)
+- **configmaps** (for environment-specific configurations)
+- **secrets** (for storing sensitive credentials securely)
+- **service** (for exposing the application to the network)
+
+After setting everything up, I attempted to launch the **Kubernetes cluster** but immediately ran into resource constraints. My **compute instance** had only 1GB of memory, while even the minimal **MicroK8s** required at least 2GB, and a full Kubernetes setup required 4GB. Due to these limitations, I had to abandon **Kubernetes deployment** for now and revert to using **Docker-Compose**, which was simpler and more suitable for my available resources.
+
+That said, if I gain access to better hardware in the future, I plan to revisit **Kubernetes**. Its **self-healing** and **load-balancing** capabilities seem valuable for a scalable deployment.
+
+## Implementing Auto-Deployment with GitHub Actions
+
+Next, I focused on automating deployments using **GitHub Actions**. I created a **deployment.yml** workflow that included the necessary commands for pulling the latest Docker image and deploying it. I also added **GitHub Secrets** to securely store:
+- **Docker credentials**
+- **SSH credentials**
+
+## Encountering YAML Indentation Issues
+
+While setting up **GitHub Actions**, I encountered an unexpected issue related to **YAML indentation**. YAML does not support tab characters, but my **Eclipse IDE** was inserting tabs, which caused syntax errors in the workflow file when pushed to GitHub.
+
+To fix this, I configured **Eclipse** to convert tabs to spaces, ensuring consistent formatting in my YAML files. Once corrected, the workflow executed without issues.
+
+## Resolving Appleboy SSH Deployment Issues
+
+I initially configured the **GitHub Actions workflow** to use the **Appleboy SSH Action** for remote deployments. However, I discovered that **Appleboy** does not accept **RSA private keys**. To resolve this, I generated a new **SSH key pair**, added the public key to the **authorized_keys** file on my compute instance, and stored the **private key** in **GitHub Secrets**. With this setup, my **deployment pipeline** worked seamlessly.
+
+GitHub provides **2,000 free CI/CD minutes** per month for free-tier users, which is more than sufficient for deploying my portfolio project.
+
+---
+
+### Key Actions:
+- Researched and attempted **Kubernetes deployment**, but reverted to **Docker-Compose** due to resource constraints.
+- Automated deployments using **GitHub Actions**, securely storing **Docker** and **SSH credentials** in **GitHub Secrets**.
+- Fixed **YAML indentation** issues in **Eclipse** to ensure proper execution of the **GitHub Actions workflow**.
+- Resolved **Appleboy SSH** deployment issues by generating a new **SSH key pair** for remote deployments.
+

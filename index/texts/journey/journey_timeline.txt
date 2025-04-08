@@ -1,0 +1,118 @@
+# My Journey Timeline
+
+---
+
+Starting in mid-January, after encountering rejections from job hunting and being inspired by a particular cybersecurity company. This led to learning cybersecurity concepts, which was a big shift, especially with limited resources in late January. Despite the challenges, progress was made by practicing on platforms like HackTheBox in early February, solidifying the understanding of key security principles.
+
+By mid-February, the portfolio website took shape, becoming a tangible proof of skills. Later, Oracle Cloud integration was completed, and Docker was used to streamline deployments by early March. Environmental configurations were fine-tuned to ensure smooth testing and consistent results, marking the focus on DevOps by mid-March.
+
+Towards the end of March, registering a domain and configuring DNS records became a priority. Although Kubernetes deployment was attempted, it was halted due to resource constraints, prompting a return to Docker-Compose. The start of April was marked by improvements to the website's design and responsiveness, followed by a return to HackTheBox with a focus on Blue Team challenges. Malware analysis and threat intelligence research deepened the understanding of real-world cybersecurity issues, culminating in research on the Sandworm group and its ties to cyberwarfare.
+
+## 1. From Freelancing to Cybersecurity (Mid January)
+- Transitioned from freelancing to pursuing a full-time job.
+- Faced challenges due to a lack of tangible proof of work.
+- Experienced rejections from ATS and interviews.
+- Interviewed with a cybersecurity company, gaining valuable insights.
+- Became inspired by an industry veteran’s passion for cybersecurity.
+- Researched global cybersecurity trends and the workforce shortage.
+- Realized the saturation of the software development job market.
+- Decided to pivot into cybersecurity and re-apply to the inspiring company.
+<br><br>[Go To Chapter 1](/journey/1)
+
+## 2. Learning with Limited Resources (Late January)
+- Identified the need for knowledge and credentials to transition into cybersecurity.
+- Discovered Coursera's affordable professional certifications.
+- Enrolled in Google Cybersecurity Professional Certificate to build foundational knowledge.
+- Pursued Oracle Cloud certifications to align with job requirements.
+- Completed the Amazon Junior Software Developer course focusing on HTML, CSS, and JavaScript.
+- Gained multiple certifications in Google Cybersecurity, Oracle Cloud, and Amazon Junior Software Developer within a month.
+- Explored the ISC2 One Million Certified in Cybersecurity campaign and completed free training.
+- Postponed the ISC2 Certified in Cybersecurity (CC) exam until relocating for easier commuting.
+- Recognized the need for practical experience to complement certifications.
+<br><br>[Go To Chapter 2](/journey/2)
+
+## 3. Solidifying My Learning with HackTheBox (Early February)
+- Dedicated weeks to HackTheBox to solidify learning in penetration testing.
+- Started with retired machines and guides to learn basic concepts.
+- Encountered **Burp Suite**, used it to intercept HTTP requests, focusing on cookies and headers.
+- Learned how to execute **Local File Inclusion (LFI)** attacks.
+- Became familiar with **ExploitDB** and **Metasploit** to exploit known vulnerabilities.
+- Moved to **active machines** without guides, diving in blind to solve challenges.
+- Developed a habit of identifying software and researching typical file locations for sensitive information and default credentials (e.g., Spring Boot’s actuator, PHP’s settings.php, and exposed .git endpoints).
+- Advanced from **Script Kiddie** to **Hacker Rank**, placing in the top 2% of HackTheBox.
+- Took a break from HackTheBox to design a portfolio website, planning to return with renewed energy.
+- Applied problem-solving strategies from freelancing, taking breaks when stuck on challenges, and returning with a fresh perspective.
+<br><br>[Go To Chapter 3](/journey/3)
+
+## 4. The Portfolio Website: A Tangible Proof of My Skills (Mid February)
+- Built a **fully-fledged portfolio website** to showcase Full-Stack Development, DevOps, and Cloud Computing skills.
+- Designed the website with a **minimalistic, clean, and functional layout**, reflecting my personality.
+- Created a **badge showcase** with interactive elements to display certifications and achievements.
+- Added a **quote** that types out in real time with a blinking cursor to convey a growth mindset: *"Continuously mastering the ever-evolving world of technology."*
+- Implemented a **modern aesthetic** with a gray border, half-transparent fill, and dynamic dot waveform effect for mouse interaction.
+- Proactively learned how to integrate **DevOps automation** and **cloud technologies** while designing the site.
+- Summarized my work in a **project section**, showcasing HackTheBox reports, my "My Journey" story, and the portfolio GitHub.
+- Added links to **LinkedIn**, **GitHub**, and the source code of the portfolio to provide transparency and verifiability of my work.
+<br><br>[Go To Chapter 4](/journey/4)
+
+## 5. Integrating Oracle Cloud (Late February)
+- Explored Oracle Cloud's **Free Tier** for cost-effective resources.
+- Experimented with **OCI SDK** and implemented **Oracle Object Storage** to host images, reducing bandwidth usage.
+- Developed an **automated refresh system** for **pre-authenticated URLs** to regenerate every 23 hours.
+- Encountered performance limitations with **Oracle's Free Tier compute instance** and explored upgrade options.
+- Switched to **Amazon Lightsail** for a more affordable, scalable compute instance for hosting the website.
+- Secured a **1GB RAM, 2 vCPU Lightsail instance** for $7 USD per month with a **90-day free trial**, ensuring a balance of cost and performance.
+<br><br>[Go To Chapter 5](/journey/5)
+
+## 6. Implementing Docker for Deployment (Early March)
+- **Researched Docker** and built Docker images using **command-line instructions**.
+- Optimized Docker image size by switching to **Amazon Corretto Alpine**, reducing the image size to **380MB**.
+- Uploaded the Docker image to **Docker Hub** and created a private repository named **chasedeveloper/portfolio:latest**.
+- Troubleshot Docker image pull issues by investigating and resolving access token authentication problems and installing **Docker components** on the compute instance.
+- **Implemented Docker-Compose** to simplify the deployment process and enable one-command startup with **docker-compose up -d**.
+<br><br>[Go To Chapter 6](/journey/6)
+
+## 7. Configuring Environment Properties for Seamless Testing (Mid March)
+- Configured **environment properties** for seamless switching between local and production deployments using **.env** and **application.properties**.
+- Ensured security by keeping the **.env** file out of **GitHub** and limiting access to the compute instance and local IDE project.
+- Integrated **OCI SDK** and mounted necessary volumes, including **OCI Config**, **.env file**, and **Private Key**, to connect the application to **Oracle Cloud Infrastructure** resources.
+- Successfully launched the application and made it accessible via the compute instance’s IP address.
+<br>[Go To Chapter 7](/journey/7)
+
+## 8. Registering a Domain and Configuring DNS Records (Late March)
+- Configured **A Record** to point my domain to the compute instance’s **IP address**.
+- Activated **PositiveSSL** for HTTPS and opted for **HTTP validation** to expedite the process.
+- Set up a professional email using **chase@chase-developer.com** and ensured email deliverability with **SPF**, **DKIM**, and **DMARC** DNS records.
+- Resolved **Spring Boot keystore path issue** by mounting the **keystore file** to both `/root/.keystore` and `/app/keystore.p12`.
+<br><br>[Go To Chapter 8](/journey/8)
+
+## 9. Attempting Kubernetes Deployment (Late March)
+- Researched and attempted **Kubernetes deployment**, but reverted to **Docker-Compose** due to resource constraints.
+- Automated deployments using **GitHub Actions**, securely storing **Docker** and **SSH credentials** in **GitHub Secrets**.
+- Fixed **YAML indentation** issues in **Eclipse** to ensure proper execution of the **GitHub Actions workflow**.
+- Resolved **Appleboy SSH** deployment issues by generating a new **SSH key pair** for remote deployments.
+<br><br>[Go To Chapter 9](/journey/9)
+
+## 10. Enhancing the Website’s Appearance and Responsiveness (Early April)
+- Enhanced the website’s **responsiveness** using a **mobile-first approach** and custom **CSS**.
+- Researched and moved away from **Tailwind CSS** to maintain full control over the site’s design and layout.
+- Implemented **markdown** for efficient content management, organizing **HackTheBox** reports.
+- Improved **file management** and implemented security measures to prevent **LFI** attacks and ensure that outdated files are not served.
+- Added **MD5 hashes** to update files dynamically and implemented a **Content Security Policy (CSP)** for improved security.
+<br><br>[Go To Chapter 10](/journey/10)
+
+## 11. Returning to HackTheBox – Blue Team Focus (Early April)
+- Explored **DFIR** and the **MITRE ATT&CK** framework to improve my understanding of exploitation techniques.
+- Gained hands-on experience with **Wireshark** and **Splunk** for packet analysis and monitoring.
+- Investigated **DNS tunneling** as a method for data exfiltration and explored **detection strategies** to prevent it.
+- Wrote a **Security Incident Report** focusing on **DNS tunneling** and proposed detection techniques.
+<br><br>[Go To Chapter 11](/journey/11)
+
+## 12. Malware Analysis & Threat Intelligence (Early April)
+- Conducted **malware analysis** on ransomware and credential-stealing malware using **Ghidra** and **Cutter**.
+- Wrote **malware analysis reports** and learned practical insights into how different malware behaves and hides its activities.
+- Explored **threat intelligence** and wrote a report on **Sandworm**, using the **MITRE ATT&CK** framework to document its attack vectors.
+- Analyzed **state-sponsored cyberattacks** on Ukraine, understanding the strategic and geopolitical motivations behind these actions.
+- Reflected on the role of technology in geopolitics and the potential future use of digital tools for **collaboration vs. conflict**.
+<br><br>[Go To Chapter 12](/journey/12)
+

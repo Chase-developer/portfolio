@@ -63,6 +63,8 @@ section {
     color: white; /* Default white color */
     text-decoration: none; /* Remove underline by default */
     transition: color 0.2s ease-in-out, text-decoration 0.2s ease-in-out; /* Smooth transition */
+    
+
 }
 
 .link:hover {

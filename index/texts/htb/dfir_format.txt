@@ -1,0 +1,57 @@
+Forensic Investigation Report
+	
+			
+Case ID: B1  
+Date Of Investigation:
+Investigating Analyst: 
+
+---
+
+## 1. Incident Overview
+
+- Incident Type: 
+- Affected System:  
+- Initial Detection: 
+
+---
+
+## 2. Event Chronology  
+
+### 2.1 An Event  
+- Timestamp:  
+- Source IP: 
+- Destination IP:   
+- Service:  
+
+#### Event Details:  
+- 
+
+---
+
+## 3. Analysis  
+
+- 
+
+### MITRE ATT&CK Techniques Identified:  
+- 
+
+---
+
+## 4. Mitigation and Incident Response  
+
+### 4.1 Immediate Mitigation Steps  
+- 
+
+---
+
+### 4.2 Long-Term Security Measures  
+- 
+
+---
+
+### 4.3 Incident Response Actions  
+- 
+
+---
+
+_End of Report_

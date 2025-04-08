@@ -1,0 +1,114 @@
+# ☁️ Security Incident Report: Cloud Infiltration – S3 Bucket Misconfiguration
+
+## 1. General Information
+- **Incident Title:** Cloud Infiltration via Misconfigured Amazon S3 Bucket
+- **Incident ID / Ticket Number:** IR-2023-1102-S3
+- **Reported By:** End User (File Access Issue)
+- **Date & Time Reported:** 2023-11-02T14:52:03Z
+- **Date & Time Detected:** 2023-11-02T14:52:03Z
+- **SOC Analyst Name:** Leng Jia Yong
+- **Incident Priority:** Critical
+- **Current Status:** Resolved
+
+---
+
+## 2. Incident Summary
+An end user reported an urgent issue involving file inaccessibility within the designated S3 bucket `forela-fileshare`. Investigation revealed the S3 bucket was **misconfigured** with a **public access policy**, leading to unauthorized access by an external threat actor from IP `54.242.59.197`.
+
+The threat actor exfiltrated a sensitive credentials file and escalated privileges by leveraging the stolen access keys. Multiple lateral discovery and privilege escalation attempts were made, culminating in admin-level access and persistence mechanisms being established within the environment.
+
+---
+
+## 3. Indicators of Compromise (IOCs)
+
+| Type                | Value                                              | Description                          |
+|---------------------|----------------------------------------------------|--------------------------------------|
+| IP Address          | 54.242.59.197                                      | Attacker source IP                   |
+| File Accessed       | prod-EC2-readonly_accessKeys.csv                   | First accessed object                |
+| IAM User            | anonymous, dev-policy-specialist, forela-admin     | Involved accounts                    |
+| Event Name          | PutUserPolicy                                      | Used to escalate privileges          |
+| Uploaded File       | README2DECRYPT.txt                                 | TA’s ransom/readme drop              |
+| Created Policy      | Sbhyy79zky                                         | Malicious policy name                |
+| KMS Key ARN         | arn:aws:kms:us-east-1:263954014653:key/mrk-        | Used for encryption                  |
+|                     | 85e24f85d964469cba9e4589335dd0f4                   |                                      |
+| Unauthorized Action | kms:decrypt                                        | Denied action on sensitive document  |
+
+---
+
+## 4. Affected Assets
+
+| Asset Type       | Identifier / Name                   | Impact                                      |
+|------------------|--------------------------------------|--------------------------------------------|
+| S3 Bucket        | forela-fileshare                    | Misconfigured, publicly accessible          |
+| IAM User         | forela-admin                        | Modified for persistence                    |
+| IAM User         | dev-policy-specialist               | Used to escalate privileges                 |
+| File             | prod-EC2-readonly_accessKeys.csv    | Access keys stolen                          |
+| Document         | Executive_Summary_Q1_2023.docx      | Attempted unauthorized access               |
+
+---
+
+## 5. Timeline of Events
+
+| Date & Time (UTC)      | Event Description                                                      |
+|------------------------|------------------------------------------------------------------------|
+| 2023-11-02T14:52:03Z   | TA accessed `prod-EC2-readonly_accessKeys.csv` using anonymous identity|
+| 2023-11-02             | 7 access keys stolen from S3 bucket                                    |
+| 2023-11-02             | TA used `instance-state-name:running` filter to enumerate EC2          |
+| 2023-11-02             | 42 failed attempts at discovery/escalation                             |
+| 2023-11-02             | IAM user `dev-policy-specialist` gained elevated privileges            |
+| 2023-11-02             | `PutUserPolicy` used to assign admin privileges                        |
+| 2023-11-02             | Malicious policy `Sbhyy79zky` created                                  |
+| 2023-11-02             | File `README2DECRYPT.txt` uploaded to S3 bucket                        |
+| 2023-11-02             | KMS key used for file encryption: `arn:aws:kms:...`                    |
+| 2023-11-02             | `forela-admin` IAM user modified to gain persistence                   |
+| 2023-11-02             | User `John` denied `kms:decrypt` on `Executive_Summary_Q1_2023.docx`   |
+
+---
+
+## 6. Root Cause Analysis
+The root cause of the incident was a **misconfigured bucket policy** on `forela-fileshare` that inadvertently allowed **public (anonymous) access**. The attacker exploited this misconfiguration to retrieve sensitive credentials and conduct privilege escalation using AWS IAM policies and access keys.
+
+---
+
+## 7. Mitigation & Response Actions
+
+- [x] Immediately revoked all exposed access keys
+- [x] Reconfigured S3 bucket policies to enforce least privilege
+- [x] Implemented service control policies to block public S3 access
+- [x] Isolated and audited IAM user `forela-admin` and `dev-policy-specialist`
+- [x] Removed unauthorized policies and roles
+- [x] Rotated KMS encryption keys
+- [x] Enabled CloudTrail and GuardDuty alerts for anomalous activity
+
+---
+
+## 8. Recommendations
+
+- Enforce **least-privilege policies** across all S3 buckets
+- Use **S3 Block Public Access** settings organization-wide
+- Enable **AWS Config rules** to audit bucket configurations
+- Implement **automated remediation** for public bucket creation
+- Regularly audit IAM users, policies, and keys
+- Enable multi-factor authentication (MFA) on all accounts
+- Deploy **SIEM alerting** on IAM policy changes and object access logs
+
+---
+
+## 9. Conclusion
+A cloud infiltration incident occurred due to a public S3 bucket misconfiguration, resulting in the theft of 7 access keys and unauthorized privilege escalation. The incident was contained, persistence removed, and hardening actions implemented. No further malicious activity has been observed since containment.
+
+---
+
+## 10. Attachments / Evidence
+
+- CloudTrail logs with S3 and IAM activity
+- IAM policy JSON: `Sbhyy79zky`
+- KMS key metadata
+- Screenshot of `README2DECRYPT.txt`
+- Forensic summary of user `forela-admin` changes
+
+---
+
+_End of Report_
+
+

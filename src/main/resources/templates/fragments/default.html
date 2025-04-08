@@ -15,6 +15,18 @@
     </div>
 </section>
 
+<th:block th:fragment="footer-script">
+    <script th:src="@{/js/waveform.js}"></script>
+    <script th:src="@{/js/ui-styles.js}"></script>
+</th:block>
+
+<th:block th:fragment="sync-button(text)">
+  <button class="sync-btn" th:attr="data-text=${text}">
+    <span class="ui sync-layer sync-top" th:text="${text}"></span>
+    <span class="ui sync-layer sync-btm" th:text="${text}"></span>
+  </button>
+</th:block>
+
 <header th:fragment="header-nav">
     <div class="ui top-bar">
         <div class="bar-item">
@@ -25,8 +37,9 @@
         
         <div class="bar-item mhide">
             <a th:href="@{/home}" class="nav-item">Home</a>
-            <a href="@{/home#projects}" class="nav-item">Projects</a>
-            <a th:href="@{/home/journey}" class="nav-item">My Journey</a>
+            <a th:href="@{/journey}" class="nav-item">Website Code</a>
+            <a th:href="@{/htb}" class="nav-item">HackTheBox</a>
+            <a th:href="@{/journey}" class="nav-item">My Journey</a>
         </div>
         <div class="bar-item">
             <div class="social-icons">

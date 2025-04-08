@@ -1,0 +1,122 @@
+## Red Team Penetration Testing Report
+
+### Overview
+This report documents the security weaknesses identified during the assessment of `underpass.htb`. 
+The engagement led to privilege escalation from an initial foothold to full domain compromise.
+
+---
+
+## Findings and Recommendations
+
+### Finding 1: **Open Network Ports and Services**
+#### Observation:
+#### Identified Ports:
+```bash
+PORT     STATE         SERVICE        VERSION
+22/tcp   open          ssh            syn-ack ttl 63 OpenSSH 8.9p1 Ubuntu 3ubuntu0.10
+80/tcp   open          http           syn-ack ttl 63 Apache httpd 2.4.52 ((Ubuntu))
+161/udp  open          snmp
+1812/udp open|filtered radius
+1813/udp open|filtered radacct
+```
+
+#### Risk Rating:
+- **Medium:** While no immediate vulnerabilities were detected on SSH, the open service increases the attack surface for brute force and credential-based attacks.
+- **Medium:** Apache running on the default Ubuntu page may indicate a misconfiguration or an unpatched service, which could be susceptible to known exploits.
+- **High:** SNMP can expose sensitive network information, and if misconfigured, it may allow for unauthorized access to sensitive data.
+- **High:** RADIUS services can be vulnerable to brute force and man-in-the-middle attacks if not properly secured, especially if they are exposed over the internet.
+
+#### Recommendations:
+- Enforce strong password policies or use key-based authentication for SSH.
+- Limit SSH access by IP or VPN.
+- Regularly update SSH software to mitigate known vulnerabilities.
+- Remove or replace the default Apache page with a proper web application.
+- Review server logs for suspicious activity or unauthorized access attempts.
+- Regularly update Apache and its modules to ensure security patches are applied.
+- Disable SNMP if it is not needed.
+- If SNMP is required, configure it with strong community strings or SNMPv3 for encryption and authentication.
+- Restrict access to RADIUS ports to trusted internal networks.
+- Configure RADIUS with strong authentication methods and encryption.
+- Regularly monitor RADIUS logs for unauthorized access attempts.
+
+
+---
+
+### Finding 2: **Sensitive Information Exposed via SNMP and daloradius Server Access**
+#### Observation:
+- SNMP was discovered open on port 161/UDP, and upon performing a snmpbulkwalk, a user named steve was identified. 
+- This suggests that SNMP is being used to expose sensitive information about users or the network.
+- A daloradius server was found running, which is a web-based management platform for RADIUS services.
+- Default daloradius credentials (Administrator/radius) were used to successfully access the system.
+
+#### Risk Rating:
+- High: Gaining access to the daloradius server using default credentials allows an attacker to manage RADIUS configurations, 
+potentially enabling unauthorized access to the network, user credentials, and sensitive services. 
+The exposure of a user account (steve) via SNMP could also lead to further attacks or information gathering.
+
+#### Recommendations:
+- Change Default Credentials: Immediately change the default Administrator/radius credentials for the daloradius server to a strong, unique password.
+- Restrict Access to daloradius: Limit access to the daloradius web interface to trusted internal networks or via VPN.
+- Disable SNMP if Not Needed: If SNMP is not required, it should be disabled to prevent unauthorized enumeration of network and system details. 
+If needed, configure SNMP with strong community strings and access controls.
+- Regular Audits: Perform regular audits on RADIUS and SNMP configurations to ensure that they do not expose sensitive data and that access controls are properly enforced.
+
+
+---
+
+
+### Finding 3: **Compromised Service Account Credentials Leading to SSH Access**
+#### Observation:
+- An account named svcMosh was discovered within the system.
+- The password hash for this account was retrieved and successfully cracked using CrackStation, revealing the actual plaintext password.
+- Using these credentials, SSH access to the target system was successfully obtained.
+
+#### Risk Rating:
+- **Critical:** The ability to retrieve, crack, and use valid credentials to gain SSH access poses a severe security risk. 
+An attacker with SSH access can execute commands, escalate privileges, or move laterally within the network.
+
+#### Recommendations:
+- Enforce Strong Password Policies: Implement password complexity requirements and ensure that passwords are difficult to crack.
+- Disable Password-Based SSH Authentication: Configure SSH to use key-based authentication instead of passwords.
+- Rotate Compromised Credentials: Immediately change the svcMosh password and any other potentially affected credentials.
+- Monitor SSH Access Logs: Regularly review SSH logs (/var/log/auth.log) to detect unauthorized or suspicious login attempts.
+- Implement Multi-Factor Authentication (MFA): If possible, enforce MFA for SSH access to add an extra layer of security.
+
+
+---
+
+### Finding 4: **Privilege Escalation via Mosh-Server Misconfiguration**
+#### Observation:
+- The sudo -l command revealed that the mosh-server binary could be executed with elevated privileges.
+- Normally, mosh-server does not require root access for regular operations, but it was misconfigured to run as root.
+- Using sudo mosh-server new, we were able to retrieve the MOSH_KEY.
+- By setting MOSH_KEY as an environment variable and initiating a Mosh client session, we gained root access to the system.
+
+#### Risk Rating:
+- Critical: The ability to escalate privileges from a standard user account to root via mosh-server poses a severe security risk. 
+This misconfiguration allows attackers to fully compromise the system.
+
+#### Recommendations:
+- Restrict Unnecessary Sudo Permissions: Ensure that mosh-server does not have unnecessary sudo access, especially as root.
+- Audit Sudo Policies: Regularly review sudoers configurations to prevent privilege escalation paths.
+- Implement Principle of Least Privilege (PoLP): Only provide necessary privileges to users and services.
+- Monitor System Logs: Track sudo command usage and Mosh server logs for unauthorized or suspicious activity.
+
+---
+
+## Conclusion
+The penetration test revealed multiple critical security flaws that allowed for unauthorized access and privilege escalation:
+Sensitive Information Exposure:
+SNMP enumeration disclosed a valid user account (steve).
+The daloRADIUS server was accessible with default administrator credentials, revealing account details.
+Compromised Service Account Credentials:
+Extracted credentials for svcMosh were successfully cracked, allowing SSH access.
+Privilege Escalation via Mosh-Server:
+Misconfigured mosh-server sudo permissions enabled full root compromise.
+These findings highlight severe misconfigurations that could allow attackers to gain full control over the system. 
+Immediate remediation is necessary, including enforcing strong authentication, removing default credentials, 
+and restricting unnecessary sudo privileges to prevent future exploitation.
+
+---
+
+_End of Report_
