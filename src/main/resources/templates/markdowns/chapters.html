@@ -15,6 +15,19 @@
 	<p id="titlecenter" class="section-text title" th:text="${title}"></p>
     
     <section>
+        <div class="page-nav-layout">
+            <a th:href="@{'/journey/' + ${prev}}" th:if="${showPrev}">
+                <th:block th:replace="~{fragments/default :: sync-button('Prev')}"/>
+            </a>
+            <span th:unless="${showPrev}" class="placeholder">Placeholder</span>
+            
+            <a th:href="@{'/journey/' + ${next}}" th:if="${showNext}">
+                <th:block th:replace="~{fragments/default :: sync-button('Next')}"/>
+            </a>
+            <span th:unless="${showNext}" class="placeholder">Placeholder</span>
+            
+         
+        </div>
         
 	    <div class="wiki-layout">
             <div class="content">
@@ -41,7 +54,7 @@
                                     <img th:src="@{/images/arrowright.png}" class="arrow-icon hidden">
                                 </span>
                                 <span class="section-text header">
-                                Reports
+                                Chapters
                                 </span>
                             </div>
 
@@ -56,6 +69,20 @@
 				</div>
 		    </div>
 		</div>
+        
+        <div class="page-nav-layout">
+            <a th:href="@{'/journey/' + ${prev}}" th:if="${showPrev}">
+                <th:block th:replace="~{fragments/default :: sync-button('Prev')}"/>
+            </a>
+            <span th:unless="${showPrev}" class="placeholder">Placeholder</span>
+            
+            <a th:href="@{'/journey/' + ${next}}" th:if="${showNext}">
+                <th:block th:replace="~{fragments/default :: sync-button('Next')}"/>
+            </a>
+            <span th:unless="${showNext}" class="placeholder">Placeholder</span>
+            
+         
+        </div>
 	</section>
 	
 	<section th:insert="~{fragments/default :: contact}"></section>

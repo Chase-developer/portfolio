@@ -90,6 +90,8 @@
     flex-direction: column;
 }
 
+
+
 .sync-btn
 {
     position: relative; /* Position the button absolutely inside the <a> */

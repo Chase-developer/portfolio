@@ -3,10 +3,12 @@ package com.chase.portfolio.models;
 public class Chapter {
 	
     private final String title;
+    private final String name;
     private final int chp;
     
-    public Chapter(int chp, String title)
+    public Chapter(int chp, String title, String name)
     {
+    	this.name = name;
     	this.title = title;
     	this.chp = chp;
     }
@@ -30,15 +32,15 @@ public class Chapter {
     
     public String getTitle()
     {
-    	return getName() + " : " + title;
+    	return "Chapter " + chp + " : " + title;
     }
     
     public String getName()
     {
-    	return "Chapter " + chp;
+    	return "Chapter " + chp + " : " + name;
     }
     
-    public void setName(String title) {}
+    public void setName(String name) {}
     
     
 

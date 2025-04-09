@@ -65,6 +65,12 @@ public class HomeController {
     	model.addAttribute("title", "Journey Timeline");
         model.addAttribute("file", "/texts/journey/journey_timeline.txt"); // Dynamic file URL
         model.addAttribute("chapters", JourneyService.Chapters);
+        
+        model.addAttribute("prev", "1");
+        model.addAttribute("next", "1");
+        model.addAttribute("showPrev", false);  // or false based on your logic
+        model.addAttribute("showNext", false);  // or false based on your logic
+        
         return "markdowns/chapters";  // Maps to index.html in templates/
     }
     
@@ -76,6 +82,11 @@ public class HomeController {
     	Chapter chp = JourneyService.getChapter(chp_i);
     	if (chp == null)
     		return "error";
+    	model.addAttribute("prev", String.valueOf(chp_i - 1));
+        model.addAttribute("next", String.valueOf(chp_i + 1));
+        model.addAttribute("showPrev", JourneyService.getChapter(chp_i - 1) != null);  // or false based on your logic
+        model.addAttribute("showNext", JourneyService.getChapter(chp_i + 1) != null);  // or false based on your logic
+    	
         model.addAttribute("title", chp.getTitle());
         model.addAttribute("file", "/texts/" + chp.getFileLink() + ".txt"); // Dynamic file URL
         model.addAttribute("chapters", JourneyService.Chapters);
