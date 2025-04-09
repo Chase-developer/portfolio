@@ -67,7 +67,8 @@
 }
 
 .ui.pop {
-    display: block;
+    display: flex;
+    flex-direction: column;
     padding: 10px; 
     position: absolute;
     left: 50%;

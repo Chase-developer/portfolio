@@ -28,13 +28,18 @@ import com.oracle.bmc.auth.AbstractAuthenticationDetailsProvider;
 import com.oracle.bmc.auth.ConfigFileAuthenticationDetailsProvider;
 import com.oracle.bmc.objectstorage.ObjectStorageClient;
 import com.oracle.bmc.objectstorage.model.CreatePreauthenticatedRequestDetails;
+import com.oracle.bmc.objectstorage.model.ObjectSummary;
 import com.oracle.bmc.objectstorage.model.PreauthenticatedRequestSummary;
 import com.oracle.bmc.objectstorage.model.StorageTier;
 import com.oracle.bmc.objectstorage.requests.CreatePreauthenticatedRequestRequest;
+import com.oracle.bmc.objectstorage.requests.DeleteObjectRequest;
 import com.oracle.bmc.objectstorage.requests.DeletePreauthenticatedRequestRequest;
+import com.oracle.bmc.objectstorage.requests.ListObjectsRequest;
 import com.oracle.bmc.objectstorage.requests.ListPreauthenticatedRequestsRequest;
 import com.oracle.bmc.objectstorage.requests.PutObjectRequest;
 import com.oracle.bmc.objectstorage.responses.CreatePreauthenticatedRequestResponse;
+import com.oracle.bmc.objectstorage.responses.DeleteObjectResponse;
+import com.oracle.bmc.objectstorage.responses.ListObjectsResponse;
 import com.oracle.bmc.objectstorage.responses.ListPreauthenticatedRequestsResponse;
 
 import jakarta.annotation.Nullable;
@@ -165,7 +170,8 @@ public class OCIStorageService {
 		//I still need the new index. but then I should get the hash from static index, if it doesn't exist, that means it should upload
 		//if it exists but it's the wrong hash, then should also upload
 		//so that means if it 
-		for (Map.Entry<String, String> local_file : ResourceService.readIndex().entrySet())
+		HashMap<String, String> read_index = ResourceService.readIndex();
+		for (Map.Entry<String, String> local_file : read_index.entrySet())
 		{
 			
 			File file = ResourceService.getIndexFile(local_file.getKey());
@@ -183,8 +189,13 @@ public class OCIStorageService {
     		uploadResource(local_file.getKey(), ResourceService.getResourceStream(file), file.length());
     		logger.info("Successfully Uploaded File = " + local_file);
 		}
+		for (Map.Entry<String, ObjectSummary> index : getCloudResources().entrySet())
+		{
+			if (!read_index.containsKey(index.getKey()))
+				deleteResource(index.getKey());
+		}
 		ResourceService.updateStaticIndex(false);
-		logger.info("Uploaded Resources To Bucket");
+		logger.info("Synced Resources To Bucket");
 	}
 	
 	private void syncResourcesWithBucket()
@@ -332,21 +343,33 @@ public class OCIStorageService {
                 ".oraclecloud.com" + response.getPreauthenticatedRequest().getAccessUri();
     }
 	
-//	private HashMap<String, ObjectSummary> getCloudResources() 
-//	{
-//		HashMap<String, ObjectSummary> resources = new HashMap<String, ObjectSummary>();
-//		ListObjectsResponse response = client.listObjects(
-//		        ListObjectsRequest.builder()
-//		                .namespaceName(Bucket_Namespace)
-//		                .bucketName(Bucket_Name)
-//		                .build());
-//		response.getListObjects().getObjects().forEach(object ->
-//		{
-//	        resources.put(object.getName(), object);
-//		}
-//		);
-//		return resources;
-//	}
+	private HashMap<String, ObjectSummary> getCloudResources() 
+	{
+		HashMap<String, ObjectSummary> resources = new HashMap<String, ObjectSummary>();
+		ListObjectsResponse response = client.listObjects(
+		        ListObjectsRequest.builder()
+		                .namespaceName(Bucket_Namespace)
+		                .bucketName(Bucket_Name)
+		                .build());
+		response.getListObjects().getObjects().forEach(object ->
+		{
+	        resources.put(object.getName(), object);
+		}
+		);
+		return resources;
+	}
+	
+	private void deleteResource(String objectName)
+	{
+		DeleteObjectRequest deleteRequest = DeleteObjectRequest.builder()
+                .namespaceName(Bucket_Namespace)
+                .bucketName(Bucket_Name)
+                .objectName(objectName)
+                .build();
+
+        DeleteObjectResponse deleteResponse = client.deleteObject(deleteRequest);
+        logger.info(deleteResponse.get__httpStatusCode__() + " Deleted outdated object: " + objectName);
+	}
 	
 	private void uploadResource(String objectName, InputStream inputStream, long file_size) {
         PutObjectRequest request = PutObjectRequest.builder()
