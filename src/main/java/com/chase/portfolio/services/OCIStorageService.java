@@ -116,7 +116,8 @@ public class OCIStorageService {
 	}
 	
 	private static boolean isTestProfile() {
-        return System.getProperty("spring.profiles.active").contains("test");
+		String profile = System.getProperty("spring.profiles.active");
+        return profile == null ? false : profile.contains("test");
     }
 	
 	

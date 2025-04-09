@@ -1,0 +1,50 @@
+**Malware Analysis Report**  
+
+---
+
+## 1. Overview
+**Malware Name:** Superstar_MemberCard.tiff.exe  
+**Malware Type:** Data Exfiltration Tool
+**SHA256 Hash:** 12DAA34111BB54B3DCBAD42305663E44E7E6C3842F015CCCBBE6564D9DFD3EA3  
+**Date of Analysis:** 06/04/2024
+**Analyst:** Leng Jia Yong
+
+---
+
+## 2. Static Analysis
+- **File Creation Date (UTC):** `2024-03-13 10:38:06`
+- **Binary Code Size:** `38400 bytes`
+- **Original Filename:** `newILY.ps1`
+- **Obfuscated Code Offset:** `2C74`
+- **Encoding Method Used:** `Base64`
+- **Cmdlet for File Downloads:** `Invoke-WebRequest`
+- **Network IoCs (IPs):** `35.169.66.138, 44.206.187.144`
+- **Staging Directory for Files:** `C:\Users\Public\Public Files`
+- **MITRE Technique ID (Data Gathering):** `T1119`
+- **Password for Exfiltration:** `M8&C!i6KkmGL1-#`
+
+---
+
+## **3. Mitigation & Recommendations**
+
+### Detection & Prevention:
+- **Use Antivirus/Endpoint Detection & Response (EDR) Tools:** Ensure up-to-date antivirus or EDR solutions are in place to detect malicious scripts, unusual behavior, and unauthorized file transfers.
+- **Network Monitoring:** Continuously monitor network traffic for suspicious connections to known C2 servers or IP addresses such as `35.169.66.138` and `44.206.187.144`.
+- **Block Known IPs:** Block communication with malicious IP addresses identified during the investigation, especially in outbound traffic.
+- **Implement Application Whitelisting:** Only allow trusted applications to execute, preventing malicious scripts from running on the system.
+- **User Education and Awareness:** Educate employees on the dangers of downloading and executing unknown files, and encourage caution when interacting with emails or web pages.
+
+### Recovery & Response:
+- **Immediate Containment:** Disconnect affected systems from the network to prevent further exfiltration or damage.
+- **System Restoration:** Restore systems from known clean backups to remove any traces of the malware.
+- **Forensic Investigation:** Conduct a thorough forensic investigation to assess the full extent of the infection and determine if any additional systems were compromised.
+- **Incident Report:** Report the breach to relevant authorities or regulatory bodies as required, following incident response protocols.
+
+---
+
+## **4. Conclusion**
+The **HeartBreaker-Continuum** malware is a data exfiltration tool designed to silently collect and send sensitive files from the compromised machine to the attacker's server. Its obfuscated nature and use of Base64 encoding make detection challenging, but with appropriate mitigation strategies, the risk of such malware can be minimized. It is crucial to implement strong endpoint protection, network monitoring, and employee education to prevent and respond to such threats effectively.
+
+---
+
+_End of Report_
