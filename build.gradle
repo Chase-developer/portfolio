@@ -76,10 +76,27 @@ tasks.named("processResources") {
     exclude("index/**")
 }
 
+task unittest(type: Test) {
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+    }
+    systemProperty 'spring.profiles.active', 'unit-test'
+    useJUnitPlatform()
+}
+
+task inttest(type: Test) {
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+    }
+    systemProperty 'spring.profiles.active', 'int-test'
+    useJUnitPlatform()
+}
+
 test {
     testLogging {
         events "PASSED", "FAILED", "SKIPPED"
-        showStandardStreams = true
     }
+    systemProperty 'spring.profiles.active', 'test'
     useJUnitPlatform()
+    
 }
