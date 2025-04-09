@@ -47,7 +47,7 @@
     padding: var(--high-gap-size);
     width: 90%; /* Keep it within borders */
     max-width: 100%; /* Prevents excessive stretching on large screens */
-    margin: 0 auto; /* Centers the section */
+    margin: 20px auto; /* Centers the section */
     box-sizing: border-box;
     
     
