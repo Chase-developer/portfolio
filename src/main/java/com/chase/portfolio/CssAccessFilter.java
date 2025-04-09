@@ -12,7 +12,7 @@ import java.io.IOException;
 @Component
 public class CssAccessFilter extends OncePerRequestFilter {
 
-    private static final String ALLOWED_REFERER = EnvLoader.get().web_Address; // Change this to your domain
+    private static final String ALLOWED_REFERER = PortfolioApplication.isInProject() ? "http://localhost" : "https://chase-developer.com"; // Change this to your domain
     private static final AntPathRequestMatcher CSSMatcher = new AntPathRequestMatcher("/css/**");
     private static final AntPathRequestMatcher JSMatcher = new AntPathRequestMatcher("/js/**");
     private static final AntPathRequestMatcher FONTMatcher = new AntPathRequestMatcher("/font/**");

@@ -36,7 +36,7 @@ jobs:
 
     # Step 3: Build with Gradle
     - name: Build with Gradle
-      run: ./gradlew build -x test  # Skip tests for faster builds (adjust as needed)
+      run: ./gradlew build  # Skip tests for faster builds (adjust as needed)
 
     # Step 4: Log in to Docker Hub using GitHub Secrets
     - name: Log in to Docker Hub
