@@ -1,0 +1,19 @@
+## Chapter 14: System Debug, HackTheBox, JUnit
+
+I also encountered some issues with my file update system, which uses a static index and MD5 hashes. The system wasn’t updating as expected, and after troubleshooting, I realized I had been comparing the wrong hashes. After fixing this, the update process became smoother, but that wasn’t the end of my improvements. I had seen several online discussions about how developers often forget to manage older versions of files in cloud storage, leading to unnecessary accumulation of files and, eventually, escalating costs. Inspired by this, I implemented a system to automatically remove outdated files, helping to keep things lean and cost-effective.
+
+While working on these updates, I got an unexpected but interesting notification from Gmail. I noticed a report from Google that informed me my domain email had been marked as legitimate, meaning it would no longer be flagged as suspicious. This small but significant confirmation gave me a sense of progress in maintaining my personal systems.
+
+To make my HackTheBox pages even more accessible, I decided to add an introductory home page. This new page explains how HackTheBox works and highlights the projects I’ve built and the progress I’ve made. This added context helps anyone visiting my portfolio understand the purpose behind the challenges and what I gained from completing them.
+
+Lastly, I dove into JUnit and its role in ensuring quality in software development. While testing, I learned that there are two main categories of testing: unit testing (which focuses on core logic) and integration testing (which works with Spring Boot). Unit tests were much faster to execute, while integration tests had to wait for Spring Boot to launch. To streamline this process and improve the developer experience, I took the initiative to create a custom annotation. This new annotation eliminates the need for repetitive, long disable commands, saving developers time and making their work more efficient.
+
+With these changes, I’ve continued to refine the "My Journey" project, making it more intuitive, efficient, and easier to maintain—both for myself and for anyone who might use or view it in the future.
+
+---
+
+### Key Actions:
+- Fixed file update system by correcting hash comparisons and implemented automatic removal of outdated files to reduce storage costs.
+- Received Gmail domain legitimacy report, confirming my domain email will no longer be flagged as suspicious.
+- Created an intro page for HackTheBox, explaining the platform and showcasing my projects.
+- Streamlined testing with JUnit by creating a custom annotation to simplify disabling tests.

@@ -59,8 +59,7 @@
 	
 	<section th:insert="~{fragments/default :: contact}"></section>
     <th:block th:replace="~{fragments/default :: footer-script}"></th:block>
-    <script th:src="@{/js/toggle.js}"></script>
-	<script th:src="@{/js/markdown.js}"></script>
+    <th:block th:replace="~{fragments/default :: markdown-script}"></th:block>
 	
 	
 </body>

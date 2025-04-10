@@ -1,8 +1,8 @@
 package com.chase.portfolio.models;
 public class Skill {
 	
-    private String image;
-    private String name;
+    private final String image;
+    private final String name;
 
     public Skill(String image, String name) {
         this.image = image;
@@ -15,7 +15,7 @@ public class Skill {
     }
 
     public void setImage(String image) {
-        this.image = image;
+        
     }
 
     public String getName() {
@@ -23,6 +23,6 @@ public class Skill {
     }
 
     public void setName(String name) {
-        this.name = name;
+        
     }
 }

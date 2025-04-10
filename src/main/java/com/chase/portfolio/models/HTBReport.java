@@ -2,7 +2,7 @@ package com.chase.portfolio.models;
 
 import org.springframework.util.StringUtils;
 
-public class HTBReport {
+public class HTBReport extends IDModel {
 	
 	public static enum ReportType
 	{
@@ -42,27 +42,16 @@ public class HTBReport {
 	 * entry("brutus", "HackTheBox - Sherlock Brutus (DFIR)", "htb/brutus.png", 
 					"https://labs.hackthebox.com/achievement/sherlock/2297566/631"),
 	 */
-	
-	private String id;
+
     private String verifyLink;
     private Team team;
     private ReportType type;
 
     private HTBReport(String id, Team team, ReportType type, String verifyLink) {
-    	this.id = id;
+    	super(id);
         this.verifyLink = verifyLink;
         this.team = team;
         this.type = type;
-    }
-    
-    public String getId()
-    {
-    	return this.id;
-    }
-    
-    public void setId(String id)
-    {
-    	this.id = id;
     }
 
     public String getVerifyLink() {

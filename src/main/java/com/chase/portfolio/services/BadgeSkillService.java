@@ -3,10 +3,12 @@ package com.chase.portfolio.services;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.chase.portfolio.models.Badge;
 import com.chase.portfolio.models.Skill;
 
-
+@Service
 public class BadgeSkillService {
 	
 	public static final List<Badge> Badges = List.of(

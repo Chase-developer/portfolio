@@ -18,6 +18,13 @@
 <th:block th:fragment="footer-script">
     <script th:src="@{/js/waveform.js}"></script>
     <script th:src="@{/js/ui-styles.js}"></script>
+    <script th:src="@{/js/views.js}"></script>
+</th:block>
+
+<th:block th:fragment="markdown-script">
+    <script th:src="@{/js/markdown.js}"></script>
+    <script th:src="@{/js/toggle.js}"></script>
+    <script th:src="@{/js/navigation.js}"></script>
 </th:block>
 
 <th:block th:fragment="sync-button(text)">
@@ -70,7 +77,8 @@
         <div class="web-badge">
             <img th:src="@{/images/positivessl.png}"><br>
             <span>Integrated With Oracle Cloud</span><br>
-            <span>Hosted On AWS</span>  
+            <span>Hosted On AWS</span><br>
+            <span>Views: <span id="views-counter">0</span></span>
         </div>
     </div>
 </header>

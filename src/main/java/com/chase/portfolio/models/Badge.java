@@ -1,9 +1,9 @@
 package com.chase.portfolio.models;
 public class Badge {
-    private String image;
-    private String name;
-    private String description;
-    private String verifyLink;
+    private final String image;
+    private final String name;
+    private final String description;
+    private final String verifyLink;
 
     public Badge(String image, String name, String description, String verifyLink) {
         this.image = image;
@@ -17,7 +17,6 @@ public class Badge {
     }
 
     public void setVerifyLink(String verifyLink) {
-        this.verifyLink = verifyLink;
     }
     
     public String getImage() {
@@ -25,7 +24,6 @@ public class Badge {
     }
 
     public void setImage(String image) {
-        this.image = image;
     }
 
     public String getName() {
@@ -33,7 +31,6 @@ public class Badge {
     }
 
     public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {
@@ -41,6 +38,5 @@ public class Badge {
     }
 
     public void setDescription(String description) {
-        this.description = description;
     }
 }

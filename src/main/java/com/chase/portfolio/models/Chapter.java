@@ -1,6 +1,6 @@
 package com.chase.portfolio.models;
 
-public class Chapter {
+public class Chapter extends IDModel {
 	
     private final String title;
     private final String name;
@@ -8,9 +8,16 @@ public class Chapter {
     
     public Chapter(int chp, String title, String name)
     {
+    	super(String.valueOf(chp));
     	this.name = name;
     	this.title = title;
     	this.chp = chp;
+    }
+    
+    @Override
+    public String getId()
+    {
+    	return String.valueOf(chp);
     }
     
     public int getChp()

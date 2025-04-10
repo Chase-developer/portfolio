@@ -17,9 +17,11 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-import com.chase.portfolio.PortfolioApplication;
+import com.chase.portfolio.PortfolioUtils;
 
+@Service
 public class ResourceService {
 	
 	public static String getFileMd5(File file) {
@@ -125,7 +127,7 @@ public class ResourceService {
 	
 	public static void updateStaticIndex(boolean force)
 	{
-		if (!PortfolioApplication.isInProject())
+		if (!PortfolioUtils.isInProject())
 		{
 			logger.error("updateStaticIndex() cannot be run inside Compute!");
 			return;

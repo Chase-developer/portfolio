@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.chase.portfolio.profiles.IntegrationTest;
 import com.chase.portfolio.services.OCIStorageService;
+import com.chase.portfolio.services.StatisticsService;
 
 @IntegrationTest
 @SpringBootTest
@@ -28,6 +29,8 @@ public class HomeControllerTest {
     
     @Mock
     private OCIStorageService storageService;
+    @Mock
+    private StatisticsService statisticsService;
 
     // Test-specific configuration
     @TestConfiguration
@@ -38,6 +41,14 @@ public class HomeControllerTest {
             // Mock the behavior of getPreAuthURL to always return "mocked_url"
             when(mockStorageService.getPreAuthURL(any(String.class))).thenReturn("mocked_url");
             return mockStorageService;
+        }
+        
+        @Bean
+        public StatisticsService statisticsService() {
+        	StatisticsService statisticsService = mock(StatisticsService.class);
+            // Mock the behavior of getPreAuthURL to always return "mocked_url"
+            when(statisticsService.getViews()).thenReturn(0);
+            return statisticsService;
         }
     }
 

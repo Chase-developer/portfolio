@@ -38,7 +38,7 @@ public class EnvLoader {
 
 		try (FileInputStream fileInputStream = new FileInputStream(".env")) {
 	        properties.load(fileInputStream);
-	        if (!PortfolioApplication.isInProject())
+	        if (!PortfolioUtils.isInProject())
 	        {
 	        	/*
 	        	 * server.ssl.key-store=${SSL_KEYSTORE_PATH}

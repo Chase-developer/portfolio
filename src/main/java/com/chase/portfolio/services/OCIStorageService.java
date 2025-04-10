@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.chase.portfolio.EnvLoader;
-import com.chase.portfolio.PortfolioApplication;
+import com.chase.portfolio.PortfolioUtils;
 import com.oracle.bmc.ConfigFileReader;
 import com.oracle.bmc.Region;
 import com.oracle.bmc.auth.AbstractAuthenticationDetailsProvider;
@@ -86,7 +86,7 @@ public class OCIStorageService {
 		try
 		{
 			ConfigFileReader.ConfigFile configFile = null;
-			if (!PortfolioApplication.isInProject())
+			if (!PortfolioUtils.isInProject())
 			{
 				String currentDirectory = Paths.get("").toAbsolutePath().toString(); // Get the current directory
 		        String customConfigFilePath = Paths.get(currentDirectory, "oci-config").toString();
@@ -115,10 +115,7 @@ public class OCIStorageService {
 	    return (int) Math.floor((double) diffMillis / (1000 * 60 * 60)); // Convert milliseconds to hours
 	}
 	
-	private static boolean isTestProfile() {
-		String profile = System.getProperty("spring.profiles.active");
-        return profile == null ? false : profile.contains("test");
-    }
+	
 	
 	
 	
@@ -143,7 +140,7 @@ public class OCIStorageService {
 	
 	@PostConstruct
     public void initializeOracleClient() {
-		if (isTestProfile()) {
+		if (PortfolioUtils.isTestProfile()) {
             return;  // Skip initialization in test environment
         }
 		this.bucket_Name = EnvLoader.get().bucket_Name;
@@ -176,7 +173,7 @@ public class OCIStorageService {
 	
 	private void updateBucketResources()
 	{
-		if (!PortfolioApplication.isInProject())
+		if (!PortfolioUtils.isInProject())
 			return;
 		
 		//first need to get index

@@ -2,8 +2,11 @@ package com.chase.portfolio.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.chase.portfolio.models.Chapter;
 
+@Service
 public class JourneyService {
 	
 	private static Chapter chp(int chp, String title, String name)

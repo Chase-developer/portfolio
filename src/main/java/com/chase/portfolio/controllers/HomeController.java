@@ -4,15 +4,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chase.portfolio.models.Chapter;
 import com.chase.portfolio.models.HTBReport;
 import com.chase.portfolio.services.BadgeSkillService;
 import com.chase.portfolio.services.HTBService;
 import com.chase.portfolio.services.JourneyService;
+import com.chase.portfolio.services.StatisticsService;
 
 @Controller
 public class HomeController {
+	
+	private final StatisticsService statistics_service;
+	
+	// Constructor-based injection (Recommended)
+    public HomeController(StatisticsService statistics_service) {
+        this.statistics_service = statistics_service;
+    }
 	
 	@GetMapping("/htb")
     public String htb(Model model) {
@@ -45,10 +54,12 @@ public class HomeController {
     
     @GetMapping("/home")
     public String home(Model model) {
+    	statistics_service.incrementViews();
     	model.addAttribute("badges", BadgeSkillService.Badges);
     	model.addAttribute("fullstack", BadgeSkillService.FullStackSkills);
     	model.addAttribute("cybersecurity", BadgeSkillService.CybersecuritySkills);
     	model.addAttribute("devops", BadgeSkillService.DevOpsCloudSkills);
+    	
         return "home";  // Maps to index.html in templates/
     }
     
@@ -70,7 +81,6 @@ public class HomeController {
         model.addAttribute("next", "1");
         model.addAttribute("showPrev", false);  // or false based on your logic
         model.addAttribute("showNext", false);  // or false based on your logic
-        
         return "markdowns/chapters";  // Maps to index.html in templates/
     }
     
@@ -92,6 +102,13 @@ public class HomeController {
         model.addAttribute("chapters", JourneyService.Chapters);
         return "markdowns/chapters";
     }
+    
+    @GetMapping("/views")
+    @ResponseBody
+    public String views() {
+        return String.valueOf(statistics_service.getViews());
+    }
+
     
 //    @GetMapping("/.well-known/pki-validation/E86F8C4B2F4DFDBADD3B43031B3C303D.txt")
 //    @ResponseBody

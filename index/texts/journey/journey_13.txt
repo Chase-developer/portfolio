@@ -1,0 +1,16 @@
+## Chapter 13: CSP Debugging and UX Design
+
+As I continued refining my "My Journey" project, I realized there were several areas for improvement to enhance both functionality and user experience.
+
+During this process, after adding a Content Security Policy (CSP) to the project, I ran into a breakdown on the journey's main page. It turns out the issue was caused by my use of inline styles. Initially, I thought CSP only checked for static file sources, but further research revealed that it also prevents potentially malicious scripts that could be embedded in posts or comments from the backend, such as database-driven data. At first, I wondered if backend sanitization (like OWASP libraries) covered this, but I learned CSP serves as an extra layer of protection. This realization reminded me of Google's approach to cybersecurity, emphasizing layered security: there is never too much security, as long as it doesn’t significantly impact performance.
+
+Although some additional styling would have made the page more visually attractive, I decided that sacrificing security for aesthetic improvements wasn’t worth it. In the end, security first is the priority.
+
+While testing the chapter viewer page, I noticed that navigation felt cumbersome. I had to click on each chapter link individually in the navigation tab, which wasn’t very intuitive. To resolve this, I added "Prev" and "Next" buttons, building on the custom button design I had previously implemented. This simple change dramatically improved the overall navigation experience, making it much more user-friendly.
+
+---
+
+### Key Actions:
+- Fixed CSP issues with inline styles, enhancing security by preventing malicious scripts.
+- Prioritized security over aesthetics, emphasizing layered protection without performance loss.
+- Improved navigation by adding "Prev" and "Next" buttons for better user experience.

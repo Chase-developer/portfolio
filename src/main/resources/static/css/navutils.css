@@ -107,6 +107,9 @@
     word-wrap: break-word; /* Ensures long words in code blocks break */
 }
 
+.toggle-content .active {
+    color: grey;
+}
 
 .toggle-content {
 	display: block;
