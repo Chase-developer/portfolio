@@ -7,22 +7,22 @@ A full-stack **Spring Boot** application designed to securely host and manage do
 ## 🌐 Live Website
 
 🔗 **[chase-developer.com](https://chase-developer.com)** – Fully deployed with auto-updates via GitHub Actions + Docker
-• Content Security Policy
-• HTTP Request Sanitization
-• Oracle SDK Integration
-• GitHub Actions Auto Deployment
-• SSL/TLS Sectigo Verification
-• Verified Domain Email
-• Docker Compose & Image Deployment
-• Secure Credentials Practices
-• Amazon Lightsail Hosting
-• Spring Boot Thymeleaf Framework
-• UI/UX Mobile-First Design
-• Markdown Implementation
-• GitHub Wiki Documentation
-• Pre-Authorized File Access
-• Cloud Object Storage
-• Spring & JUnit Profile Configurations
+- Content Security Policy
+- HTTP Request Sanitization
+- Oracle SDK Integration
+- GitHub Actions Auto Deployment
+- SSL/TLS Sectigo Verification
+- Verified Domain Email
+- Docker Compose & Image Deployment
+- Secure Credentials Practices
+- Amazon Lightsail Hosting
+- Spring Boot Thymeleaf Framework
+- UI/UX Mobile-First Design
+- Markdown Implementation
+- GitHub Wiki Documentation
+- Pre-Authorized File Access
+- Cloud Object Storage
+- Spring & JUnit Profile Configurations
 
 
 > ⚠️ _Source is publicly available for learning purposes. Real secrets and credentials are not included._
