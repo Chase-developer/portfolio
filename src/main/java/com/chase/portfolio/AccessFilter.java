@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
@@ -16,10 +17,9 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class AccessFilter extends OncePerRequestFilter {
 
-    private static final String ALLOWED_REFERER = PortfolioUtils.isInProject() ? "http://localhost" : "https://chase-developer.com"; // Change this to your domain
-    private static final AntPathRequestMatcher CSSMatcher = new AntPathRequestMatcher("/css/**");
-    private static final AntPathRequestMatcher JSMatcher = new AntPathRequestMatcher("/js/**");
-    private static final AntPathRequestMatcher FONTMatcher = new AntPathRequestMatcher("/font/**");
+	private static final Set<String> ALLOWED_REFERERS = PortfolioUtils.isInProject()
+		    ? Set.of("http://localhost")
+		    : Set.of("https://chase-developer.com", "https://www.chase-developer.com");
     
     private static final Map<String, AntPathRequestMatcher> Matchers;
 	
@@ -56,7 +56,7 @@ public class AccessFilter extends OncePerRequestFilter {
         if (matcher != null && matcher.matches(request)) {
         	String referer = request.getHeader("Referer");
 
-		    if (referer == null || !referer.startsWith(ALLOWED_REFERER)) {
+		    if (referer == null || ALLOWED_REFERERS.stream().noneMatch(referer::startsWith)) {
 		        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
 		        return;
 		    }
