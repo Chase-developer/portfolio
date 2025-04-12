@@ -28,7 +28,9 @@ public class JourneyService {
 			chp(11, "Returning to HackTheBox – Blue Team Focus", "Blue Team"),
 			chp(12, "Malware Analysis & Threat Intelligence", "More Blue Team"),
 			chp(13, "CSP Debugging and UX Design", "Portfolio Improvement"),
-			chp(14, "System Debug, HackTheBox, JUnit", "JUnit Testing")
+			chp(14, "System Debug, HackTheBox, JUnit", "JUnit Testing"),
+			chp(15, "Visibility, Verification, and Documentation", "Documentation"),
+			chp(16, "Rejection Sparked a Monster", "Milestone Reflection")
 			
 			);
 	

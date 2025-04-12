@@ -1,19 +1,27 @@
-## Chapter 15: File Debug, HackTheBox, JUnit
+## Chapter 15: Visibility, Verification, and Documentation
 
-I also encountered some issues with my file update system, which uses a static index and MD5 hashes. The system wasn’t updating as expected, and after troubleshooting, I realized I had been comparing the wrong hashes. After fixing this, the update process became smoother, but that wasn’t the end of my improvements. I had seen several online discussions about how developers often forget to manage older versions of files in cloud storage, leading to unnecessary accumulation of files and, eventually, escalating costs. Inspired by this, I implemented a system to automatically remove outdated files, helping to keep things lean and cost-effective.
+While navigating through the My Journey and HackTheBox sections of my site, I noticed that it wasn’t always clear which page I was currently on. To improve the user experience, I made the active link visually distinct—disabling it, greying it out, and making it unclickable. This subtle change made a big difference in helping users understand their location at a glance.
 
-While working on these updates, I got an unexpected but interesting notification from Gmail. While using the app on my phone, I noticed a report from Google that informed me my domain email had been marked as legitimate, meaning it would no longer be flagged as suspicious. This small but significant confirmation gave me a sense of progress in maintaining my personal systems.
+While researching other improvements, I stumbled upon websites that help verify the authenticity and safety of web domains. These included:
 
-To make my HackTheBox pages even more accessible, I decided to add an introductory home page. This new page explains how HackTheBox works and highlights the projects I’ve built and the progress I’ve made. This added context helps anyone visiting my portfolio understand the purpose behind the challenges and what I gained from completing them.
+- FortiGuard Labs  
+- CRDF Threat Center  
+- Scam Adviser  
+- Cloudflare  
 
-Lastly, I dove into JUnit and its role in ensuring quality in software development. While testing, I learned that there are two main categories of testing: unit testing (which focuses on core logic) and integration testing (which works with Spring Boot). Unit tests were much faster to execute, while integration tests had to wait for Spring Boot to launch. To streamline this process and improve the developer experience, I took the initiative to create a custom annotation. This new annotation eliminates the need for repetitive, long disable commands, saving developers time and making their work more efficient.
+Naturally, I decided to check my own site. Unsurprisingly, there were no results—my website had just launched, and I'm probably still its only regular visitor.
 
-With these changes, I’ve continued to refine the "My Journey" project, making it more intuitive, efficient, and easier to maintain—both for myself and for anyone who might use or view it in the future.
+This curiosity led me to implement a basic statistics service and view counter. While I haven't added unique visitor tracking yet, it’s not a priority at the moment. Interestingly, I started seeing around 30 views per day, likely from bots or automated crawlers scanning the site.
+
+To wrap up the 3 months' progress, I documented all the core implementations in the [GitHub Wiki](https://github.com/Chase-developer/portfolio/wiki). I also added a `README.md` to the repository itself, giving an overview of the project for anyone who stumbles upon it.
+
+These additions don’t just improve usability—they give context, build credibility, and offer a window into the architecture behind the scenes.
 
 ---
 
 ### Key Actions:
-- Fixed file update system by correcting hash comparisons and implemented automatic removal of outdated files to reduce storage costs.
-- Received Gmail domain legitimacy report, confirming my domain email will no longer be flagged as suspicious.
-- Created an intro page for HackTheBox, explaining the platform and showcasing my projects.
-- Streamlined testing with JUnit by creating a custom annotation to simplify disabling tests.
+- Improved navigation UX by greying out and disabling the current page link.
+- Verified site authenticity using FortiGuard, CRDF, Scam Adviser, and Cloudflare.
+- Added view counter, noticing initial traffic likely from web crawlers.
+- Created GitHub Wiki detailing core implementations of the project.
+- Published README.md to give a quick overview for new visitors.

@@ -116,3 +116,31 @@ Towards the end of March, registering a domain and configuring DNS records becam
 - Reflected on the role of technology in geopolitics and the potential future use of digital tools for **collaboration vs. conflict**.
 <br><br>[Go To Chapter 12](/journey/12)
 
+## Chapter 13: CSP Debugging and UX Design
+- Fixed CSP issues with inline styles, enhancing security by preventing malicious scripts.
+- Prioritized security over aesthetics, emphasizing layered protection without performance loss.
+- Improved navigation by adding "Prev" and "Next" buttons for better user experience.
+<br><br>[Go To Chapter 13](/journey/13)
+
+## Chapter 14: System Debug, HackTheBox, JUnit
+- Fixed file update system by correcting hash comparisons and implemented automatic removal of outdated files to reduce storage costs.
+- Received Gmail domain legitimacy report, confirming my domain email will no longer be flagged as suspicious.
+- Created an intro page for HackTheBox, explaining the platform and showcasing my projects.
+- Streamlined testing with JUnit by creating a custom annotation to simplify disabling tests.
+<br><br>[Go To Chapter 14](/journey/14)
+
+## Chapter 15: Visibility, Verification, and Documentation
+- Improved navigation UX by greying out and disabling the current page link.
+- Verified site authenticity using FortiGuard, CRDF, Scam Adviser, and Cloudflare.
+- Added view counter, noticing initial traffic likely from web crawlers.
+- Created GitHub Wiki detailing core implementations of the project.
+- Published README.md to give a quick overview for new visitors.
+
+## Chapter 16: Rejection Sparked a Monster
+- Reached the 3-month personal deadline set after a pivotal job rejection.
+- Realized how interconnected tech domains are, especially through a cybersecurity lens.
+- Learned that red/blue teaming relies heavily on pattern recognition and experience.
+- Used the rejection as fuel, building a full portfolio covering full-stack, DevOps, cloud, and cybersecurity.
+- Crafted a personal message to the company, highlighting exponential growth and readiness.
+- Closed the chapter with confidence, declaring readiness to join the team that once believed in them.
+
